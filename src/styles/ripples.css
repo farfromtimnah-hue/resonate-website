@@ -1,0 +1,72 @@
+/* -------- Ripple signature: scene dividers -------- */
+.scene-divider {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translate(-50%, 50%);
+  width: clamp(84px, 11vw, 136px);
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0.55;
+}
+
+/* Blue tone follows the ground it sits on: pale over dark water,
+   mid blue over the warm light scenes. */
+.scene-divider .divider-ring {
+  stroke: var(--c-mid);
+}
+
+.scene--dark .scene-divider .divider-ring,
+.scene--pivot .scene-divider .divider-ring {
+  stroke: var(--c-ripple);
+}
+
+html.reduced-motion .scene-divider {
+  opacity: 0.4;
+}
+
+/* -------- Ripple signature: scroll progress rings -------- */
+.scroll-progress {
+  position: fixed;
+  bottom: 1.1rem;
+  left: 1.1rem;
+  z-index: 100;
+  width: 46px;
+  height: 46px;
+  pointer-events: none;
+  opacity: 0.8;
+}
+
+.scroll-progress .progress-ring {
+  stroke: var(--c-ripple);
+  transition: stroke 0.6s ease;
+}
+
+/* Once the page has surfaced into light, deepen the blue for contrast */
+html.surfaced .scroll-progress .progress-ring {
+  stroke: var(--c-mid);
+}
+
+.scroll-progress .progress-drop {
+  fill: var(--c-gold);
+  opacity: 0;
+  transform-origin: 25px 25px;
+  transform: scale(0.4);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+/* The drop lands only when the journey completes — a single, small
+   moment of gold. */
+.scroll-progress--complete .progress-drop {
+  opacity: 1;
+  transform: scale(1);
+}
+
+@media (max-width: 620px) {
+  .scroll-progress {
+    width: 36px;
+    height: 36px;
+    bottom: 0.85rem;
+    left: 0.85rem;
+  }
+}
