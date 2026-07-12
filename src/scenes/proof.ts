@@ -18,15 +18,32 @@ export function initProofScenes(): void {
 
     // Timed HTML overlays (chips + beat labels) synced to the video clock,
     // so the text stays live (language toggle) while icons live in the video.
-    const cues = Array.from(media.querySelectorAll<HTMLElement>('.proof-cue'));
-    video.addEventListener('timeupdate', () => {
-      const t = video.currentTime;
-      cues.forEach((cue) => {
-        const start = Number(cue.dataset.cueStart);
-        const end = Number(cue.dataset.cueEnd);
-        cue.classList.toggle('is-on', t >= start && t < end);
+    // .proof-cues lives outside .proof-media's clipped bounding box, as a
+    // sibling in normal flow below the whole device-frame graphic, rather
+    // than nested inside it. Only one media per block (the desktop video
+    // that .proof-cues describes) should drive the cue clock — a block
+    // with a second, cue-less media (Apex's phone mockup) must not attach
+    // a duplicate listener, so only the first media in the block (desktop,
+    // directly or via .proof-duo, immediately followed by .proof-cues)
+    // claims it.
+    const group = media.parentElement?.matches('.proof-duo')
+      ? media.parentElement
+      : media;
+    const isFirstMedia = group.parentElement?.querySelector('.proof-media') === media;
+    const cuesEl = isFirstMedia && group.nextElementSibling?.matches('.proof-cues')
+      ? group.nextElementSibling
+      : null;
+    const cues = cuesEl ? Array.from(cuesEl.querySelectorAll<HTMLElement>('.proof-cue')) : [];
+    if (cues.length > 0) {
+      video.addEventListener('timeupdate', () => {
+        const t = video.currentTime;
+        cues.forEach((cue) => {
+          const start = Number(cue.dataset.cueStart);
+          const end = Number(cue.dataset.cueEnd);
+          cue.classList.toggle('is-on', t >= start && t < end);
+        });
       });
-    });
+    }
 
     if (prefersReducedMotion()) {
       // Static page: show the first screenshot, skip video entirely.
@@ -45,6 +62,7 @@ export function initProofScenes(): void {
       () => {
         video.remove();
         media.classList.add('is-fallback');
+        cuesEl?.classList.add('is-fallback');
         if (fallback) activateFallback(fallback);
       },
       { once: true }

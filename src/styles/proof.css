@@ -84,24 +84,36 @@
   transform: translateY(0);
 }
 
-/* Portal language-contrast chips — beat 1's problem/solution labels.
-   The MacBook illustration baked into the proof video/fallback images
-   is 16:9 with its screen ending ~86.7% down the frame (measured from
-   actual video frames, not assumed) — the rest is the keyboard-deck/
-   base graphic. bottom must clear that with margin so pills sit on
-   the screen content, never straddling the bezel/base. */
-.proof-chips {
+/* Reserved slot for the timed cue pills, in normal document flow
+   directly below the device-frame graphic(s) (.proof-media / .proof-duo)
+   — never inside their clipped bounding box. Two earlier attempts both
+   positioned pills absolutely *within* the device-frame illustration
+   (first sitting on its physical base, then moved up onto its baked-in
+   screen content) because there is no position inside that box which is
+   both "inside the container" and "outside the device graphic" — the
+   graphic fills the whole box. Living here instead, after the graphic
+   in flow, the pills sit on the plain page background with real empty
+   space above them. Fixed min-height (not % of the media, which no
+   longer has any relationship to this element) sized for the tallest
+   real pill content, including a two-line wrap, so nothing is clipped. */
+.proof-cues {
+  position: relative;
+  width: 100%;
+  min-height: 4.5rem;
+}
+
+.proof-chips,
+.proof-beat {
   position: absolute;
-  bottom: 16%;
-  left: 50%;
-  right: auto;
-  width: min(90%, 52rem);
-  translate: -50% 0;
+  inset: 0;
+}
+
+.proof-chips {
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   justify-content: center;
   gap: 1.25rem;
-  z-index: 5;
+  width: 100%;
 }
 
 .proof-chips.proof-cue {
@@ -139,16 +151,15 @@
 }
 
 /* Beat labels — one pill under each half of the baked-in icon morph.
-   Same device-frame screen boundary as .proof-chips above — bottom
-   padding must clear the keyboard-deck/base graphic, not sit on it. */
+   Lives in .proof-cues (see above), below the device-frame graphic
+   entirely, so this only needs to lay the pair out — no clearance
+   padding for a device illustration it no longer overlaps. */
 .proof-beat {
-  position: absolute;
-  inset: 0;
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   justify-content: space-between;
-  padding: 0 3.5% 16%;
-  z-index: 5;
+  padding: 0 3.5%;
+  width: 100%;
 }
 
 .beat-label {
@@ -239,13 +250,14 @@
 
   /* Below mobile breakpoint the problem/solution pills no longer fit
      side-by-side without colliding — stack them with a clear gap instead.
-     Stacking doubles their total height, so bottom must clear the
-     device-frame screen boundary (~86.7% down the frame) by even more
-     than the desktop value. */
+     Stacking doubles their total height, so the reserved .proof-cues
+     slot needs to grow to fit both rows without clipping. */
+  .proof-cues {
+    min-height: 8rem;
+  }
+
   .proof-chips {
-    bottom: 24%;
     flex-direction: column;
-    align-items: center;
     gap: 0.5rem;
   }
 
@@ -255,10 +267,8 @@
 
   .proof-beat {
     flex-direction: column;
-    align-items: center;
-    justify-content: flex-end;
     gap: 0.5rem;
-    padding: 0 4% 24%;
+    padding: 0 4%;
   }
 
   .beat-label {
@@ -280,13 +290,15 @@ html.reduced-motion .proof-sticky {
 
 /* No video (reduced motion, or load failure → image fallback): the baked-in
    icon beats never play, so their labels stay hidden; the Portal chips still
-   describe the fallback screenshots, so they stay visible. */
+   describe the fallback screenshots, so they stay visible. .proof-cues is a
+   sibling of .proof-media, not a descendant, so is-fallback is applied to it
+   directly (see proof.ts) rather than matched through .proof-media. */
 html.reduced-motion .proof-beat,
-.proof-media.is-fallback .proof-beat {
+.proof-cues.is-fallback .proof-beat {
   display: none;
 }
 
 html.reduced-motion .proof-chips,
-.proof-media.is-fallback .proof-chips {
+.proof-cues.is-fallback .proof-chips {
   opacity: 1;
 }
