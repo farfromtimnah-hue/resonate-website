@@ -7,12 +7,14 @@ import './styles/split.css';
 import './styles/proof.css';
 import './styles/ripples.css';
 import { initLang } from './lang';
+import { initCta } from './cta';
 import { initScroll } from './scroll';
 import { initHeroScenes, initReveals } from './scenes/hero';
 import { initProofScenes } from './scenes/proof';
 import { initSceneDividers, initScrollProgress } from './components/ripples';
 
 initLang();
+initCta();
 initScroll();
 initHeroScenes();
 initProofScenes();
