@@ -35,14 +35,35 @@
 }
 
 /* Scene 3 starts dark and surfaces into light; its text follows the
-   discrete arc state stamped on <html>. */
+   arc state stamped on <html> by the same ScrollTrigger that scrubs
+   the background. The transition is short so fast scrolls can't leave
+   text stranded on the wrong side of the flip. */
 .scene--pivot {
   color: var(--c-deep-text);
-  transition: color 0.6s ease;
+  transition: color 0.2s ease;
 }
 
 html.surfaced .scene--pivot {
   color: var(--c-ink);
+}
+
+/* Around the flip point the background passes through midtones where
+   any single text color is at its contrast minimum: lift the quiet
+   copy to full opacity and add a faint halo of the departing shade
+   behind the paragraphs for separation. (Not on the wordmark — its
+   letters are gradient-clipped and a shadow would blob behind them.) */
+html.arc-mid .scene--pivot .scene__quiet {
+  opacity: 1;
+}
+
+html.arc-mid:not(.surfaced) .scene--pivot .scene__lead,
+html.arc-mid:not(.surfaced) .scene--pivot .scene__quiet {
+  text-shadow: 0 1px 18px rgba(10, 26, 43, 0.6);
+}
+
+html.arc-mid.surfaced .scene--pivot .scene__lead,
+html.arc-mid.surfaced .scene--pivot .scene__quiet {
+  text-shadow: 0 1px 18px rgba(245, 242, 236, 0.65);
 }
 
 /* -------- Shared type scale -------- */
