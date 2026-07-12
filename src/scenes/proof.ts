@@ -37,7 +37,20 @@ export function initProofScenes(): void {
       { once: true }
     );
 
-    // Lazy-load near the viewport; play/pause with visibility.
+    // Lazy-load near the viewport; play/pause with visibility. The play
+    // trigger can fire before the src is attached, so re-attempt playback
+    // once data arrives while the block is still on screen.
+    let visible = false;
+    const tryPlay = () => {
+      if (visible && video.isConnected) {
+        video.play().catch(() => {
+          /* autoplay refused — poster frame remains */
+        });
+      }
+    };
+
+    video.addEventListener('loadeddata', tryPlay);
+
     const loader = new IntersectionObserver(
       (entries) => {
         if (!entries.some((e) => e.isIntersecting)) return;
@@ -52,14 +65,10 @@ export function initProofScenes(): void {
     const player = new IntersectionObserver(
       (entries) => {
         entries.forEach((e) => {
+          visible = e.isIntersecting;
           if (!video.isConnected) return;
-          if (e.isIntersecting) {
-            video.play().catch(() => {
-              /* autoplay refused — fallback still shows first frame */
-            });
-          } else {
-            video.pause();
-          }
+          if (visible) tryPlay();
+          else video.pause();
         });
       },
       { threshold: 0.25 }
