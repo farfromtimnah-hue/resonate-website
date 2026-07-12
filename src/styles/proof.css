@@ -1,0 +1,173 @@
+/* -------- Scene 7: the proof -------- */
+.scene--proof {
+  flex-direction: column;
+  min-height: auto;
+  padding-bottom: 0;
+}
+
+.scene--proof .scene__inner {
+  margin-bottom: clamp(2rem, 6vh, 4rem);
+}
+
+/* Each build gets a tall runway so the sticky media dwells on screen
+   long enough for its video sequence to play through. */
+.proof-block {
+  width: 100%;
+  min-height: 155vh;
+  position: relative;
+}
+
+.proof-sticky {
+  position: sticky;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.6rem;
+  padding: 0 clamp(1rem, 4vw, 3rem);
+}
+
+.proof-media {
+  position: relative;
+  width: 100%;
+  border-radius: var(--radius-card);
+  overflow: hidden;
+}
+
+/* The videos carry their own warm off-white backdrop matching the page,
+   so the device appears to float directly on the page. Explicit aspect
+   ratios reserve the box — no layout shift while the video loads. */
+.proof-media--desktop {
+  max-width: min(58rem, 92vw);
+  aspect-ratio: 16 / 9;
+}
+
+.proof-media--phone {
+  max-width: min(15rem, 34vw);
+  aspect-ratio: 886 / 1920;
+}
+
+.proof-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.proof-duo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(0.5rem, 2vw, 1.5rem);
+  width: 100%;
+}
+
+.proof-duo .proof-media--desktop {
+  max-width: min(46rem, 62vw);
+}
+
+/* Portal language-contrast chips — the key proof point */
+.proof-chips {
+  position: absolute;
+  bottom: 5%;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 0.6rem;
+  z-index: 5;
+  white-space: nowrap;
+}
+
+.proof-chip {
+  font-size: clamp(0.7rem, 1.4vw, 0.85rem);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #fff;
+  background: rgba(11, 79, 138, 0.92);
+  border-radius: var(--radius-pill);
+  padding: 0.4em 1em;
+  box-shadow: var(--shadow-soft);
+}
+
+.proof-chip--gold {
+  background: rgba(221, 164, 58, 0.95);
+  color: var(--c-ink);
+}
+
+.proof-title {
+  text-align: center;
+  max-width: var(--measure);
+}
+
+.proof-title h3 {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: clamp(1.15rem, 2.4vw, 1.5rem);
+  color: var(--c-primary);
+  margin-bottom: 0.35rem;
+}
+
+.proof-title p {
+  font-size: clamp(0.95rem, 1.8vw, 1.1rem);
+  color: var(--c-light-ink-soft);
+}
+
+/* -------- Fallback: static images, CSS Ken Burns, GSAP cross-fade ----
+   Used only if a proof video fails to load. */
+.proof-fallback {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(46% 46% at 0% 100%, rgba(11, 79, 138, 0.06), transparent 70%),
+    radial-gradient(46% 46% at 100% 100%, rgba(11, 79, 138, 0.08), transparent 70%),
+    var(--c-light);
+  border-radius: var(--radius-card);
+  border: 1px solid rgba(18, 40, 63, 0.1);
+  overflow: hidden;
+}
+
+.proof-fallback img {
+  position: absolute;
+  inset: 6%;
+  width: 88%;
+  height: 88%;
+  object-fit: contain;
+  object-position: center;
+  opacity: 0;
+  border-radius: 8px;
+}
+
+.proof-fallback img:first-child {
+  opacity: 1;
+}
+
+@media (max-width: 720px) {
+  .proof-duo {
+    flex-direction: column;
+  }
+
+  .proof-duo .proof-media--desktop {
+    max-width: 92vw;
+  }
+
+  .proof-media--phone {
+    max-width: 52vw;
+  }
+
+  .proof-block {
+    min-height: 130vh;
+  }
+}
+
+/* Reduced motion: no sticky choreography, no autoplay — stacked static */
+html.reduced-motion .proof-block {
+  min-height: auto;
+  margin-bottom: 4rem;
+}
+
+html.reduced-motion .proof-sticky {
+  position: static;
+  transform: none;
+}
