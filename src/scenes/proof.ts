@@ -16,6 +16,18 @@ export function initProofScenes(): void {
     const fallback = media.querySelector<HTMLElement>('.proof-fallback');
     if (!video) return;
 
+    // Timed HTML overlays (chips + beat labels) synced to the video clock,
+    // so the text stays live (language toggle) while icons live in the video.
+    const cues = Array.from(media.querySelectorAll<HTMLElement>('.proof-cue'));
+    video.addEventListener('timeupdate', () => {
+      const t = video.currentTime;
+      cues.forEach((cue) => {
+        const start = Number(cue.dataset.cueStart);
+        const end = Number(cue.dataset.cueEnd);
+        cue.classList.toggle('is-on', t >= start && t < end);
+      });
+    });
+
     if (prefersReducedMotion()) {
       // Static page: show the first screenshot, skip video entirely.
       video.remove();
@@ -32,6 +44,7 @@ export function initProofScenes(): void {
       'error',
       () => {
         video.remove();
+        media.classList.add('is-fallback');
         if (fallback) activateFallback(fallback);
       },
       { once: true }

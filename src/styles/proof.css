@@ -68,32 +68,97 @@
   max-width: min(46rem, 62vw);
 }
 
-/* Portal language-contrast chips — the key proof point */
+/* Timed overlay cues (chips + beat labels): live HTML text synced to the
+   video's currentTime by proof.ts, fading with the site's slow easing. */
+.proof-cue {
+  opacity: 0;
+  transform: translateY(8px);
+  transition:
+    opacity 0.55s ease,
+    transform 0.55s ease;
+  pointer-events: none;
+}
+
+.proof-cue.is-on {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Portal language-contrast chips — beat 1's problem/solution labels */
 .proof-chips {
   position: absolute;
-  bottom: 5%;
+  bottom: 4.5%;
   left: 50%;
-  transform: translateX(-50%);
+  right: auto;
+  width: min(94%, 52rem);
+  translate: -50% 0;
   display: flex;
+  align-items: flex-end;
+  justify-content: center;
   gap: 0.6rem;
   z-index: 5;
-  white-space: nowrap;
+}
+
+.proof-chips.proof-cue {
+  transform: none;
 }
 
 .proof-chip {
-  font-size: clamp(0.7rem, 1.4vw, 0.85rem);
+  max-width: 46%;
+  text-align: center;
+  font-size: clamp(0.66rem, 1.3vw, 0.85rem);
   font-weight: 600;
   letter-spacing: 0.02em;
+  line-height: 1.35;
   color: #fff;
   background: rgba(11, 79, 138, 0.92);
-  border-radius: var(--radius-pill);
+  border-radius: 0.9em;
   padding: 0.4em 1em;
   box-shadow: var(--shadow-soft);
+}
+
+.proof-chip--muted {
+  background: rgba(88, 99, 112, 0.16);
+  color: rgba(18, 40, 63, 0.62);
+  box-shadow: none;
 }
 
 .proof-chip--gold {
   background: rgba(221, 164, 58, 0.95);
   color: var(--c-ink);
+}
+
+/* Beat labels — one pill under each half of the baked-in icon morph */
+.proof-beat {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: 0 3.5% 4.5%;
+  z-index: 5;
+}
+
+.beat-label {
+  flex: 0 1 44%;
+  text-align: center;
+  font-size: clamp(0.66rem, 1.3vw, 0.85rem);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  line-height: 1.35;
+  border-radius: 0.9em;
+  padding: 0.4em 1em;
+}
+
+.beat-label--problem {
+  background: rgba(88, 99, 112, 0.16);
+  color: rgba(18, 40, 63, 0.62);
+}
+
+.beat-label--solution {
+  background: rgba(221, 164, 58, 0.95);
+  color: var(--c-ink);
+  box-shadow: var(--shadow-soft);
 }
 
 .proof-title {
@@ -170,4 +235,17 @@ html.reduced-motion .proof-block {
 html.reduced-motion .proof-sticky {
   position: static;
   transform: none;
+}
+
+/* No video (reduced motion, or load failure → image fallback): the baked-in
+   icon beats never play, so their labels stay hidden; the Portal chips still
+   describe the fallback screenshots, so they stay visible. */
+html.reduced-motion .proof-beat,
+.proof-media.is-fallback .proof-beat {
+  display: none;
+}
+
+html.reduced-motion .proof-chips,
+.proof-media.is-fallback .proof-chips {
+  opacity: 1;
 }
