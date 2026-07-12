@@ -1,0 +1,97 @@
+/* -------- Background video slots and fallbacks -------- */
+.scene__bg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  z-index: -1;
+  /* Explicit containing size — no layout shift with or without video */
+  contain: strict;
+}
+
+.scene__bg-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0; /* fades in only once loaded; fallback shows beneath */
+}
+
+.bg-fallback {
+  position: absolute;
+  inset: 0;
+}
+
+.bg-fallback__layer {
+  position: absolute;
+  inset: -25% 0;
+  will-change: transform, opacity;
+}
+
+/* Sink: slow descent into deep dark water */
+.bg-fallback--sink {
+  background: linear-gradient(to bottom, #0e2b4a 0%, var(--c-deep) 45%, #050e18 100%);
+}
+
+.bg-fallback--sink .bg-fallback__layer--a {
+  /* faint shafts of light from the surface above */
+  background:
+    radial-gradient(38% 55% at 30% -10%, rgba(111, 180, 227, 0.16), transparent 70%),
+    radial-gradient(30% 50% at 72% -14%, rgba(111, 180, 227, 0.1), transparent 70%);
+}
+
+.bg-fallback--sink .bg-fallback__layer--b {
+  /* depth pressing up from below */
+  background: linear-gradient(to top, rgba(4, 10, 17, 0.85), transparent 55%);
+}
+
+/* Surface-break: rising into warm gold light */
+.bg-fallback--surface {
+  background: linear-gradient(to bottom, #0c2340 0%, #144a75 55%, #3a7db0 100%);
+}
+
+.bg-fallback--surface .bg-fallback__layer--a {
+  background:
+    radial-gradient(60% 55% at 50% 18%, rgba(221, 164, 58, 0.5), transparent 65%),
+    radial-gradient(85% 70% at 50% 0%, rgba(245, 242, 236, 0.45), transparent 75%);
+  opacity: 0;
+}
+
+/* Ripple: concentric rings on still water */
+.bg-fallback--ripple {
+  background: radial-gradient(120% 100% at 50% 50%, #10345c 0%, var(--c-deep) 80%);
+}
+
+.bg-fallback--ripple svg {
+  width: 100%;
+  height: 100%;
+}
+
+.bg-fallback--ripple .ring {
+  transform-origin: 200px 120px;
+  animation: ripple-expand 5.5s cubic-bezier(0.2, 0.6, 0.35, 1) infinite;
+  opacity: 0;
+}
+
+.bg-fallback--ripple .ring-2 { animation-delay: 0.5s; }
+.bg-fallback--ripple .ring-3 { animation-delay: 1s; }
+.bg-fallback--ripple .ring-4 { animation-delay: 1.5s; }
+
+@keyframes ripple-expand {
+  0% { transform: scale(0.2); opacity: 0; }
+  12% { opacity: 0.65; }
+  70% { opacity: 0.15; }
+  100% { transform: scale(1.6); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bg-fallback--ripple .ring {
+    animation: none;
+    opacity: 0.4;
+    transform: none;
+  }
+
+  .bg-fallback--surface .bg-fallback__layer--a {
+    opacity: 0.8;
+  }
+}
