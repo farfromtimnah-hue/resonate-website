@@ -84,10 +84,15 @@
   transform: translateY(0);
 }
 
-/* Portal language-contrast chips — beat 1's problem/solution labels */
+/* Portal language-contrast chips — beat 1's problem/solution labels.
+   The MacBook illustration baked into the proof video/fallback images
+   is 16:9 with its screen ending ~86.7% down the frame (measured from
+   actual video frames, not assumed) — the rest is the keyboard-deck/
+   base graphic. bottom must clear that with margin so pills sit on
+   the screen content, never straddling the bezel/base. */
 .proof-chips {
   position: absolute;
-  bottom: 4.5%;
+  bottom: 16%;
   left: 50%;
   right: auto;
   width: min(90%, 52rem);
@@ -133,14 +138,16 @@
   color: var(--c-ink);
 }
 
-/* Beat labels — one pill under each half of the baked-in icon morph */
+/* Beat labels — one pill under each half of the baked-in icon morph.
+   Same device-frame screen boundary as .proof-chips above — bottom
+   padding must clear the keyboard-deck/base graphic, not sit on it. */
 .proof-beat {
   position: absolute;
   inset: 0;
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
-  padding: 0 3.5% 4.5%;
+  padding: 0 3.5% 16%;
   z-index: 5;
 }
 
@@ -231,9 +238,12 @@
   }
 
   /* Below mobile breakpoint the problem/solution pills no longer fit
-     side-by-side without colliding — stack them with a clear gap instead. */
+     side-by-side without colliding — stack them with a clear gap instead.
+     Stacking doubles their total height, so bottom must clear the
+     device-frame screen boundary (~86.7% down the frame) by even more
+     than the desktop value. */
   .proof-chips {
-    bottom: 3%;
+    bottom: 24%;
     flex-direction: column;
     align-items: center;
     gap: 0.5rem;
@@ -248,7 +258,7 @@
     align-items: center;
     justify-content: flex-end;
     gap: 0.5rem;
-    padding: 0 4% 3%;
+    padding: 0 4% 24%;
   }
 
   .beat-label {
