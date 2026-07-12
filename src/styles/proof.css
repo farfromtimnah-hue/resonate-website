@@ -90,12 +90,12 @@
   bottom: 4.5%;
   left: 50%;
   right: auto;
-  width: min(94%, 52rem);
+  width: min(90%, 52rem);
   translate: -50% 0;
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  gap: 0.6rem;
+  gap: 1.25rem;
   z-index: 5;
 }
 
@@ -104,7 +104,12 @@
 }
 
 .proof-chip {
-  max-width: 46%;
+  /* Capped well under half the row (accounting for the gap) so the two
+     pills can never touch even at their widest real-world copy — a
+     previous fix relied on simulated widths and left only ~9px of
+     margin at desktop widths, which read as overlapping on real
+     devices/fonts. */
+  max-width: 42%;
   text-align: center;
   font-size: clamp(0.66rem, 1.3vw, 0.85rem);
   font-weight: 600;
@@ -140,7 +145,7 @@
 }
 
 .beat-label {
-  flex: 0 1 44%;
+  flex: 0 1 42%;
   text-align: center;
   font-size: clamp(0.66rem, 1.3vw, 0.85rem);
   font-weight: 600;
