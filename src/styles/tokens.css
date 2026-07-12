@@ -1,0 +1,35 @@
+/* ---------------------------------------------------------------
+   Resonate design tokens
+   Blue carries competence, gold carries warmth — use gold sparingly.
+   --------------------------------------------------------------- */
+:root {
+  /* Color */
+  --c-primary: #0b4f8a;   /* deep water blue */
+  --c-mid: #2e86c8;       /* mid blue */
+  --c-ripple: #6fb4e3;    /* light ripple blue */
+  --c-gold: #dda43a;      /* warm gold — single warmth accent */
+  --c-light: #f5f2ec;     /* soft warm off-white, light base */
+  --c-ink: #12283f;       /* deep navy ink, text on light */
+  --c-deep: #0a1a2b;      /* submerged dark, dark scene backgrounds */
+
+  /* Derived */
+  --c-light-ink-soft: rgba(18, 40, 63, 0.72);
+  --c-deep-text: rgba(245, 242, 236, 0.92);
+  --c-deep-text-soft: rgba(245, 242, 236, 0.68);
+
+  /* Type — the display serif is isolated here so it is swappable later */
+  --font-wordmark: 'Poppins', 'Plus Jakarta Sans', system-ui, sans-serif;
+  --font-display: 'Fraunces', Georgia, 'Times New Roman', serif;
+  --font-body: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+
+  /* Shape */
+  --radius-card: 20px;
+  --radius-pill: 999px;
+  --shadow-soft: 0 8px 32px rgba(10, 26, 43, 0.1);
+  --shadow-lift: 0 16px 48px rgba(10, 26, 43, 0.16);
+
+  /* Rhythm */
+  --space-scene: clamp(6rem, 14vh, 10rem);
+  --measure: 34rem;
+  --measure-wide: 52rem;
+}

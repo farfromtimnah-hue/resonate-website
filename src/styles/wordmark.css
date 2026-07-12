@@ -1,0 +1,55 @@
+.wordmark {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35em;
+}
+
+.wordmark__word {
+  font-family: var(--font-wordmark);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  line-height: 1.1;
+  /* Deep water blue with a subtle gold sheen only at the very top
+     edge of the letters — light on water, kept restrained. */
+  background: linear-gradient(
+    to bottom,
+    var(--c-gold) 0%,
+    color-mix(in srgb, var(--c-gold) 45%, var(--c-mid)) 7%,
+    var(--c-mid) 16%,
+    var(--c-primary) 55%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.wordmark--hero .wordmark__word {
+  font-size: clamp(2.6rem, 8vw, 5.5rem);
+}
+
+.wordmark--hero .wordmark__ripple {
+  width: clamp(120px, 22vw, 220px);
+}
+
+.wordmark--small .wordmark__word {
+  font-size: 1.4rem;
+}
+
+.wordmark--small .wordmark__ripple {
+  width: 72px;
+}
+
+/* On dark backgrounds the deep blue base would sink — brighten it. */
+.on-dark .wordmark__word,
+.wordmark--on-dark .wordmark__word {
+  background: linear-gradient(
+    to bottom,
+    var(--c-gold) 0%,
+    color-mix(in srgb, var(--c-gold) 40%, var(--c-ripple)) 8%,
+    var(--c-ripple) 18%,
+    var(--c-mid) 60%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+}
