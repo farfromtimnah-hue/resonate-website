@@ -1,0 +1,99 @@
+/* -------- Page background arc layer -------- */
+.bg-arc {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  background-color: var(--c-deep);
+  pointer-events: none;
+}
+
+/* -------- Scene shells -------- */
+.scene {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-scene) clamp(1.25rem, 5vw, 3rem);
+}
+
+.scene__inner {
+  width: 100%;
+  max-width: var(--measure-wide);
+  margin-inline: auto;
+  text-align: center;
+}
+
+/* Dark scenes (1–2 and the start of 3) use light text */
+.scene--dark {
+  color: var(--c-deep-text);
+}
+
+.scene--light {
+  color: var(--c-ink);
+}
+
+/* Scene 3 starts dark and surfaces into light; its text follows the
+   discrete arc state stamped on <html>. */
+.scene--pivot {
+  color: var(--c-deep-text);
+  transition: color 0.6s ease;
+}
+
+html.surfaced .scene--pivot {
+  color: var(--c-ink);
+}
+
+/* -------- Shared type scale -------- */
+.scene h1,
+.scene h2 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+  font-size: clamp(2rem, 5.5vw, 3.6rem);
+  margin-bottom: 1.2rem;
+}
+
+.scene .scene__body,
+.scene .scene__sub {
+  font-size: clamp(1.05rem, 2vw, 1.3rem);
+  max-width: var(--measure);
+  margin-inline: auto;
+  text-wrap: pretty;
+}
+
+.scene--dark .scene__sub,
+.scene--dark .scene__body {
+  color: var(--c-deep-text-soft);
+}
+
+.scene--light .scene__sub,
+.scene--light .scene__body {
+  color: var(--c-light-ink-soft);
+}
+
+/* -------- Reduced motion: static, fully readable page -------- */
+html.reduced-motion .bg-arc {
+  display: none;
+}
+
+html.reduced-motion .scene--dark,
+html.reduced-motion .scene--pivot {
+  background-color: var(--c-deep);
+}
+
+html.reduced-motion .scene--pivot {
+  background: linear-gradient(to bottom, var(--c-deep), var(--c-light));
+  color: var(--c-ink);
+}
+
+html.reduced-motion .scene--light {
+  background-color: var(--c-light);
+}
+
+html.reduced-motion body {
+  background-color: var(--c-light);
+}
