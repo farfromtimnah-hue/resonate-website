@@ -45,9 +45,14 @@
   background: linear-gradient(to top, rgba(4, 10, 17, 0.85), transparent 55%);
 }
 
-/* Surface-break: rising into warm gold light */
+/* Surface-break: rising into warm gold light.
+   No base gradient here — the fixed .bg-arc layer (driven by the same
+   scroll-linked crossover that flips text color, see scroll.ts) is the
+   only dark-to-light background under scene 3. A second, independently
+   colored gradient here previously fell out of sync with that crossover
+   and produced dark-on-dark text at the top of the scene. */
 .bg-fallback--surface {
-  background: linear-gradient(to bottom, #0c2340 0%, #144a75 55%, #3a7db0 100%);
+  background: transparent;
 }
 
 .bg-fallback--surface .bg-fallback__layer--a {
