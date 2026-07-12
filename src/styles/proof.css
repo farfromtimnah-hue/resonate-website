@@ -224,6 +224,32 @@
   .proof-block {
     min-height: 130vh;
   }
+
+  /* Below mobile breakpoint the problem/solution pills no longer fit
+     side-by-side without colliding — stack them with a clear gap instead. */
+  .proof-chips {
+    bottom: 3%;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .proof-chip {
+    max-width: 84%;
+  }
+
+  .proof-beat {
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    padding: 0 4% 3%;
+  }
+
+  .beat-label {
+    flex: 0 1 auto;
+    max-width: 84%;
+  }
 }
 
 /* Reduced motion: no sticky choreography, no autoplay — stacked static */
