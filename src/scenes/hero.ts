@@ -53,11 +53,19 @@ export function initReveals(): void {
   if (prefersReducedMotion()) return;
 
   document.querySelectorAll<HTMLElement>('.reveal').forEach((el) => {
+    const dir = el.dataset.reveal;
+    const from: gsap.TweenVars =
+      dir === 'left'
+        ? { opacity: 0, x: -24 }
+        : dir === 'right'
+          ? { opacity: 0, x: 24 }
+          : { opacity: 0, y: 28 };
     gsap.fromTo(
       el,
-      { opacity: 0, y: 28 },
+      from,
       {
         opacity: 1,
+        x: 0,
         y: 0,
         duration: 1.1,
         ease: 'power2.out',

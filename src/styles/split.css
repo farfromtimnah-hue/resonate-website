@@ -1,0 +1,113 @@
+/* -------- Scene 6: the wall, flipped — split PT/EN product visual -------- */
+.split {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: stretch;
+  gap: clamp(0.75rem, 2.5vw, 1.5rem);
+  max-width: 46rem;
+  margin: clamp(2.5rem, 6vh, 4rem) auto 0;
+}
+
+.split__card {
+  background: #fff;
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-soft);
+  padding: 1.4rem 1.2rem 1.1rem;
+  text-align: left;
+  border-top: 4px solid var(--c-primary);
+}
+
+.split__card--customer {
+  border-top-color: var(--c-gold);
+}
+
+.split__label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--c-primary);
+  margin-bottom: 0.9rem;
+}
+
+.split__screen {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  min-height: 8.5rem; /* reserved size */
+}
+
+.split__chip {
+  align-self: flex-start;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #fff;
+  background: var(--c-mid);
+  border-radius: var(--radius-pill);
+  padding: 0.2rem 0.75rem;
+  margin-bottom: 0.3rem;
+}
+
+.split__chip--en {
+  background: var(--c-gold);
+  color: var(--c-ink);
+}
+
+.split__row {
+  font-size: 0.88rem;
+  color: var(--c-light-ink-soft);
+  background: var(--c-light);
+  border-radius: 8px;
+  padding: 0.45rem 0.7rem;
+}
+
+.split__tag {
+  margin-top: 0.9rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--c-light-ink-soft);
+}
+
+/* One bridge between the two sides */
+.split__bridge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  min-width: 2.5rem;
+}
+
+.split__bridge-line {
+  width: 2px;
+  flex: 0 0 2.2rem;
+  background: linear-gradient(to bottom, transparent, var(--c-ripple), transparent);
+}
+
+.split__bridge-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--c-gold);
+  box-shadow: 0 0 0 6px rgba(221, 164, 58, 0.18);
+}
+
+@media (max-width: 620px) {
+  .split {
+    grid-template-columns: 1fr;
+  }
+
+  .split__bridge {
+    flex-direction: row;
+    min-height: 2.5rem;
+  }
+
+  .split__bridge-line {
+    height: 2px;
+    width: 2.2rem;
+    flex: 0 0 2.2rem;
+    background: linear-gradient(to right, transparent, var(--c-ripple), transparent);
+  }
+}
