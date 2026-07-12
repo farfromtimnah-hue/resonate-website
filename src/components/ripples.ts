@@ -1,26 +1,23 @@
 /**
  * The ripple motif as a site-wide visual signature:
  *
- * 1. Scene dividers — a small concentric-arc mark (same family as the
- *    wordmark's ripple) straddling each boundary between scenes, easing
- *    in as the visitor scrolls past. Understated by design.
+ * 1. Scene dividers — a small organic ripple mark (exact same shape
+ *    language as the wordmark's ripple, via rippleShape.ts) straddling
+ *    each boundary between scenes, easing in as the visitor scrolls
+ *    past. Understated by design.
  *
- * 2. Scroll progress — fixed in the bottom-left corner: concentric
+ * 2. Scroll progress — fixed in the bottom-left corner: gently uneven
  *    rings that draw themselves in as the page is scrolled, one ring
  *    per quarter of the journey, with a small gold drop at completion.
  */
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { prefersReducedMotion } from '../scroll';
+import { organicRingPath, rippleArcsMarkup, RIPPLE_ARC_VIEWBOX } from './rippleShape';
 
 const DIVIDER_SVG = `
-  <svg viewBox="0 0 120 34" fill="none" aria-hidden="true" focusable="false">
-    <path class="divider-ring" d="M40 6 A 20 14 0 0 0 80 6"
-          stroke-width="2.5" stroke-linecap="round" opacity="0.9"/>
-    <path class="divider-ring" d="M26 8 A 34 22 0 0 0 94 8"
-          stroke-width="2" stroke-linecap="round" opacity="0.5"/>
-    <path class="divider-ring" d="M12 10 A 48 30 0 0 0 108 10"
-          stroke-width="1.5" stroke-linecap="round" opacity="0.25"/>
+  <svg viewBox="${RIPPLE_ARC_VIEWBOX}" fill="none" aria-hidden="true" focusable="false">
+    ${rippleArcsMarkup({ className: 'divider-ring' })}
   </svg>`;
 
 export function initSceneDividers(): void {
@@ -60,7 +57,11 @@ export function initSceneDividers(): void {
 export function initScrollProgress(): void {
   if (prefersReducedMotion()) return;
 
-  const radii = [7, 12, 17, 22];
+  // Uneven spacing, thinner and fainter as the rings expand — the same
+  // energy falloff as the wordmark ripple.
+  const radii = [7.1, 11.7, 16.8, 22.4];
+  const strokeWidths = [1.8, 1.55, 1.3, 1];
+  const opacities = [0.95, 0.78, 0.6, 0.42];
   const widget = document.createElement('div');
   widget.className = 'scroll-progress';
   widget.setAttribute('aria-hidden', 'true');
@@ -69,17 +70,17 @@ export function initScrollProgress(): void {
       <circle class="progress-drop" cx="25" cy="25" r="3"/>
       ${radii
         .map(
-          (r) =>
-            `<circle class="progress-ring" cx="25" cy="25" r="${r}"
-               stroke-width="${r < 20 ? 1.7 : 1.3}" stroke-linecap="round"
-               transform="rotate(-90 25 25)"/>`
+          (r, i) =>
+            `<path class="progress-ring" d="${organicRingPath(25, 25, r, 21 + i * 4)}"
+               stroke-width="${strokeWidths[i]}" stroke-linecap="round"
+               opacity="${opacities[i]}" transform="rotate(-90 25 25)"/>`
         )
         .join('')}
     </svg>`;
   document.body.appendChild(widget);
 
-  const rings = Array.from(widget.querySelectorAll<SVGCircleElement>('.progress-ring'));
-  const circumferences = radii.map((r) => 2 * Math.PI * r);
+  const rings = Array.from(widget.querySelectorAll<SVGPathElement>('.progress-ring'));
+  const circumferences = rings.map((ring) => ring.getTotalLength());
   rings.forEach((ring, i) => {
     ring.style.strokeDasharray = String(circumferences[i]);
     ring.style.strokeDashoffset = String(circumferences[i]);

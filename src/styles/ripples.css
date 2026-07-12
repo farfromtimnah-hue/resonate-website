@@ -11,14 +11,15 @@
 }
 
 /* Blue tone follows the ground it sits on: pale over dark water,
-   mid blue over the warm light scenes. */
+   mid blue over the warm light scenes. The rings are filled tapered
+   shapes (see rippleShape.ts), not strokes. */
 .scene-divider .divider-ring {
-  stroke: var(--c-mid);
+  fill: var(--c-mid);
 }
 
 .scene--dark .scene-divider .divider-ring,
 .scene--pivot .scene-divider .divider-ring {
-  stroke: var(--c-ripple);
+  fill: var(--c-ripple);
 }
 
 html.reduced-motion .scene-divider {
