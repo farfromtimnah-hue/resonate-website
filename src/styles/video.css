@@ -8,6 +8,20 @@
   contain: strict;
 }
 
+/* The sink clip backs two pinned scenes: keep it viewport-sized and
+   sticky so it holds on screen for the whole act (and keeps a sane
+   object-fit crop) instead of stretching across the act's full,
+   pin-extended scroll height. */
+.act-sink .scene__bg {
+  position: sticky;
+  inset: auto;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  margin-bottom: -100vh;
+  margin-bottom: -100svh;
+}
+
 .scene__bg-video {
   position: absolute;
   inset: 0;
@@ -15,6 +29,37 @@
   height: 100%;
   object-fit: cover;
   opacity: 0; /* fades in only once loaded; fallback shows beneath */
+}
+
+/* -------- Readability scrims over the clips -------- */
+/* Sits above the video (z-index; the video is appended after it). */
+.scene__bg-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Sink: the clip blows out to near-white at its top-center sunburst —
+   directly behind the scene copy. Calibrated against the clip's
+   brightest frame (t≈4.8s, YMAX≈240): with this scrim the regions the
+   text actually occupies measure ~10:1 against the cream type, and
+   even the sunburst's hottest remaining pixel stays above the 3:1
+   large-text floor before the text-shadow adds its own separation. */
+.scene__bg--sink .scene__bg-scrim {
+  background:
+    radial-gradient(
+      90% 75% at 50% 34%,
+      rgba(6, 15, 26, 0.5),
+      rgba(6, 15, 26, 0.26) 60%,
+      rgba(6, 15, 26, 0.1)
+    ),
+    linear-gradient(
+      to bottom,
+      rgba(6, 15, 26, 0.5),
+      rgba(6, 15, 26, 0.36) 55%,
+      rgba(6, 15, 26, 0.44)
+    );
 }
 
 .bg-fallback {

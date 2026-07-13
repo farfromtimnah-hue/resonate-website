@@ -15,7 +15,7 @@
   /* Derived */
   --c-light-ink-soft: rgba(18, 40, 63, 0.72);
   --c-deep-text: rgba(245, 242, 236, 0.92);
-  --c-deep-text-soft: rgba(245, 242, 236, 0.68);
+  --c-deep-text-soft: rgba(245, 242, 236, 0.8);
 
   /* Type — the display serif is isolated here so it is swappable later */
   --font-wordmark: 'Poppins', 'Plus Jakarta Sans', system-ui, sans-serif;

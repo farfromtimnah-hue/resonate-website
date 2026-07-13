@@ -25,9 +25,28 @@
   text-align: center;
 }
 
-/* Dark scenes (1–2 and the start of 3) use light text */
+/* Dark scenes (1–2 and the start of 3) use light text. They sit over
+   the sink clip, which has genuinely bright moments (the sunburst), so
+   on top of the video scrim every line also carries its own shadow:
+   a tight one for edge definition and a wide soft one for separation. */
 .scene--dark {
   color: var(--c-deep-text);
+}
+
+.scene--dark h1,
+.scene--dark h2,
+.scene--dark .scene__sub,
+.scene--dark .scene__body,
+.scene--dark .scene__attribution {
+  text-shadow:
+    0 1px 3px rgba(6, 15, 26, 0.65),
+    0 4px 28px rgba(6, 15, 26, 0.85);
+}
+
+/* Scene 2 reads slightly weaker than scene 1 at the same size — give
+   its display serif a touch more weight so it stays crisp over water. */
+.scene--dark h2 {
+  font-weight: 600;
 }
 
 .scene--light {

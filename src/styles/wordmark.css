@@ -28,16 +28,8 @@
   font-size: clamp(2.6rem, 8vw, 5.5rem);
 }
 
-.wordmark--hero .wordmark__ripple {
-  width: clamp(120px, 22vw, 220px);
-}
-
 .wordmark--small .wordmark__word {
   font-size: 1.4rem;
-}
-
-.wordmark--small .wordmark__ripple {
-  width: 72px;
 }
 
 /* On dark backgrounds the deep blue base would sink — brighten it. */

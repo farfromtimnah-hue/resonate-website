@@ -7,11 +7,14 @@
  * complete with or without the clip.
  *
  * Videos are lazy-loaded (IntersectionObserver) and, once loaded, their
- * playback is scrubbed by scroll position via ScrollTrigger.
+ * playback is scrubbed by scroll position. Single-scene clips (surface,
+ * ripple) are driven by their scene's pinned hold so the whole clip —
+ * including the surface-break's break-into-light payoff — plays while
+ * the scene is locked fully on screen, never while it's scrolled away.
  */
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { prefersReducedMotion } from '../scroll';
+import { prefersReducedMotion, onScenePinProgress } from '../scroll';
 
 export type FallbackKind = 'sink' | 'surface' | 'ripple';
 
@@ -42,12 +45,19 @@ export function mountVideoBg(
       : '<div class="bg-fallback__layer bg-fallback__layer--a"></div>' +
         '<div class="bg-fallback__layer bg-fallback__layer--b"></div>';
   bg.appendChild(fallback);
+
+  // Readability scrim above the clip (the sink clip blows out to
+  // near-white at its sunburst, exactly behind the scene 1 headline).
+  const scrim = document.createElement('div');
+  scrim.className = 'scene__bg-scrim';
+  bg.appendChild(scrim);
+
   container.prepend(bg);
 
   if (prefersReducedMotion()) return; // static fallback only
 
   animateFallback(fallback, kind, container);
-  lazyAttachVideo(bg, file, container);
+  lazyAttachVideo(bg, file, container, kind);
 }
 
 function animateFallback(
@@ -90,7 +100,12 @@ function animateFallback(
   // ripple: its rings animate via CSS keyframes.
 }
 
-function lazyAttachVideo(bg: HTMLElement, file: string, trigger: HTMLElement): void {
+function lazyAttachVideo(
+  bg: HTMLElement,
+  file: string,
+  trigger: HTMLElement,
+  kind: FallbackKind
+): void {
   const io = new IntersectionObserver(
     (entries) => {
       if (!entries.some((e) => e.isIntersecting)) return;
@@ -108,18 +123,30 @@ function lazyAttachVideo(bg: HTMLElement, file: string, trigger: HTMLElement): v
         'loadedmetadata',
         () => {
           gsap.to(video, { opacity: 1, duration: 0.8, ease: 'power1.out' });
-          // Scroll position drives playback.
-          ScrollTrigger.create({
-            trigger,
-            start: 'top bottom',
-            end: 'bottom top',
-            scrub: true,
-            onUpdate: (self) => {
-              if (video.duration) {
-                video.currentTime = self.progress * video.duration;
-              }
-            },
-          });
+          const seek = (progress: number): void => {
+            if (video.duration) {
+              video.currentTime = Math.min(progress, 1) * video.duration;
+            }
+          };
+
+          if (kind === 'sink') {
+            // The sink clip backs both pinned scenes of the act: play it
+            // across the act, from the first pin locking to the moment
+            // scene 2 is fully in view — its bg fills the viewport for
+            // that entire range, so playback is never off screen.
+            ScrollTrigger.create({
+              trigger,
+              start: 'top top',
+              end: 'bottom bottom',
+              scrub: true,
+              onUpdate: (self) => seek(self.progress),
+            });
+          } else {
+            // Single-scene clips play across their scene's pinned hold:
+            // frame 0 while the scene scrolls in, the full clip while it
+            // is locked on screen, final frame held while it scrolls out.
+            onScenePinProgress(trigger.id, seek);
+          }
         },
         { once: true }
       );

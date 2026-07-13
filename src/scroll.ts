@@ -34,7 +34,62 @@ export function initScroll(): void {
   });
   gsap.ticker.lagSmoothing(0);
 
+  initScenePins();
   initBackgroundArc();
+}
+
+/**
+ * Extra scroll distance (in viewport-heights) each scene stays pinned
+ * to the viewport before the next scene is allowed to arrive, so its
+ * background video and copy can actually be seen and read. Scene 3
+ * holds longest: its surface-break clip plays across the pin, and the
+ * hold is what makes the break-into-light payoff visible on screen.
+ * Scene 7 pins itself per proof block, so it isn't listed here.
+ */
+const SCENE_HOLDS: Record<string, number> = {
+  'scene-1': 0.8,
+  'scene-2': 0.8,
+  'scene-3': 1.5,
+  'scene-4': 0.5,
+  'scene-5': 0.5,
+  'scene-6': 0.5,
+  'scene-8': 0.9,
+};
+
+type ProgressFn = (progress: number) => void;
+const pinListeners = new Map<string, ProgressFn[]>();
+
+/**
+ * Drive something (e.g. scrubbed video playback) from a scene's pinned
+ * hold: the callback receives 0→1 across the pin range only, so the
+ * driven effect runs entirely while the scene is locked on screen.
+ */
+export function onScenePinProgress(sceneId: string, fn: ProgressFn): void {
+  const list = pinListeners.get(sceneId) ?? [];
+  list.push(fn);
+  pinListeners.set(sceneId, list);
+}
+
+function initScenePins(): void {
+  for (const [id, hold] of Object.entries(SCENE_HOLDS)) {
+    const scene = document.getElementById(id);
+    if (!scene) continue;
+    const emit = (self: ScrollTrigger): void => {
+      pinListeners.get(id)?.forEach((fn) => fn(self.progress));
+    };
+    ScrollTrigger.create({
+      trigger: scene,
+      // Scenes taller than the viewport (e.g. the split cards on small
+      // screens) pin once fully scrolled in, not with a clipped bottom.
+      start: () =>
+        scene.offsetHeight > window.innerHeight + 4 ? 'bottom bottom' : 'top top',
+      end: () => `+=${Math.round(window.innerHeight * hold)}`,
+      pin: true,
+      anticipatePin: 1,
+      onUpdate: emit,
+      onRefresh: emit,
+    });
+  }
 }
 
 /**
