@@ -1,6 +1,7 @@
 /**
  * Scenes 1–3: the hook, the ceiling, and the surfacing pivot where the
- * Resonate wordmark is revealed.
+ * Resonate wordmark is revealed. Also mounts the closing ripple video
+ * on scene 8 so all three water-arc backgrounds live in one place.
  */
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -15,10 +16,12 @@ export function initHeroScenes(): void {
 
   const actSink = document.getElementById('act-sink');
   const scene3 = document.getElementById('scene-3');
+  const scene8 = document.getElementById('scene-8');
 
-  // Video slots render CSS/GSAP fallbacks until the MP4s exist.
+  // Video slots render CSS/GSAP fallbacks until the MP4s load.
   if (actSink) mountVideoBg(actSink, 'sink.mp4', 'sink');
   if (scene3) mountVideoBg(scene3, 'surface-break.mp4', 'surface');
+  if (scene8) mountVideoBg(scene8, 'ripple.mp4', 'ripple');
 
   if (prefersReducedMotion()) return;
 

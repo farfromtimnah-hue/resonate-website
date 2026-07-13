@@ -1,10 +1,10 @@
 /**
  * Full-bleed background video slot with a graceful CSS/GSAP fallback.
  *
- * The MP4s (sink.mp4, surface-break.mp4, ripple.mp4) may not be present
- * yet — each slot renders its fallback first and only fades the video in
- * once it actually loads. If the file 404s, the fallback simply remains,
- * so every scene reads complete with or without the clip.
+ * Each slot renders its CSS fallback first and only fades the MP4
+ * (sink.mp4, surface-break.mp4, ripple.mp4) in once it actually loads.
+ * If the file 404s, the fallback simply remains, so every scene reads
+ * complete with or without the clip.
  *
  * Videos are lazy-loaded (IntersectionObserver) and, once loaded, their
  * playback is scrubbed by scroll position via ScrollTrigger.

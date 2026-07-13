@@ -62,9 +62,16 @@
   opacity: 0;
 }
 
-/* Ripple: concentric rings on still water */
+/* Ripple: concentric rings on still water. Scene 8 sits at the light
+   end of the arc, so the fallback stays light — the deep-blue version
+   here predated the dark-to-light redesign and would flash dark navy
+   behind ink text before (or without) the clip. */
 .bg-fallback--ripple {
-  background: radial-gradient(120% 100% at 50% 50%, #10345c 0%, var(--c-deep) 80%);
+  background: radial-gradient(
+    120% 100% at 50% 50%,
+    color-mix(in srgb, var(--c-ripple) 30%, var(--c-light)) 0%,
+    var(--c-light) 80%
+  );
 }
 
 .bg-fallback--ripple svg {
