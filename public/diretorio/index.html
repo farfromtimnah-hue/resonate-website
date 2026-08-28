@@ -323,10 +323,17 @@ section { padding: clamp(4rem, 11vh, 7.5rem) 0; }
 .steps { display: flex; flex-direction: column; gap: 0.55rem; }
 
 .step {
-  display: grid; grid-template-columns: 1.4rem 1fr; gap: 0.65rem;
+  display: grid; grid-template-columns: 1.4rem 1fr auto; gap: 0.65rem;
   align-items: start;
   font-size: 0.95rem; line-height: 1.5; color: var(--muted);
 }
+.step .mins {
+  font-size: 0.8rem; color: var(--faint);
+  font-variant-numeric: tabular-nums; white-space: nowrap;
+  opacity: 0; transition: opacity .4s ease;
+}
+.lane--en .step.on .mins { opacity: 1; }
+
 .step i {
   font-style: normal;
   font: 500 0.68rem/1.5 var(--body);
@@ -556,10 +563,10 @@ section { padding: clamp(4rem, 11vh, 7.5rem) 0; }
           </div>
           <div class="q" data-pt="print shop near me" data-en="print shop near me">print shop near me</div>
           <div class="steps">
-            <div class="step" data-s="1"><i>1</i><span data-pt="Dezenas de resultados, nenhum em português" data-en="Dozens of results, none in Portuguese">Dezenas de resultados, nenhum em português</span></div>
-            <div class="step" data-s="2"><i>2</i><span data-pt="Abrir cada site, um por um" data-en="Open each site, one by one">Abrir cada site, um por um</span></div>
-            <div class="step" data-s="3"><i>3</i><span data-pt="Explicar o serviço inteiro em inglês" data-en="Explain the whole job in English">Explicar o serviço inteiro em inglês</span></div>
-            <div class="step" data-s="4"><i>4</i><span data-pt="Repetir na próxima empresa" data-en="Repeat at the next company">Repetir na próxima empresa</span></div>
+            <div class="step" data-s="1"><i>1</i><span data-pt="Triagem dos resultados" data-en="Sorting the results">Triagem dos resultados</span><span class="mins">5 min</span></div>
+            <div class="step" data-s="2"><i>2</i><span data-pt="Site por site" data-en="Site by site">Site por site</span><span class="mins">13 min</span></div>
+            <div class="step" data-s="3"><i>3</i><span data-pt="A ligação, em inglês" data-en="The call, in English">A ligação, em inglês</span><span class="mins">14 min</span></div>
+            <div class="step" data-s="4"><i>4</i><span data-pt="E de novo, na próxima" data-en="And again, at the next">E de novo, na próxima</span><span class="mins">8+ min</span></div>
           </div>
           <p class="lane-foot" data-pt="Cada tentativa cobra o imposto <b>de novo</b>."
              data-en="Every attempt charges the tax <b>again</b>.">Cada tentativa cobra o imposto <b>de novo</b>.</p>
