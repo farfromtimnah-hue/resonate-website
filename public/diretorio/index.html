@@ -131,6 +131,76 @@ section { padding: clamp(4rem, 11vh, 7.5rem) 0; }
 
 :focus-visible { outline: 2px solid var(--green); outline-offset: 3px; border-radius: 4px; }
 
+
+/* ---------- THE STORY: footage pinned, scrubbed by scroll ----------
+   Same shape as resonate-website: the clip is pinned and its
+   currentTime is driven by scroll position, so it never plays on its
+   own clock and never needs a play button. */
+.hero-story { position: relative; padding: 0; }
+
+.story-stage {
+  position: sticky; top: 0;
+  height: 100vh; height: 100svh;
+  overflow: hidden;
+  background: #0C1829;
+  z-index: 0;
+}
+.story-stage video {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+.story-veil {
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(to right, rgba(8,14,24,0.92) 0%, rgba(8,14,24,0.72) 42%, rgba(8,14,24,0.28) 100%),
+    linear-gradient(to bottom, rgba(8,14,24,0.55), rgba(8,14,24,0.35));
+}
+
+.story-rail {
+  position: relative;
+  z-index: 1;
+  margin-top: -100vh;
+  margin-top: -100svh;
+  padding: 0 clamp(1.2rem, 6vw, 5rem);
+  max-width: 74rem;
+  margin-left: auto; margin-right: auto;
+}
+
+.story-mark { height: 12vh; display: flex; align-items: flex-end; }
+.story-mark .who { color: rgba(238,241,245,0.72); margin: 0; }
+
+.sb {
+  min-height: 92vh; min-height: 92svh;
+  display: flex; align-items: center;
+  max-width: 30ch;
+}
+.sb p {
+  font-size: clamp(1.35rem, 3vw, 2.05rem);
+  line-height: 1.32;
+  font-weight: 500;
+  color: #EEF1F5;
+  opacity: 0.18;
+  transform: translateY(10px);
+  transition: opacity .5s ease, transform .5s ease;
+  text-shadow: 0 1px 24px rgba(8,14,24,0.8);
+}
+.sb.on p { opacity: 1; transform: none; }
+.sb--turn p { font-weight: 700; letter-spacing: -0.018em; }
+
+/* the named cost, on the page ground again */
+.named { padding: clamp(4rem, 11vh, 7rem) 0 clamp(2rem, 5vh, 3.5rem); }
+.named h1 { font-size: clamp(2rem, 5vw, 3.3rem); font-weight: 700; max-width: 18ch; }
+.named .lede { margin-top: 1.3rem; font-size: clamp(1.05rem, 2vw, 1.24rem); color: var(--muted); max-width: 42ch; }
+
+@media (prefers-reduced-motion: reduce) {
+  .sb p { opacity: 1; transform: none; transition: none; }
+}
+
+@media (max-width: 760px) {
+  .sb { min-height: 78vh; max-width: 26ch; }
+}
+
 /* ---------- EMPATHY: the opening ---------- */
 .open h1 {
   font-size: clamp(2.15rem, 5.4vw, 3.6rem);
@@ -401,10 +471,48 @@ section { padding: clamp(4rem, 11vh, 7.5rem) 0; }
 
 </head>
 <body>
-<!-- ============ EMPATHY — open where Rafa already lives ============ -->
-<section class="open">
+<!-- ============ THE STORY, told over the footage ============ -->
+<section class="hero-story" id="story">
+  <div class="story-stage">
+    <video id="film" src="videos/moment.mp4" muted playsinline preload="auto" aria-hidden="true"></video>
+    <div class="story-veil"></div>
+  </div>
+
+  <div class="story-rail">
+    <div class="story-mark">
+      <p class="who" data-pt="Resonate &nbsp;·&nbsp; Apex" data-en="Resonate &nbsp;·&nbsp; Apex">Resonate &nbsp;·&nbsp; Apex</p>
+    </div>
+
+    <div class="sb" data-b="0">
+      <p data-pt="Uma mulher precisava de uma gráfica. Com pressa."
+         data-en="A woman needed a print shop. In a hurry.">Uma mulher precisava de uma gráfica. Com pressa.</p>
+    </div>
+    <div class="sb" data-b="1">
+      <p data-pt="Eu pesquisei tudo e entreguei pronto. Quem ligar, o que pedir, quanto custava."
+         data-en="I researched all of it and handed it over finished. Who to call, what to ask, what it cost.">Eu pesquisei tudo e entreguei pronto. Quem ligar, o que pedir, quanto custava.</p>
+    </div>
+    <div class="sb" data-b="2">
+      <p data-pt="Ela não usou nada daquilo."
+         data-en="She used none of it.">Ela não usou nada daquilo.</p>
+    </div>
+    <div class="sb sb--turn" data-b="3">
+      <p data-pt="Ligou para um amigo brasileiro e resolveu em quatro minutos."
+         data-en="She called a Brazilian friend and solved it in four minutes.">Ligou para um amigo brasileiro e resolveu em quatro minutos.</p>
+    </div>
+    <div class="sb" data-b="4">
+      <p data-pt="Cada empresa da minha lista ainda era uma conversa em inglês esperando por ela."
+         data-en="Every company on my list was still an English conversation waiting for her.">Cada empresa da minha lista ainda era uma conversa em inglês esperando por ela.</p>
+    </div>
+    <div class="sb sb--turn" data-b="5">
+      <p data-pt="Ela escolheu o caminho mais barato. Só que esse caminho depende de conhecer a pessoa certa."
+         data-en="She took the cheaper path. But that path depends on already knowing the right person.">Ela escolheu o caminho mais barato. Só que esse caminho depende de conhecer a pessoa certa.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ the cost, named ============ -->
+<section class="named">
   <div class="wrap">
-    <p class="who" data-pt="Resonate &nbsp;·&nbsp; Apex" data-en="Resonate &nbsp;·&nbsp; Apex">Resonate &nbsp;·&nbsp; Apex</p>
     <h1 data-pt="Existe um imposto que quase ninguém vê."
         data-en="There's a tax almost nobody sees.">Existe um imposto que quase ninguém vê.</h1>
     <p class="lede" data-pt="Não é falta de opção. É o custo de resolver tudo em inglês, cobrado de novo a cada tentativa."
@@ -475,39 +583,6 @@ section { padding: clamp(4rem, 11vh, 7.5rem) 0; }
              data-en="A name, a phone number, <b>no tax</b>.">Um nome, um telefone, <b>sem imposto</b>.</p>
         </div>
       </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ ENGAGE + ENTERTAIN — the story as the instance ============ -->
-<section class="tint">
-  <div class="wrap story">
-    <div class="beat">
-      <p data-pt="Uma mulher precisava de uma gráfica. Com pressa."
-         data-en="A woman needed a print shop. In a hurry.">Uma mulher precisava de uma gráfica. Com pressa.</p>
-    </div>
-    <div class="beat">
-      <p class="muted" data-pt="Eu pesquisei tudo e entreguei pronto: quem ligar, o que pedir, quanto custava. Em português."
-         data-en="I researched all of it and handed it over finished: who to call, what to ask, what it cost. In Portuguese.">Eu pesquisei tudo e entreguei pronto: quem ligar, o que pedir, quanto custava. Em português.</p>
-    </div>
-    <div class="beat">
-      <p class="muted" data-pt="Mesmo assim, cada empresa daquela lista ainda era uma conversa em inglês esperando por ela."
-         data-en="Even so, every company on that list was still an English conversation waiting for her.">Mesmo assim, cada empresa daquela lista ainda era uma conversa em inglês esperando por ela.</p>
-    </div>
-
-    <div class="turn">
-      <p data-pt="Ela ligou para um amigo brasileiro e resolveu em quatro minutos."
-         data-en="She called a Brazilian friend and solved it in four minutes.">Ela ligou para um amigo brasileiro e resolveu em quatro minutos.</p>
-    </div>
-
-    <div class="film">
-      <video id="film" src="videos/moment.mp4" muted autoplay playsinline loop preload="auto" aria-hidden="true"></video>
-      <p class="cap" data-pt="Quatro minutos, em português." data-en="Four minutes, in Portuguese.">Quatro minutos, em português.</p>
-    </div>
-
-    <div class="beat" style="margin-top:2rem">
-      <p class="muted" data-pt="Ela fez o que qualquer um faria: escolheu o caminho mais barato. O problema é que esse caminho depende de conhecer a pessoa certa."
-         data-en="She did what anyone would do: she took the cheaper path. The problem is that path depends on already knowing the right person.">Ela fez o que qualquer um faria: escolheu o caminho mais barato. O problema é que esse caminho depende de conhecer a pessoa certa.</p>
     </div>
   </div>
 </section>
@@ -660,28 +735,58 @@ section { padding: clamp(4rem, 11vh, 7.5rem) 0; }
   document.body.appendChild(n);
   set(get());
 
-  /* Flow clip: lazy, muted, fades in over the page; absent file is a no-op */
+  /* The story clip is scrubbed by scroll: its currentTime maps to how
+     far through the pinned section you are, so it never plays on its
+     own clock and never asks for a play button. */
   var film = document.getElementById('film');
-  if (film && !window.matchMedia('(prefers-reduced-motion: reduce)').matches
-      && 'IntersectionObserver' in window) {
-    new IntersectionObserver(function (es, ob) {
-      es.forEach(function (e) {
-        if (!e.isIntersecting || film.dataset.go) return;
-        film.dataset.go = '1';
-        film.addEventListener('error', function () {
-          var w = film.closest('.film'); if (w) w.remove();
-        }, { once: true });
-        film.addEventListener('loadeddata', function () {
-          film.classList.add('on');
-          film.play().catch(function () {});
-        }, { once: true });
-        film.preload = 'auto';
-        film.src = film.dataset.src;
-        ob.unobserve(film);
+  var story = document.getElementById('story');
+  var beats = [].slice.call(document.querySelectorAll('.sb'));
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (film && story) {
+    film.muted = true;
+    film.pause();
+
+    var dur = 0;
+    film.addEventListener('loadedmetadata', function () { dur = film.duration || 0; });
+
+    var ticking = false;
+    var scrub = function () {
+      ticking = false;
+      var r = story.getBoundingClientRect();
+      var total = r.height - window.innerHeight;
+      if (total <= 0) return;
+      var p = Math.min(1, Math.max(0, -r.top / total));
+
+      if (dur > 0) {
+        var t = p * (dur - 0.05);
+        if (Math.abs(film.currentTime - t) > 0.02) {
+          try { film.currentTime = t; } catch (e) {}
+        }
+      }
+
+      // light the beat nearest the middle of the viewport
+      var mid = window.innerHeight / 2, best = null, bestD = Infinity;
+      beats.forEach(function (b) {
+        var br = b.getBoundingClientRect();
+        var d = Math.abs(br.top + br.height / 2 - mid);
+        if (d < bestD) { bestD = d; best = b; }
       });
-    }, { threshold: 0.2 }).observe(film);
-  } else if (film) {
-    var w = film.closest('.film'); if (w) w.remove();
+      beats.forEach(function (b) { b.classList.toggle('on', b === best); });
+    };
+
+    var onScroll = function () {
+      if (!ticking) { ticking = true; requestAnimationFrame(scrub); }
+    };
+
+    if (reduce) {
+      beats.forEach(function (b) { b.classList.add('on'); });
+    } else {
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', onScroll, { passive: true });
+      film.addEventListener('loadeddata', scrub, { once: true });
+      scrub();
+    }
   }
 
   /* scrollytelling: the pinned comparison accrues cost as the story scrolls */
@@ -714,19 +819,34 @@ section { padding: clamp(4rem, 11vh, 7.5rem) 0; }
   /* films: already inline as data URIs, so just make sure they play.
      Never gate visibility on a single event — if anything fails the
      poster frame would be all the viewer ever sees. */
-  [].slice.call(document.querySelectorAll('video')).forEach(function (v) {
-    v.muted = true;
-    v.classList.add('on');
-    var go = function () { var q = v.play(); if (q && q.catch) q.catch(function () {}); };
-    go();
-    v.addEventListener('loadeddata', go, { once: true });
-    v.addEventListener('canplay', go, { once: true });
-    if ('IntersectionObserver' in window) {
-      new IntersectionObserver(function (es) {
-        es.forEach(function (e) { if (e.isIntersecting) go(); });
-      }, { threshold: 0.1 }).observe(v);
+  var af = document.getElementById('appfilm');
+  if (af) {
+    af.muted = true;
+    af.pause();
+    var adur = 0;
+    af.addEventListener('loadedmetadata', function () { adur = af.duration || 0; });
+
+    var at = false;
+    var ascrub = function () {
+      at = false;
+      var wrap = af.closest('.appfilm');
+      if (!wrap || adur <= 0) return;
+      var r = wrap.getBoundingClientRect();
+      var span = window.innerHeight + r.height;
+      var p = Math.min(1, Math.max(0, (window.innerHeight - r.top) / span));
+      var t = p * (adur - 0.05);
+      if (Math.abs(af.currentTime - t) > 0.02) {
+        try { af.currentTime = t; } catch (e) {}
+      }
+    };
+    if (!reduce) {
+      window.addEventListener('scroll', function () {
+        if (!at) { at = true; requestAnimationFrame(ascrub); }
+      }, { passive: true });
+      af.addEventListener('loadeddata', ascrub, { once: true });
+      ascrub();
     }
-  });
+  }
 
   /* one reveal, on the comparison only */
   var el = document.querySelector('.rise');
