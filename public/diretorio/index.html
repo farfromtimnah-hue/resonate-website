@@ -200,7 +200,13 @@ video {
 }
 
 .story-mark { height: 12vh; display: flex; align-items: flex-end; }
-.story-mark .who { color: rgba(238,241,245,0.72); margin: 0; }
+.story-mark .who {
+  display: flex; align-items: center; gap: 0.8rem;
+  color: rgba(238,241,245,0.78); margin: 0;
+}
+.who-r { font-weight: 600; letter-spacing: 0.01em; }
+.who-x { opacity: 0.5; }
+.who-logo { width: 92px; height: auto; display: block; }
 
 .sb {
   min-height: 92vh; min-height: 92svh;
@@ -525,7 +531,7 @@ video {
 
   <div class="story-rail">
     <div class="story-mark">
-      <p class="who" data-pt="Resonate &nbsp;·&nbsp; Apex" data-en="Resonate &nbsp;·&nbsp; Apex">Resonate &nbsp;·&nbsp; Apex</p>
+      <p class="who"><span class="who-r">Resonate</span><span class="who-x" aria-hidden="true">·</span><img class="who-logo" alt="Apex" src="assets/apex-logo.png"></p>
     </div>
 
     <div class="sb" data-b="0">
