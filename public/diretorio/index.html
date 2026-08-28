@@ -145,6 +145,14 @@ section { padding: clamp(4rem, 11vh, 7.5rem) 0; }
   background: #0C1829;
   z-index: 0;
 }
+.story-stage video::-webkit-media-controls,
+.story-stage video::-webkit-media-controls-start-playback-button,
+.appfilm video::-webkit-media-controls,
+.appfilm video::-webkit-media-controls-start-playback-button {
+  display: none !important;
+  -webkit-appearance: none;
+}
+
 .story-stage video {
   position: absolute; inset: 0;
   width: 100%; height: 100%;
@@ -304,6 +312,8 @@ section { padding: clamp(4rem, 11vh, 7.5rem) 0; }
 .lane-lang { font: 600 0.7rem/1 var(--body); letter-spacing: 0.12em; text-transform: uppercase; color: var(--faint); }
 
 .lane-cost { font: 600 0.78rem/1 var(--body); font-variant-numeric: tabular-nums; }
+.cost-unit { font-weight: 400; }
+#encost:empty + .cost-unit { display: none; }
 .lane--en .lane-cost { color: var(--gold-deep); }
 .lane--pt .lane-cost { color: var(--gold-deep); }
 
@@ -462,13 +472,17 @@ section { padding: clamp(4rem, 11vh, 7.5rem) 0; }
 }
 
 /* ---------- ETHICS: close ---------- */
+.sig-logo { height: 1.55rem; width: auto; display: block; opacity: 0.9; }
+.sig-r { font-weight: 600; color: var(--muted); }
+.sig-x { color: var(--faint); }
+
 .close p {
   font-family: var(--display); font-weight: 600;
   font-size: clamp(1.3rem, 3vw, 1.95rem);
   line-height: 1.22; letter-spacing: -0.02em; max-width: 24ch;
 }
 .close .quiet { font-family: var(--body); font-weight: 400; font-size: 1rem; color: var(--muted); margin-top: 1.4rem; max-width: 40ch; line-height: 1.55; letter-spacing: 0; }
-.sig { margin-top: 2.4rem; font-size: 0.8rem; color: var(--faint); letter-spacing: 0.04em; }
+.sig { display: flex; align-items: center; gap: 0.95rem; margin-top: 2.4rem; font-size: 0.8rem; color: var(--faint); letter-spacing: 0.04em; }
 
 /* ---------- motion, used once ---------- */
 .rise { opacity: 0; transform: translateY(14px); transition: opacity .6s ease, transform .6s ease; }
@@ -481,7 +495,7 @@ section { padding: clamp(4rem, 11vh, 7.5rem) 0; }
 <!-- ============ THE STORY, told over the footage ============ -->
 <section class="hero-story" id="story">
   <div class="story-stage">
-    <video id="film" src="videos/moment.mp4" muted playsinline preload="auto" aria-hidden="true"></video>
+    <video id="film" src="videos/moment.mp4" muted autoplay loop playsinline webkit-playsinline disablepictureinpicture disableremoteplayback preload="auto" aria-hidden="true" tabindex="-1"></video>
     <div class="story-veil"></div>
   </div>
 
@@ -503,8 +517,8 @@ section { padding: clamp(4rem, 11vh, 7.5rem) 0; }
          data-en="She used none of it.">Ela não usou nada daquilo.</p>
     </div>
     <div class="sb sb--turn" data-b="3">
-      <p data-pt="Ligou para um amigo brasileiro e resolveu em quatro minutos."
-         data-en="She called a Brazilian friend and solved it in four minutes.">Ligou para um amigo brasileiro e resolveu em quatro minutos.</p>
+      <p data-pt="Ligou para um amigo brasileiro e resolveu em minutos."
+         data-en="She called a Brazilian friend and solved it in minutes.">Ligou para um amigo brasileiro e resolveu em minutos.</p>
     </div>
     <div class="sb" data-b="4">
       <p data-pt="Cada empresa da minha lista ainda era uma conversa em inglês esperando por ela."
@@ -559,14 +573,14 @@ section { padding: clamp(4rem, 11vh, 7.5rem) 0; }
         <div class="lane lane--en">
           <div class="lane-head">
             <span class="lane-lang" data-pt="Em inglês" data-en="In English">Em inglês</span>
-            <span class="lane-cost" id="encost"></span>
+            <span class="lane-cost"><span id="encost"></span><span class="cost-unit" data-pt=" passos" data-en=" steps"> passos</span></span>
           </div>
           <div class="q" data-pt="print shop near me" data-en="print shop near me">print shop near me</div>
           <div class="steps">
-            <div class="step" data-s="1"><i>1</i><span data-pt="Triagem dos resultados" data-en="Sorting the results">Triagem dos resultados</span><span class="mins">5 min</span></div>
-            <div class="step" data-s="2"><i>2</i><span data-pt="Site por site" data-en="Site by site">Site por site</span><span class="mins">13 min</span></div>
-            <div class="step" data-s="3"><i>3</i><span data-pt="A ligação, em inglês" data-en="The call, in English">A ligação, em inglês</span><span class="mins">14 min</span></div>
-            <div class="step" data-s="4"><i>4</i><span data-pt="E de novo, na próxima" data-en="And again, at the next">E de novo, na próxima</span><span class="mins">8+ min</span></div>
+            <div class="step" data-s="1"><i>1</i><span data-pt="Triagem dos resultados" data-en="Sorting the results">Triagem dos resultados</span></div>
+            <div class="step" data-s="2"><i>2</i><span data-pt="Site por site" data-en="Site by site">Site por site</span></div>
+            <div class="step" data-s="3"><i>3</i><span data-pt="A ligação, em inglês" data-en="The call, in English">A ligação, em inglês</span></div>
+            <div class="step" data-s="4"><i>4</i><span data-pt="E de novo, na próxima" data-en="And again, at the next">E de novo, na próxima</span></div>
           </div>
           <p class="lane-foot" data-pt="Cada tentativa cobra o imposto <b>de novo</b>."
              data-en="Every attempt charges the tax <b>again</b>.">Cada tentativa cobra o imposto <b>de novo</b>.</p>
@@ -604,7 +618,7 @@ section { padding: clamp(4rem, 11vh, 7.5rem) 0; }
 
     <div class="appfilm">
       <video id="appfilm" src="videos/appscreen.mp4"
-             muted autoplay playsinline loop preload="auto"
+             muted autoplay loop playsinline webkit-playsinline disablepictureinpicture disableremoteplayback preload="auto" tabindex="-1"
              aria-label="Busca por gráfica em Tampa: o resultado aparece e o botão Ligar é tocado"></video>
     </div>
 
@@ -699,7 +713,7 @@ section { padding: clamp(4rem, 11vh, 7.5rem) 0; }
        data-en="Nobody should need to know the right person to avoid paying that tax.">Ninguém deveria precisar conhecer a pessoa certa para não pagar esse imposto.</p>
     <p class="quiet" data-pt="Quem usar não vai saber que a Apex tornou isso possível. Nós vamos."
        data-en="The people who use it won't know Apex made it possible. We will.">Quem usar não vai saber que a Apex tornou isso possível. Nós vamos.</p>
-    <p class="sig">Resonate Business Systems &nbsp;·&nbsp; Apex Business Solutions</p>
+    <p class="sig"><span class="sig-r">Resonate</span><span class="sig-x" aria-hidden="true">·</span><img class="sig-logo" alt="Apex" src="data:image/png;base64,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"></p>
   </div>
 </section>
 
@@ -750,9 +764,27 @@ section { padding: clamp(4rem, 11vh, 7.5rem) 0; }
   var beats = [].slice.call(document.querySelectorAll('.sb'));
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  function primeVideo(v) {
+    if (!v) return;
+    v.muted = true;
+    v.defaultMuted = true;
+    v.setAttribute('muted', '');
+    var kick = function () {
+      var q = v.play();
+      if (q && q.then) {
+        q.then(function () { v.pause(); }).catch(function () {});
+      } else {
+        try { v.pause(); } catch (e) {}
+      }
+    };
+    kick();
+    v.addEventListener('loadeddata', kick, { once: true });
+    document.addEventListener('touchstart', kick, { once: true, passive: true });
+    document.addEventListener('click', kick, { once: true });
+  }
+
   if (film && story) {
-    film.muted = true;
-    film.pause();
+    primeVideo(film);
 
     var dur = 0;
     film.addEventListener('loadedmetadata', function () { dur = film.duration || 0; });
@@ -801,7 +833,7 @@ section { padding: clamp(4rem, 11vh, 7.5rem) 0; }
   var enSteps = [].slice.call(document.querySelectorAll('.lane--en .step'));
   var ptLane  = document.getElementById('ptlane');
   var enCost  = document.getElementById('encost');
-  var COSTS   = ['', '5 min', '18 min', '32 min', '40+ min', '40+ min'];
+  var COSTS   = ['', '1', '2', '3', '4', '4'];
 
   if (scSteps.length && 'IntersectionObserver' in window
       && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
@@ -820,7 +852,7 @@ section { padding: clamp(4rem, 11vh, 7.5rem) 0; }
     scSteps.forEach(function (s) { s.classList.add('on'); });
     enSteps.forEach(function (s) { s.classList.add('on'); });
     if (ptLane) ptLane.classList.add('on');
-    if (enCost) enCost.textContent = '40+ min';
+    
   }
 
   /* films: already inline as data URIs, so just make sure they play.
@@ -828,8 +860,7 @@ section { padding: clamp(4rem, 11vh, 7.5rem) 0; }
      poster frame would be all the viewer ever sees. */
   var af = document.getElementById('appfilm');
   if (af) {
-    af.muted = true;
-    af.pause();
+    primeVideo(af);
     var adur = 0;
     af.addEventListener('loadedmetadata', function () { adur = af.duration || 0; });
 
