@@ -471,13 +471,20 @@ video {
 
 /* the app screen, rendered in HyperFrames. Muted and lazy; a missing
    file removes the element and the layout closes up. */
+.appfilm-track { position: relative; height: 300vh; margin-top: 2.6rem; }
+
 .appfilm {
-  margin-top: 2.6rem;
+  position: sticky;
+  top: 8vh;
   border: 1px solid var(--line);
   border-radius: var(--r);
   overflow: hidden;
   background: var(--page-2);
   aspect-ratio: 16 / 9;
+}
+
+@media (max-width: 760px) {
+  .appfilm-track { height: 220vh; }
 }
 .appfilm video { display: block; width: 100%; height: 100%; object-fit: cover; }
 
@@ -646,10 +653,12 @@ video {
     <p class="sub" data-pt="O que cada um sabe vira o que todos sabem. Um diretório de negócios brasileiros, em português, gratuito para quem procura."
        data-en="What each person knows becomes what everyone knows. A directory of Brazilian businesses, in Portuguese, free for anyone searching.">O que cada um sabe vira o que todos sabem. Um diretório de negócios brasileiros, em português, gratuito para quem procura.</p>
 
+    <div class="appfilm-track">
     <div class="appfilm">
       <video id="appfilm" src="videos/appscreen.mp4"
              muted autoplay loop playsinline webkit-playsinline disablepictureinpicture disableremoteplayback preload="auto" tabindex="-1"
              aria-label="Busca por gráfica em Tampa: o resultado aparece e o botão Ligar é tocado"></video>
+    </div>
     </div>
 
     <div class="list">
@@ -944,11 +953,12 @@ video {
     var at = false;
     var ascrub = function () {
       at = false;
-      var wrap = af.closest('.appfilm');
-      if (!wrap || adur <= 0) return;
-      var r = wrap.getBoundingClientRect();
-      var span = window.innerHeight + r.height;
-      var p = Math.min(1, Math.max(0, (window.innerHeight - r.top) / span));
+      var track = af.closest('.appfilm-track');
+      if (!track || adur <= 0) return;
+      var r = track.getBoundingClientRect();
+      var span = r.height - window.innerHeight;
+      if (span <= 0) return;
+      var p = Math.min(1, Math.max(0, -r.top / span));
       var t = p * (adur - 0.05);
       if (Math.abs(af.currentTime - t) > 0.06) {
         try { af.currentTime = t; } catch (e) {}
