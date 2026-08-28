@@ -407,8 +407,8 @@ section { padding: clamp(4rem, 11vh, 7.5rem) 0; }
     <p class="who" data-pt="Resonate &nbsp;·&nbsp; Apex" data-en="Resonate &nbsp;·&nbsp; Apex">Resonate &nbsp;·&nbsp; Apex</p>
     <h1 data-pt="Existe um imposto que quase ninguém vê."
         data-en="There's a tax almost nobody sees.">Existe um imposto que quase ninguém vê.</h1>
-    <p class="lede" data-pt="Não é falta de opção. É o custo de resolver tudo em inglês — cobrado de novo a cada tentativa."
-       data-en="It isn't a lack of options. It's the cost of doing everything in English — charged again on every attempt.">Não é falta de opção. É o custo de resolver tudo em inglês — cobrado de novo a cada tentativa.</p>
+    <p class="lede" data-pt="Não é falta de opção. É o custo de resolver tudo em inglês, cobrado de novo a cada tentativa."
+       data-en="It isn't a lack of options. It's the cost of doing everything in English, charged again on every attempt.">Não é falta de opção. É o custo de resolver tudo em inglês, cobrado de novo a cada tentativa.</p>
   </div>
 </section>
 
@@ -444,7 +444,7 @@ section { padding: clamp(4rem, 11vh, 7.5rem) 0; }
         <div class="lane lane--en">
           <div class="lane-head">
             <span class="lane-lang" data-pt="Em inglês" data-en="In English">Em inglês</span>
-            <span class="lane-cost" id="encost">—</span>
+            <span class="lane-cost" id="encost"></span>
           </div>
           <div class="q" data-pt="print shop near me" data-en="print shop near me">print shop near me</div>
           <div class="steps">
@@ -581,8 +581,8 @@ section { padding: clamp(4rem, 11vh, 7.5rem) 0; }
 <section class="tint">
   <div class="wrap">
     <h2 class="h2" data-pt="O que eu preciso da Apex." data-en="What I need from Apex.">O que eu preciso da Apex.</h2>
-    <p class="sub" data-pt="Os negócios da Apex já são encontrados. Não é disso que se trata. É que sem eles lá dentro, o aplicativo abre vazio — e quem procura e não encontra nada não volta. A Apex é a razão de isto funcionar, e ninguém vai saber disso."
-       data-en="Apex's businesses are already found. That isn't what this is about. It's that without them inside, the app opens empty — and someone who searches and finds nothing doesn't come back. Apex is the reason this works, and nobody will know it.">Os negócios da Apex já são encontrados. Não é disso que se trata. É que sem eles lá dentro, o aplicativo abre vazio — e quem procura e não encontra nada não volta. A Apex é a razão de isto funcionar, e ninguém vai saber disso.</p>
+    <p class="sub" data-pt="Os negócios da Apex já são encontrados. Não é disso que se trata. Sem eles lá dentro, o aplicativo abre vazio, e quem procura e não encontra nada não volta. A Apex é a razão de isto funcionar, e ninguém vai saber disso."
+       data-en="Apex's businesses are already found. That isn't what this is about. Without them inside, the app opens empty, and someone who searches and finds nothing doesn't come back. Apex is the reason this works, and nobody will know it.">Os negócios da Apex já são encontrados. Não é disso que se trata. Sem eles lá dentro, o aplicativo abre vazio, e quem procura e não encontra nada não volta. A Apex é a razão de isto funcionar, e ninguém vai saber disso.</p>
 
     <div class="asks">
       <div class="ask">
@@ -595,7 +595,7 @@ section { padding: clamp(4rem, 11vh, 7.5rem) 0; }
       <div class="ask">
         <div>
           <b data-pt="Os primeiros negócios" data-en="The first businesses">Os primeiros negócios</b>
-          <span class="d" data-pt="Convidar os negócios da Apex a entrar antes do lançamento. Não porque precisem — porque sem eles não há nada para encontrar no primeiro dia." data-en="Invite the Apex businesses to join before launch. Not because they need it — because without them there is nothing to find on day one.">Convidar os negócios da Apex a entrar antes do lançamento. Não porque precisem — porque sem eles não há nada para encontrar no primeiro dia.</span>
+          <span class="d" data-pt="Convidar os negócios da Apex a entrar antes do lançamento. Não porque precisem. Porque sem eles não há nada para encontrar no primeiro dia." data-en="Invite the Apex businesses to join before launch. Not because they need it. Because without them there is nothing to find on day one.">Convidar os negócios da Apex a entrar antes do lançamento. Não porque precisem. Porque sem eles não há nada para encontrar no primeiro dia.</span>
         </div>
         <span class="tagw">Apex</span>
       </div>
@@ -689,7 +689,7 @@ section { padding: clamp(4rem, 11vh, 7.5rem) 0; }
   var enSteps = [].slice.call(document.querySelectorAll('.lane--en .step'));
   var ptLane  = document.getElementById('ptlane');
   var enCost  = document.getElementById('encost');
-  var COSTS   = ['—', '5 min', '18 min', '32 min', '40+ min', '40+ min'];
+  var COSTS   = ['', '5 min', '18 min', '32 min', '40+ min', '40+ min'];
 
   if (scSteps.length && 'IntersectionObserver' in window
       && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
