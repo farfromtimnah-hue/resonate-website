@@ -164,7 +164,23 @@ video {
   pointer-events: none;
 }
 
-.story-stage video {
+.story-stage canvas, .appfilm canvas {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  display: block;
+}
+.appfilm { position: relative; }
+.appfilm canvas { position: absolute; inset: 0; }
+
+/* the source elements never display; the canvas is what you see */
+.story-stage video, .appfilm video {
+  position: absolute;
+  width: 1px; height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.story-stage video-unused {
   position: absolute; inset: 0;
   width: 100%; height: 100%;
   object-fit: cover;
@@ -767,6 +783,47 @@ video {
   document.body.appendChild(n);
   set(get());
 
+  /* Mirror each clip into a canvas. WebKit draws a play glyph over a
+     <video> it does not consider self-playing, and no CSS reliably
+     removes it, so the video element is hidden and the canvas is what
+     the page actually shows. */
+  function mirrorToCanvas(v) {
+    if (!v) return null;
+    var host = v.parentNode;
+    var c = document.createElement('canvas');
+    c.setAttribute('aria-hidden', 'true');
+    host.insertBefore(c, v);
+    var ctx = c.getContext('2d');
+
+    var sized = false;
+    function size() {
+      var r = host.getBoundingClientRect();
+      var dpr = Math.min(window.devicePixelRatio || 1, 2);
+      c.width = Math.max(1, Math.round(r.width * dpr));
+      c.height = Math.max(1, Math.round(r.height * dpr));
+      sized = true;
+    }
+
+    function cover() {
+      if (!v.videoWidth || !sized) return;
+      var cw = c.width, ch = c.height;
+      var s = Math.max(cw / v.videoWidth, ch / v.videoHeight);
+      var w = v.videoWidth * s, hh = v.videoHeight * s;
+      ctx.drawImage(v, (cw - w) / 2, (ch - hh) / 2, w, hh);
+    }
+
+    function frame() {
+      cover();
+      requestAnimationFrame(frame);
+    }
+
+    size();
+    window.addEventListener('resize', size, { passive: true });
+    v.addEventListener('loadeddata', function () { size(); cover(); });
+    requestAnimationFrame(frame);
+    return c;
+  }
+
   /* The story clip is scrubbed by scroll: its currentTime maps to how
      far through the pinned section you are, so it never plays on its
      own clock and never asks for a play button. */
@@ -800,6 +857,7 @@ video {
 
   if (film && story) {
     primeVideo(film);
+    mirrorToCanvas(film);
 
     var dur = 0;
     film.addEventListener('loadedmetadata', function () { dur = film.duration || 0; });
@@ -876,6 +934,7 @@ video {
   var af = document.getElementById('appfilm');
   if (af) {
     primeVideo(af);
+    mirrorToCanvas(af);
     var adur = 0;
     af.addEventListener('loadedmetadata', function () { adur = af.duration || 0; });
 
