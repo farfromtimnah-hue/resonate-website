@@ -1,0 +1,743 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>O Imposto do Inglês</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+
+<style>
+/* ---------------------------------------------------------------
+   Structure follows Henderson's Six Es — empathy, engage, entertain,
+   educate, empower, ethics. It opens where Rafa already lives (the
+   cost his people pay), not with the product. Educate arrives fourth.
+
+   The subject is not discoverability. Businesses are findable. The
+   subject is the TAX a Brazilian pays to use the tools that find
+   them. So the signature element is one need, priced twice.
+
+   Palette from the app's own decided system: flag green #009639 on a
+   white / near-black system base, accent on interactive things only —
+   never large text-on-colour (flag green fails WCAG for that).
+   --------------------------------------------------------------- */
+
+:root {
+  /* APEX brand tokens, from client_brand: navy #12233F, gold #C8A860
+     (measured off the logo, gradient #C09850 to #D8B870). Design rule
+     #6 — use the client's tokens, don't invent colours. The app's own
+     flag green stays, but only where something is tappable. */
+  --navy:      #12233F;
+  --navy-deep: #0C1829;
+  --navy-soft: #1B3255;
+  --gold:      #C8A860;
+  --gold-lift: #D8B870;
+  --gold-deep: #8A6F2C;   /* gold dark enough to carry text on light */
+  --green:     #009639;   /* the app's accent — interactive only */
+  --green-lift:#2FD16C;
+
+  --page:   #FBFAF8;
+  --page-2: #F2F0EB;
+  --card:   #FFFFFF;
+  --ink:    #14171C;
+  --muted:  #5A6270;
+  --faint:  #8B93A0;
+  --line:   rgba(20, 23, 28, 0.13);
+  --line-2: rgba(20, 23, 28, 0.07);
+  --shadow: rgba(12, 24, 41, 0.10);
+  --shadow-2: rgba(12, 24, 41, 0.20);
+
+  /* one UI sans family; hierarchy comes from weight, not from
+     a decorative pairing (ui-dashboard-design-2026) */
+  --display: 'Inter', system-ui, -apple-system, sans-serif;
+  --body:    'Inter', system-ui, -apple-system, sans-serif;
+
+  --measure: 34rem;
+  --wide: 62rem;
+  --r: 14px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --page:   #0C1829;
+    --page-2: #101F35;
+    --card:   #16273F;
+    --ink:    #EEF1F5;
+    --muted:  #9BA6B6;
+    --faint:  #74808F;
+    --line:   rgba(238, 241, 245, 0.16);
+    --line-2: rgba(238, 241, 245, 0.09);
+    --shadow: rgba(0, 0, 0, 0.5);
+    --shadow-2: rgba(0, 0, 0, 0.66);
+    --gold-deep: #D8B870;
+    --green: #2FD16C;
+  }
+}
+
+:root[data-theme="dark"] {
+  --page:   #0C1829;
+  --page-2: #101F35;
+  --card:   #16273F;
+  --ink:    #EEF1F5;
+  --muted:  #9BA6B6;
+  --faint:  #74808F;
+  --line:   rgba(238, 241, 245, 0.16);
+  --line-2: rgba(238, 241, 245, 0.09);
+  --shadow: rgba(0, 0, 0, 0.5);
+  --shadow-2: rgba(0, 0, 0, 0.66);
+  --gold-deep: #D8B870;
+  --green: #2FD16C;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--page);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 1.05rem;
+  line-height: 1.62;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 { margin: 0; font-family: var(--display); font-weight: 700; line-height: 1.14; letter-spacing: -0.021em; text-wrap: balance; }
+p { margin: 0; }
+
+.wrap { width: 100%; max-width: var(--wide); margin: 0 auto; padding: 0 clamp(1.15rem, 5vw, 2.5rem); }
+.scrolly .wrap { max-width: 72rem; }
+.col  { max-width: var(--measure); }
+
+section { padding: clamp(4rem, 11vh, 7.5rem) 0; }
+.tint { background: var(--page-2); }
+
+/* ---------- language ---------- */
+.lang {
+  position: fixed; top: 0.85rem; right: 0.85rem; z-index: 60;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  box-shadow: 0 1px 3px var(--shadow);
+}
+.lang button {
+  border: 0; background: transparent; cursor: pointer;
+  font: 600 0.7rem/1 var(--body); letter-spacing: 0.07em;
+  color: var(--muted); padding: 0.45rem 0.75rem; border-radius: 999px;
+  transition: background-color .2s, color .2s;
+}
+.lang button[aria-pressed="true"] { background: var(--green); color: #fff; }
+
+:focus-visible { outline: 2px solid var(--green); outline-offset: 3px; border-radius: 4px; }
+
+/* ---------- EMPATHY: the opening ---------- */
+.open h1 {
+  font-size: clamp(2.15rem, 5.4vw, 3.6rem);
+  font-weight: 700;
+  max-width: 19ch;
+}
+
+.open .lede {
+  margin-top: 1.5rem;
+  font-size: clamp(1.08rem, 2vw, 1.28rem);
+  color: var(--muted);
+  max-width: 40ch;
+}
+
+.open .who {
+  font: 600 0.72rem/1 var(--body);
+  letter-spacing: 0.13em; text-transform: uppercase;
+  color: var(--faint);
+  margin-bottom: 1.6rem;
+}
+
+
+/* ---------- SCROLLY: pinned comparison, cost accrues on scroll ---------- */
+.scrolly { padding: 0 0 clamp(3rem, 8vh, 6rem); }
+
+.sc-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.4fr);
+  gap: clamp(2rem, 5vw, 4rem);
+  align-items: start;
+}
+
+.sc-steps { display: flex; flex-direction: column; }
+
+.sc-step {
+  min-height: 78vh;
+  display: flex;
+  align-items: center;
+  opacity: 0.28;
+  transition: opacity .45s ease;
+}
+.sc-step.on { opacity: 1; }
+.sc-step p { font-size: clamp(1.16rem, 2.2vw, 1.5rem); line-height: 1.42; max-width: 30ch; }
+
+.sc-stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+}
+
+/* the English lane's steps arrive one at a time */
+.lane--en .step {
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity .4s ease, transform .4s ease;
+}
+.lane--en .step.on { opacity: 1; transform: none; }
+
+/* the Portuguese lane stays quiet until the comparison lands */
+.lane--pt { opacity: 0.3; transition: opacity .5s ease; }
+.lane--pt.on { opacity: 1; }
+
+.lane-cost { font-variant-numeric: tabular-nums; }
+
+@media (max-width: 860px) {
+  .sc-grid { grid-template-columns: 1fr; }
+  .sc-stage { position: static; height: auto; margin-top: 1.5rem; }
+  .sc-step { min-height: 0; padding: 1.6rem 0; opacity: 1; }
+  .lane--en .step, .lane--pt { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sc-step, .lane--en .step, .lane--pt { opacity: 1; transform: none; transition: none; }
+}
+
+/* ---------- SIGNATURE: one need, priced twice ---------- */
+.compare {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  overflow: hidden;
+  margin-top: clamp(2.5rem, 6vh, 3.5rem);
+  box-shadow: 0 1px 2px var(--shadow);
+}
+
+@media (max-width: 720px) { .compare { grid-template-columns: 1fr; } }
+
+.lane { background: var(--card); padding: 1.9rem 1.8rem 2rem; display: flex; flex-direction: column; min-height: 27rem; }
+
+.lane-head {
+  display: flex; align-items: baseline; justify-content: space-between;
+  gap: 0.6rem; padding-bottom: 0.9rem; margin-bottom: 1.1rem;
+  border-bottom: 1px solid var(--line-2);
+}
+
+.lane-lang { font: 600 0.7rem/1 var(--body); letter-spacing: 0.12em; text-transform: uppercase; color: var(--faint); }
+
+.lane-cost { font: 600 0.78rem/1 var(--body); font-variant-numeric: tabular-nums; }
+.lane--en .lane-cost { color: var(--gold-deep); }
+.lane--pt .lane-cost { color: var(--gold-deep); }
+
+.q {
+  font-size: 1rem; color: var(--muted);
+  border: 1px solid var(--line); border-radius: 10px;
+  padding: 0.6rem 0.8rem; margin-bottom: 1rem;
+  display: flex; align-items: center; gap: 0.5rem;
+}
+.q::before {
+  content: ""; width: 10px; height: 10px; flex: none;
+  border: 2px solid currentColor; border-radius: 50%; opacity: 0.5;
+  box-shadow: 3px 3px 0 -1px currentColor;
+}
+
+/* the English lane: steps stack up, each one a cost */
+.steps { display: flex; flex-direction: column; gap: 0.55rem; }
+
+.step {
+  display: grid; grid-template-columns: 1.4rem 1fr; gap: 0.65rem;
+  align-items: start;
+  font-size: 0.95rem; line-height: 1.5; color: var(--muted);
+}
+.step i {
+  font-style: normal;
+  font: 500 0.68rem/1.5 var(--body);
+  font-variant-numeric: tabular-nums;
+  color: var(--muted);
+  border: 1px solid var(--line);
+  border-radius: 5px; text-align: center; padding: 0.1rem 0;
+}
+
+.lane-foot {
+  margin-top: auto; padding-top: 1.2rem;
+  font-size: 0.87rem; color: var(--muted);
+  border-top: 1px solid var(--line-2);
+  margin-top: 1.3rem;
+}
+.lane-foot b { color: var(--ink); font-weight: 600; }
+
+/* the Portuguese lane: one result, done */
+.hit { border: 1px solid var(--line); border-radius: 10px; padding: 0.85rem 0.9rem; }
+.hit .nm { font-family: var(--display); font-weight: 600; font-size: 1rem; }
+.hit .mt { font-size: 0.8rem; color: var(--muted); margin-top: 0.18rem; display: flex; align-items: center; gap: 0.35rem; }
+.hit .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); flex: none; }
+.hit .row { display: flex; gap: 0.4rem; margin-top: 0.75rem; }
+.pill { font: 600 0.68rem/1 var(--body); letter-spacing: 0.04em; padding: 0.42rem 0.7rem; border-radius: 7px; background: var(--green); color: #fff; }
+.pill--q { background: transparent; color: var(--muted); border: 1px solid var(--line); }
+
+
+/* ---------- Flow clip slot ----------
+   Same contract as resonate-website/src/styles/video.css: the clip
+   loads lazily and fades in over what is already on screen. Muted
+   always — the audio would be a person speaking English, which
+   contradicts the page. A missing file changes nothing. */
+.film {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--r);
+  overflow: hidden;
+  background: var(--page-2);
+  border: 1px solid var(--line);
+  margin-top: 2.4rem;
+}
+.film video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.film .cap {
+  position: absolute; left: 0; right: 0; bottom: 0;
+  padding: 0.7rem 0.95rem;
+  font-size: 0.78rem; color: #EEF1F5;
+  background: linear-gradient(to top, rgba(12,24,41,0.78), rgba(12,24,41,0));
+}
+.film .cap { opacity: 1; }
+
+/* ---------- ENGAGE / ENTERTAIN: the story ---------- */
+.story { max-width: var(--measure); }
+
+.story .beat + .beat { margin-top: 1.7rem; }
+.story p { font-size: clamp(1.06rem, 1.9vw, 1.2rem); }
+.story .muted { color: var(--muted); }
+
+.turn { margin-top: 2.4rem; }
+.turn p {
+  font-family: var(--display); font-weight: 700;
+  font-size: clamp(1.3rem, 2.9vw, 1.75rem);
+  line-height: 1.24; letter-spacing: -0.021em;
+}
+
+/* ---------- EDUCATE ---------- */
+.h2 { font-size: clamp(1.65rem, 3.6vw, 2.35rem); font-weight: 700; max-width: 20ch; }
+.sub { margin-top: 0.95rem; color: var(--muted); max-width: 44ch; }
+
+.list { margin-top: 2.6rem; display: flex; flex-direction: column; }
+
+.item {
+  display: grid; grid-template-columns: minmax(0, 13rem) minmax(0, 1fr);
+  gap: 0.4rem 2.5rem;
+  padding: 1.35rem 0;
+  border-top: 1px solid var(--line-2);
+}
+.item:last-child { border-bottom: 1px solid var(--line-2); }
+@media (max-width: 700px) { .item { grid-template-columns: 1fr; } }
+
+.item b { font-family: var(--display); font-weight: 600; font-size: 1.03rem; }
+.item span { color: var(--muted); font-size: 0.97rem; }
+
+.plans { margin-top: 2.6rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 1px; background: var(--line-2); border: 1px solid var(--line-2); border-radius: var(--r); overflow: hidden; }
+.plan { background: var(--card); padding: 1.35rem 1.3rem 1.5rem; }
+.plan .nmp { font: 600 0.72rem/1 var(--body); letter-spacing: 0.11em; text-transform: uppercase; color: var(--faint); }
+.plan .pr { font-family: var(--display); font-weight: 700; font-size: 1.5rem; margin-top: 0.6rem; letter-spacing: -0.03em; }
+.plan .pr small { font-family: var(--body); font-size: 0.78rem; font-weight: 400; color: var(--muted); letter-spacing: 0; }
+.plan ul { list-style: none; margin: 0.9rem 0 0; padding: 0; display: flex; flex-direction: column; gap: 0.42rem; }
+.plan li { font-size: 0.88rem; color: var(--muted); padding-left: 0.85rem; position: relative; line-height: 1.45; }
+.plan li::before { content: ""; position: absolute; left: 0; top: 0.63em; width: 4px; height: 4px; border-radius: 50%; background: var(--green); }
+.plan--apex { background: rgba(200,168,96,0.14); }
+.plan--apex .pr { font-size: 1.15rem; }
+
+
+/* the app screen, rendered in HyperFrames. Muted and lazy; a missing
+   file removes the element and the layout closes up. */
+.appfilm {
+  margin-top: 2.6rem;
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  overflow: hidden;
+  background: var(--page-2);
+  aspect-ratio: 16 / 9;
+}
+.appfilm video { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+/* ---------- EMPOWER ---------- */
+.asks { margin-top: 2.6rem; display: flex; flex-direction: column; }
+.ask {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.4rem 1.5rem; align-items: start;
+  padding: 1.5rem 0; border-top: 1px solid var(--line-2);
+}
+.ask:last-child { border-bottom: 1px solid var(--line-2); }
+.ask b { font-family: var(--display); font-weight: 600; font-size: 1.12rem; display: block; }
+.ask span.d { display: block; color: var(--muted); font-size: 0.98rem; margin-top: 0.3rem; max-width: 44ch; }
+.ask .tagw {
+  font: 600 0.67rem/1 var(--body); letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--gold-deep); background: rgba(200,168,96,0.14);
+  padding: 0.4rem 0.68rem; border-radius: 999px; white-space: nowrap;
+}
+@media (max-width: 600px) {
+  .ask { grid-template-columns: 1fr; }
+  .ask .tagw { justify-self: start; margin-top: 0.7rem; }
+}
+
+/* ---------- ETHICS: close ---------- */
+.close p {
+  font-family: var(--display); font-weight: 600;
+  font-size: clamp(1.3rem, 3vw, 1.95rem);
+  line-height: 1.22; letter-spacing: -0.02em; max-width: 24ch;
+}
+.close .quiet { font-family: var(--body); font-weight: 400; font-size: 1rem; color: var(--muted); margin-top: 1.4rem; max-width: 40ch; line-height: 1.55; letter-spacing: 0; }
+.sig { margin-top: 2.4rem; font-size: 0.8rem; color: var(--faint); letter-spacing: 0.04em; }
+
+/* ---------- motion, used once ---------- */
+.rise { opacity: 0; transform: translateY(14px); transition: opacity .6s ease, transform .6s ease; }
+.rise.in { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) { .rise { opacity: 1; transform: none; transition: none; } }
+</style>
+
+</head>
+<body>
+<!-- ============ EMPATHY — open where Rafa already lives ============ -->
+<section class="open">
+  <div class="wrap">
+    <p class="who" data-pt="Resonate &nbsp;·&nbsp; Apex" data-en="Resonate &nbsp;·&nbsp; Apex">Resonate &nbsp;·&nbsp; Apex</p>
+    <h1 data-pt="Existe um imposto que quase ninguém vê."
+        data-en="There's a tax almost nobody sees.">Existe um imposto que quase ninguém vê.</h1>
+    <p class="lede" data-pt="Não é falta de opção. É o custo de resolver tudo em inglês — cobrado de novo a cada tentativa."
+       data-en="It isn't a lack of options. It's the cost of doing everything in English — charged again on every attempt.">Não é falta de opção. É o custo de resolver tudo em inglês — cobrado de novo a cada tentativa.</p>
+  </div>
+</section>
+
+<!-- ============ SCROLLY: the comparison pins, the cost accumulates ============ -->
+<section class="scrolly" id="scrolly">
+  <div class="wrap sc-grid">
+
+    <div class="sc-steps">
+      <div class="sc-step" data-i="0">
+        <p data-pt="Ela busca em inglês, porque é assim que a internet funciona aqui."
+           data-en="She searches in English, because that's how the internet works here.">Ela busca em inglês, porque é assim que a internet funciona aqui.</p>
+      </div>
+      <div class="sc-step" data-i="1">
+        <p data-pt="Dezenas de resultados. Nenhum diz quem atende em português."
+           data-en="Dozens of results. None of them say who speaks Portuguese.">Dezenas de resultados. Nenhum diz quem atende em português.</p>
+      </div>
+      <div class="sc-step" data-i="2">
+        <p data-pt="Então abre cada site, um por um, para descobrir o que dá para fazer."
+           data-en="So she opens each site, one by one, to work out what's possible.">Então abre cada site, um por um, para descobrir o que dá para fazer.</p>
+      </div>
+      <div class="sc-step" data-i="3">
+        <p data-pt="Liga. Explica o serviço inteiro em inglês. Recomeça na próxima empresa."
+           data-en="She calls. Explains the whole job in English. Starts over at the next company.">Liga. Explica o serviço inteiro em inglês. Recomeça na próxima empresa.</p>
+      </div>
+      <div class="sc-step" data-i="4">
+        <p data-pt="A mesma necessidade, em português, custa uma ligação."
+           data-en="The same need, in Portuguese, costs one phone call.">A mesma necessidade, em português, custa uma ligação.</p>
+      </div>
+    </div>
+
+    <div class="sc-stage">
+      <div class="compare" id="compare">
+        <div class="lane lane--en">
+          <div class="lane-head">
+            <span class="lane-lang" data-pt="Em inglês" data-en="In English">Em inglês</span>
+            <span class="lane-cost" id="encost">—</span>
+          </div>
+          <div class="q" data-pt="print shop near me" data-en="print shop near me">print shop near me</div>
+          <div class="steps">
+            <div class="step" data-s="1"><i>1</i><span data-pt="Dezenas de resultados, nenhum em português" data-en="Dozens of results, none in Portuguese">Dezenas de resultados, nenhum em português</span></div>
+            <div class="step" data-s="2"><i>2</i><span data-pt="Abrir cada site, um por um" data-en="Open each site, one by one">Abrir cada site, um por um</span></div>
+            <div class="step" data-s="3"><i>3</i><span data-pt="Explicar o serviço inteiro em inglês" data-en="Explain the whole job in English">Explicar o serviço inteiro em inglês</span></div>
+            <div class="step" data-s="4"><i>4</i><span data-pt="Repetir na próxima empresa" data-en="Repeat at the next company">Repetir na próxima empresa</span></div>
+          </div>
+          <p class="lane-foot" data-pt="Cada tentativa cobra o imposto <b>de novo</b>."
+             data-en="Every attempt charges the tax <b>again</b>.">Cada tentativa cobra o imposto <b>de novo</b>.</p>
+        </div>
+
+        <div class="lane lane--pt" id="ptlane">
+          <div class="lane-head">
+            <span class="lane-lang" data-pt="Em português" data-en="In Portuguese">Em português</span>
+            <span class="lane-cost" data-pt="Uma ligação" data-en="One call">Uma ligação</span>
+          </div>
+          <div class="q" data-pt="gráfica em Tampa" data-en="print shop in Tampa">gráfica em Tampa</div>
+          <div class="hit">
+            <div class="nm">Gráfica Silva</div>
+            <div class="mt"><span class="dot" aria-hidden="true"></span><span data-pt="Aberto até 18h · 4 km" data-en="Open until 6pm · 4 km">Aberto até 18h · 4 km</span></div>
+            <div class="row">
+              <span class="pill" data-pt="Ligar" data-en="Call">Ligar</span>
+              <span class="pill pill--q" data-pt="Rota" data-en="Directions">Rota</span>
+            </div>
+          </div>
+          <p class="lane-foot" data-pt="Um nome, um telefone, <b>sem imposto</b>."
+             data-en="A name, a phone number, <b>no tax</b>.">Um nome, um telefone, <b>sem imposto</b>.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ENGAGE + ENTERTAIN — the story as the instance ============ -->
+<section class="tint">
+  <div class="wrap story">
+    <div class="beat">
+      <p data-pt="Uma mulher precisava de uma gráfica. Com pressa."
+         data-en="A woman needed a print shop. In a hurry.">Uma mulher precisava de uma gráfica. Com pressa.</p>
+    </div>
+    <div class="beat">
+      <p class="muted" data-pt="Eu pesquisei tudo e entreguei pronto: quem ligar, o que pedir, quanto custava. Em português."
+         data-en="I researched all of it and handed it over finished: who to call, what to ask, what it cost. In Portuguese.">Eu pesquisei tudo e entreguei pronto: quem ligar, o que pedir, quanto custava. Em português.</p>
+    </div>
+    <div class="beat">
+      <p class="muted" data-pt="Mesmo assim, cada empresa daquela lista ainda era uma conversa em inglês esperando por ela."
+         data-en="Even so, every company on that list was still an English conversation waiting for her.">Mesmo assim, cada empresa daquela lista ainda era uma conversa em inglês esperando por ela.</p>
+    </div>
+
+    <div class="turn">
+      <p data-pt="Ela ligou para um amigo brasileiro e resolveu em quatro minutos."
+         data-en="She called a Brazilian friend and solved it in four minutes.">Ela ligou para um amigo brasileiro e resolveu em quatro minutos.</p>
+    </div>
+
+    <div class="film">
+      <video id="film" src="videos/moment.mp4" muted autoplay playsinline loop preload="auto" aria-hidden="true"></video>
+      <p class="cap" data-pt="Quatro minutos, em português." data-en="Four minutes, in Portuguese.">Quatro minutos, em português.</p>
+    </div>
+
+    <div class="beat" style="margin-top:2rem">
+      <p class="muted" data-pt="Ela fez o que qualquer um faria: escolheu o caminho mais barato. O problema é que esse caminho depende de conhecer a pessoa certa."
+         data-en="She did what anyone would do: she took the cheaper path. The problem is that path depends on already knowing the right person.">Ela fez o que qualquer um faria: escolheu o caminho mais barato. O problema é que esse caminho depende de conhecer a pessoa certa.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ EDUCATE — now, and only now, the product ============ -->
+<section>
+  <div class="wrap">
+    <h2 class="h2" data-pt="O aplicativo é esse amigo, para quem não tem um."
+        data-en="The app is that friend, for people who don't have one.">O aplicativo é esse amigo, para quem não tem um.</h2>
+    <p class="sub" data-pt="Um diretório de negócios brasileiros, em português. Gratuito para quem procura, assinatura para quem é encontrado."
+       data-en="A directory of Brazilian businesses, in Portuguese. Free for people searching, a subscription for those being found.">Um diretório de negócios brasileiros, em português. Gratuito para quem procura, assinatura para quem é encontrado.</p>
+
+    <div class="appfilm">
+      <video id="appfilm" src="videos/appscreen.mp4"
+             muted autoplay playsinline loop preload="auto"
+             aria-label="Busca por gráfica em Tampa: o resultado aparece e o botão Ligar é tocado"></video>
+    </div>
+
+    <div class="list">
+      <div class="item">
+        <b data-pt="Busca em português" data-en="Search in Portuguese">Busca em português</b>
+        <span data-pt="Por cidade e tipo de negócio. Devolve um nome e um telefone." data-en="By city and type of business. Returns a name and a phone number.">Por cidade e tipo de negócio. Devolve um nome e um telefone.</span>
+      </div>
+      <div class="item">
+        <b data-pt="A lista se limpa sozinha" data-en="The list cleans itself">A lista se limpa sozinha</b>
+        <span data-pt="Negócio que fecha cancela a assinatura, e a página sai do ar." data-en="A business that closes cancels its subscription, and the listing comes down.">Negócio que fecha cancela a assinatura, e a página sai do ar.</span>
+      </div>
+      <div class="item">
+        <b data-pt="Horários do Google" data-en="Hours from Google">Horários do Google</b>
+        <span data-pt="O dono liga sua ficha uma vez. Atualiza sozinho toda semana." data-en="The owner links their listing once. It refreshes every week on its own.">O dono liga sua ficha uma vez. Atualiza sozinho toda semana.</span>
+      </div>
+      <div class="item">
+        <b data-pt="Qualquer um pode indicar" data-en="Anyone can suggest">Qualquer um pode indicar</b>
+        <span data-pt="Quem indica manda um link direto ao dono, que se cadastra sozinho." data-en="Whoever suggests sends a link straight to the owner, who signs up on their own.">Quem indica manda um link direto ao dono, que se cadastra sozinho.</span>
+      </div>
+    </div>
+
+    <div class="plans">
+      <div class="plan">
+        <p class="nmp">Starter</p>
+        <p class="pr">$4.99<small data-pt="/mês" data-en="/mo">/mês</small></p>
+        <ul><li data-pt="Nome e contato" data-en="Name and contact">Nome e contato</li></ul>
+      </div>
+      <div class="plan">
+        <p class="nmp">Listed</p>
+        <p class="pr">$9.99<small data-pt="/mês" data-en="/mo">/mês</small></p>
+        <ul>
+          <li data-pt="Ligar direto e rota" data-en="Tap to call and directions">Ligar direto e rota</li>
+          <li data-pt="Horários do Google" data-en="Hours from Google">Horários do Google</li>
+        </ul>
+      </div>
+      <div class="plan">
+        <p class="nmp">Featured</p>
+        <p class="pr">$24.99<small data-pt="/mês" data-en="/mo">/mês</small></p>
+        <ul>
+          <li data-pt="Fotos" data-en="Photos">Fotos</li>
+          <li data-pt="Links de pagamento e agendamento" data-en="Payment and booking links">Links de pagamento e agendamento</li>
+          <li data-pt="Mural de publicações" data-en="Posts feed">Mural de publicações</li>
+        </ul>
+      </div>
+      <div class="plan plan--apex">
+        <p class="nmp">Apex</p>
+        <p class="pr" data-pt="Parceira" data-en="Partner">Parceira</p>
+        <ul><li data-pt="Sem custo, à frente de todos os planos pagos" data-en="No cost, ahead of every paid plan">Sem custo, à frente de todos os planos pagos</li></ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ EMPOWER — what only Apex can do ============ -->
+<section class="tint">
+  <div class="wrap">
+    <h2 class="h2" data-pt="O que eu preciso da Apex." data-en="What I need from Apex.">O que eu preciso da Apex.</h2>
+    <p class="sub" data-pt="Os negócios da Apex já são encontrados. Não é disso que se trata. É que sem eles lá dentro, o aplicativo abre vazio — e quem procura e não encontra nada não volta. A Apex é a razão de isto funcionar, e ninguém vai saber disso."
+       data-en="Apex's businesses are already found. That isn't what this is about. It's that without them inside, the app opens empty — and someone who searches and finds nothing doesn't come back. Apex is the reason this works, and nobody will know it.">Os negócios da Apex já são encontrados. Não é disso que se trata. É que sem eles lá dentro, o aplicativo abre vazio — e quem procura e não encontra nada não volta. A Apex é a razão de isto funcionar, e ninguém vai saber disso.</p>
+
+    <div class="asks">
+      <div class="ask">
+        <div>
+          <b data-pt="Um nome" data-en="A name">Um nome</b>
+          <span class="d" data-pt="Em português, fácil de falar e de lembrar. Vem primeiro porque tudo leva esse nome." data-en="In Portuguese, easy to say and remember. It comes first because everything carries it.">Em português, fácil de falar e de lembrar. Vem primeiro porque tudo leva esse nome.</span>
+        </div>
+        <span class="tagw" data-pt="Juntos" data-en="Together">Juntos</span>
+      </div>
+      <div class="ask">
+        <div>
+          <b data-pt="Os primeiros negócios" data-en="The first businesses">Os primeiros negócios</b>
+          <span class="d" data-pt="Convidar os negócios da Apex a entrar antes do lançamento. Não porque precisem — porque sem eles não há nada para encontrar no primeiro dia." data-en="Invite the Apex businesses to join before launch. Not because they need it — because without them there is nothing to find on day one.">Convidar os negócios da Apex a entrar antes do lançamento. Não porque precisem — porque sem eles não há nada para encontrar no primeiro dia.</span>
+        </div>
+        <span class="tagw">Apex</span>
+      </div>
+      <div class="ask">
+        <div>
+          <b data-pt="Divulgação" data-en="Getting the word out">Divulgação</b>
+          <span class="d" data-pt="Com os negócios dentro, falar do aplicativo nas redes da Apex e nos encontros." data-en="With the businesses in, talk about the app on Apex's channels and at gatherings.">Com os negócios dentro, falar do aplicativo nas redes da Apex e nos encontros.</span>
+        </div>
+        <span class="tagw">Apex</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ETHICS — no urgency, no pressure ============ -->
+<section class="close">
+  <div class="wrap">
+    <p data-pt="Ninguém deveria precisar conhecer a pessoa certa para não pagar esse imposto."
+       data-en="Nobody should need to know the right person to avoid paying that tax.">Ninguém deveria precisar conhecer a pessoa certa para não pagar esse imposto.</p>
+    <p class="quiet" data-pt="Quem usar não vai saber que a Apex tornou isso possível. Nós vamos."
+       data-en="The people who use it won't know Apex made it possible. We will.">Quem usar não vai saber que a Apex tornou isso possível. Nós vamos.</p>
+    <p class="sig">Resonate Business Systems &nbsp;·&nbsp; Apex Business Solutions</p>
+  </div>
+</section>
+
+<script>
+(function () {
+  /* PT/EN — same contract as resonate-website/src/lang.ts:
+     strings live on the element as data-pt / data-en, PT is the load
+     default, choice persists, <html data-lang> carries the state. */
+  var KEY = 'diretorio-lang';
+
+  function get() {
+    try { var s = localStorage.getItem(KEY); if (s === 'en' || s === 'pt') return s; }
+    catch (e) {}
+    return 'pt';
+  }
+
+  function set(lang) {
+    document.documentElement.setAttribute('data-lang', lang);
+    document.documentElement.setAttribute('lang', lang === 'pt' ? 'pt-BR' : 'en');
+    try { localStorage.setItem(KEY, lang); } catch (e) {}
+    document.querySelectorAll('[data-pt]').forEach(function (el) {
+      var t = lang === 'pt' ? el.dataset.pt : el.dataset.en;
+      if (t !== undefined) el.innerHTML = t;
+    });
+    document.querySelectorAll('.lang button').forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.dataset.l === lang));
+    });
+  }
+
+  var n = document.createElement('div');
+  n.className = 'lang';
+  n.setAttribute('role', 'group');
+  n.setAttribute('aria-label', 'Idioma / Language');
+  n.innerHTML = '<button type="button" data-l="pt" aria-pressed="false">PT</button>' +
+                '<button type="button" data-l="en" aria-pressed="false">EN</button>';
+  n.addEventListener('click', function (e) {
+    var b = e.target.closest('button[data-l]');
+    if (b) set(b.dataset.l);
+  });
+  document.body.appendChild(n);
+  set(get());
+
+  /* Flow clip: lazy, muted, fades in over the page; absent file is a no-op */
+  var film = document.getElementById('film');
+  if (film && !window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      && 'IntersectionObserver' in window) {
+    new IntersectionObserver(function (es, ob) {
+      es.forEach(function (e) {
+        if (!e.isIntersecting || film.dataset.go) return;
+        film.dataset.go = '1';
+        film.addEventListener('error', function () {
+          var w = film.closest('.film'); if (w) w.remove();
+        }, { once: true });
+        film.addEventListener('loadeddata', function () {
+          film.classList.add('on');
+          film.play().catch(function () {});
+        }, { once: true });
+        film.preload = 'auto';
+        film.src = film.dataset.src;
+        ob.unobserve(film);
+      });
+    }, { threshold: 0.2 }).observe(film);
+  } else if (film) {
+    var w = film.closest('.film'); if (w) w.remove();
+  }
+
+  /* scrollytelling: the pinned comparison accrues cost as the story scrolls */
+  var scSteps = [].slice.call(document.querySelectorAll('.sc-step'));
+  var enSteps = [].slice.call(document.querySelectorAll('.lane--en .step'));
+  var ptLane  = document.getElementById('ptlane');
+  var enCost  = document.getElementById('encost');
+  var COSTS   = ['—', '5 min', '18 min', '32 min', '40+ min', '40+ min'];
+
+  if (scSteps.length && 'IntersectionObserver' in window
+      && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    var scIO = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        var i = Number(en.target.dataset.i);
+        scSteps.forEach(function (s) { s.classList.toggle('on', s === en.target); });
+        enSteps.forEach(function (s, k) { s.classList.toggle('on', k < i); });
+        if (enCost) enCost.textContent = COSTS[i];
+        if (ptLane) ptLane.classList.toggle('on', i >= 4);
+      });
+    }, { rootMargin: '-45% 0px -45% 0px', threshold: 0 });
+    scSteps.forEach(function (s) { scIO.observe(s); });
+  } else {
+    scSteps.forEach(function (s) { s.classList.add('on'); });
+    enSteps.forEach(function (s) { s.classList.add('on'); });
+    if (ptLane) ptLane.classList.add('on');
+    if (enCost) enCost.textContent = '40+ min';
+  }
+
+  /* films: already inline as data URIs, so just make sure they play.
+     Never gate visibility on a single event — if anything fails the
+     poster frame would be all the viewer ever sees. */
+  [].slice.call(document.querySelectorAll('video')).forEach(function (v) {
+    v.muted = true;
+    v.classList.add('on');
+    var go = function () { var q = v.play(); if (q && q.catch) q.catch(function () {}); };
+    go();
+    v.addEventListener('loadeddata', go, { once: true });
+    v.addEventListener('canplay', go, { once: true });
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (es) {
+        es.forEach(function (e) { if (e.isIntersecting) go(); });
+      }, { threshold: 0.1 }).observe(v);
+    }
+  });
+
+  /* one reveal, on the comparison only */
+  var el = document.querySelector('.rise');
+  if (el) {
+    if (!('IntersectionObserver' in window)) { el.classList.add('in'); return; }
+    new IntersectionObserver(function (es, o) {
+      es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); o.unobserve(e.target); } });
+    }, { threshold: 0.2 }).observe(el);
+  }
+})();
+</script>
+
+</body>
+</html>
