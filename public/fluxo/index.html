@@ -1,0 +1,1225 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>O Fluxo do Dinheiro</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+
+<style>
+/* ---------------------------------------------------------------
+   The vision half of the partnership conversation. It opens on an
+   owner who cannot see why the money is not arriving, hands him the
+   pipe, then shows the four things that make the pipe true: an
+   assessment that adapts, verification he did not self-report, a
+   daily log that keeps it alive, and the system that actually
+   clears the clog.
+
+   Palette and primitives are lifted from the diretorio page so this
+   reads as the same company. Tokens follow the client's own brand,
+   not invented colour.
+   --------------------------------------------------------------- */
+
+:root {
+  --navy:      #12233F;
+  --navy-deep: #0C1829;
+  --navy-soft: #1B3255;
+  --gold:      #C8A860;
+  --gold-lift: #D8B870;
+  --gold-deep: #8A6F2C;
+  --green:     #009639;
+  --green-lift:#2FD16C;
+
+  /* the pipe's own semantics — from Apex's live app, not invented */
+  --flow:   #3f7d4e;
+  --flow-l: #63ab75;
+  --slow:   #a8842a;
+  --slow-l: #d4ae45;
+  --clog:   #b44040;
+  --clog-l: #cd5a5a;
+  --idle:   #8B93A0;
+
+  --page:   #FBFAF8;
+  --page-2: #F2F0EB;
+  --card:   #FFFFFF;
+  --ink:    #14171C;
+  --muted:  #5A6270;
+  --faint:  #8B93A0;
+  --line:   rgba(20, 23, 28, 0.13);
+  --line-2: rgba(20, 23, 28, 0.07);
+  --shadow: rgba(12, 24, 41, 0.10);
+  --shadow-2: rgba(12, 24, 41, 0.20);
+
+  --display: 'Inter', system-ui, -apple-system, sans-serif;
+  --body:    'Inter', system-ui, -apple-system, sans-serif;
+
+  --measure: 34rem;
+  --wide: 62rem;
+  --r: 14px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --page:   #0C1829;
+    --page-2: #101F35;
+    --card:   #16273F;
+    --ink:    #EEF1F5;
+    --muted:  #9BA6B6;
+    --faint:  #74808F;
+    --line:   rgba(238, 241, 245, 0.16);
+    --line-2: rgba(238, 241, 245, 0.09);
+    --shadow: rgba(0, 0, 0, 0.5);
+    --shadow-2: rgba(0, 0, 0, 0.66);
+    --gold-deep: #D8B870;
+    --green: #2FD16C;
+    --idle: #74808F;
+  }
+}
+
+:root[data-theme="dark"] {
+  --page:   #0C1829;
+  --page-2: #101F35;
+  --card:   #16273F;
+  --ink:    #EEF1F5;
+  --muted:  #9BA6B6;
+  --faint:  #74808F;
+  --line:   rgba(238, 241, 245, 0.16);
+  --line-2: rgba(238, 241, 245, 0.09);
+  --shadow: rgba(0, 0, 0, 0.5);
+  --shadow-2: rgba(0, 0, 0, 0.66);
+  --gold-deep: #D8B870;
+  --green: #2FD16C;
+  --idle: #74808F;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--page);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 1.05rem;
+  line-height: 1.62;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 { margin: 0; font-family: var(--display); font-weight: 700; line-height: 1.14; letter-spacing: -0.021em; text-wrap: balance; }
+p { margin: 0; }
+
+.wrap { width: 100%; max-width: var(--wide); margin: 0 auto; padding: 0 clamp(1.15rem, 5vw, 2.5rem); }
+.scrolly .wrap { max-width: 72rem; }
+.col { max-width: var(--measure); }
+section { padding: clamp(4rem, 11vh, 7.5rem) 0; }
+.tint { background: var(--page-2); }
+
+/* ---------- language ---------- */
+.lang {
+  position: fixed; top: 0.85rem; right: 0.85rem; z-index: 60;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  box-shadow: 0 1px 3px var(--shadow);
+}
+.lang button {
+  border: 0; background: transparent; cursor: pointer;
+  font: 600 0.7rem/1 var(--body); letter-spacing: 0.07em;
+  color: var(--muted); padding: 0.45rem 0.75rem; border-radius: 999px;
+  transition: background-color .2s, color .2s;
+}
+.lang button[aria-pressed="true"] { background: var(--green); color: #fff; }
+:focus-visible { outline: 2px solid var(--green); outline-offset: 3px; border-radius: 4px; }
+
+/* ---------- OPENING: the owner who cannot see it ---------- */
+.open { padding-top: clamp(5rem, 14vh, 9rem); }
+.open .who {
+  font: 600 0.72rem/1 var(--body);
+  letter-spacing: 0.13em; text-transform: uppercase;
+  color: var(--faint); margin-bottom: 1.5rem;
+  display: flex; align-items: center; gap: 0.75rem;
+}
+.who-logo { width: 84px; height: auto; display: block; }
+.who-x { opacity: 0.45; }
+.open h1 { font-size: clamp(2.15rem, 5.4vw, 3.5rem); max-width: 17ch; }
+.open .lede { margin-top: 1.5rem; font-size: clamp(1.08rem, 2vw, 1.28rem); color: var(--muted); max-width: 42ch; }
+
+/* the four numbers an owner already has, all green, none of them the answer */
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 0.9rem; margin-top: 2.6rem; }
+.tile {
+  background: var(--card); border: 1px solid var(--line); border-radius: var(--r);
+  padding: 1.05rem 1.15rem; box-shadow: 0 1px 2px var(--shadow);
+}
+.tile .k { font: 600 0.66rem/1 var(--body); letter-spacing: 0.11em; text-transform: uppercase; color: var(--faint); }
+.tile .v { margin-top: 0.55rem; font-size: 1.72rem; font-weight: 700; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+.tile .c { margin-top: 0.15rem; font-size: 0.83rem; color: var(--muted); }
+.tile .v.good { color: var(--flow); }
+.after-tiles { margin-top: 1.8rem; font-size: clamp(1.15rem, 2.4vw, 1.5rem); font-weight: 600; max-width: 30ch; }
+
+/* ---------- STORY BEATS over a held ground ---------- */
+.hero-story { position: relative; padding: 0; }
+.story-stage {
+  position: sticky; top: 0; height: 100vh; height: 100svh;
+  overflow: hidden; background: var(--navy-deep);
+}
+.story-stage .grid-bg {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(200,168,96,0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(200,168,96,0.055) 1px, transparent 1px);
+  background-size: 46px 46px;
+}
+.story-veil {
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(to right, rgba(8,14,24,0.94) 0%, rgba(8,14,24,0.74) 44%, rgba(8,14,24,0.34) 100%),
+    linear-gradient(to bottom, rgba(8,14,24,0.5), rgba(8,14,24,0.4));
+}
+.story-rail {
+  position: relative; z-index: 1;
+  margin-top: -100vh; margin-top: -100svh;
+  padding: 0 clamp(1.2rem, 6vw, 5rem);
+  max-width: 74rem; margin-left: auto; margin-right: auto;
+}
+.story-mark { height: 12vh; }
+.sb { min-height: 92vh; min-height: 92svh; display: flex; align-items: center; max-width: 30ch; }
+.sb p {
+  font-size: clamp(1.35rem, 3vw, 2.05rem); line-height: 1.32; font-weight: 500;
+  color: #EEF1F5; opacity: 0.18; transform: translateY(10px);
+  transition: opacity .5s ease, transform .5s ease;
+  text-shadow: 0 1px 24px rgba(8,14,24,0.8);
+}
+.sb.on p { opacity: 1; transform: none; }
+.sb--turn p { font-weight: 700; letter-spacing: -0.018em; }
+
+.named { padding: clamp(4rem, 11vh, 7rem) 0 clamp(2rem, 5vh, 3.5rem); }
+.named h1 { font-size: clamp(2rem, 5vw, 3.3rem); max-width: 18ch; }
+.named .lede { margin-top: 1.3rem; font-size: clamp(1.05rem, 2vw, 1.24rem); color: var(--muted); max-width: 44ch; }
+
+/* ---------- SCROLLY shell ---------- */
+.scrolly { padding: 0 0 clamp(3rem, 8vh, 6rem); }
+.sc-grid { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.45fr); gap: clamp(2rem, 5vw, 3.6rem); align-items: start; }
+.sc-steps { display: flex; flex-direction: column; }
+.sc-step { min-height: 82vh; display: flex; align-items: center; opacity: 0.26; transition: opacity .45s ease; }
+.sc-step.on { opacity: 1; }
+.sc-step p { font-size: clamp(1.1rem, 2.1vw, 1.42rem); line-height: 1.44; max-width: 30ch; }
+.sc-step .eyebrow { font: 600 0.68rem/1 var(--body); letter-spacing: 0.13em; text-transform: uppercase; color: var(--gold-deep); margin-bottom: 0.7rem; display: block; }
+.sc-stage { position: sticky; top: 0; height: 100vh; display: flex; align-items: center; }
+.stage-card {
+  width: 100%; background: var(--card); border: 1px solid var(--line);
+  border-radius: var(--r); box-shadow: 0 2px 20px var(--shadow); overflow: hidden;
+}
+
+@media (max-width: 900px) {
+  .sc-grid { grid-template-columns: 1fr; }
+  .sc-stage { position: static; height: auto; margin-top: 1.4rem; }
+  .sc-step { min-height: 0; padding: 1.5rem 0; opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sb p, .sc-step { opacity: 1; transform: none; transition: none; }
+  html { scroll-behavior: auto; }
+}
+@media (max-width: 760px) { .sb { min-height: 78vh; max-width: 26ch; } }
+
+/* ---------- THE PIPE ---------- */
+.pipe-head { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; padding: 1.1rem 1.3rem; border-bottom: 1px solid var(--line-2); flex-wrap: wrap; }
+.pipe-head .co { font-weight: 700; font-size: 1rem; }
+.pipe-head .st { font-size: 0.78rem; color: var(--faint); }
+.pipe-body { padding: 1.3rem; }
+
+.pipe-row { display: grid; align-items: stretch; gap: 0; }
+.pipe-row.r1 { grid-template-columns: 34px 1fr 26px 1fr 26px 1fr 26px 1fr; }
+.pipe-row.r2 { grid-template-columns: 1fr 26px 1fr 26px 1fr 26px 1fr; direction: rtl; }
+.pipe-row.r2 > * { direction: ltr; }
+
+.node {
+  border-radius: 10px; padding: 0.7rem 0.75rem; min-height: 74px;
+  display: flex; flex-direction: column; gap: 0.2rem; justify-content: center;
+  background: var(--card); border: 1.5px solid var(--line);
+  font: inherit; text-align: left; cursor: pointer;
+  transition: box-shadow .25s ease, border-color .25s ease, background-color .25s ease;
+}
+.node .n { font: 600 0.6rem/1 var(--body); letter-spacing: 0.12em; color: var(--faint); }
+.node .nm { font-size: 0.86rem; font-weight: 600; line-height: 1.2; }
+.node .sb2 { font-size: 0.71rem; line-height: 1.25; color: var(--muted); }
+.node .dot { width: 7px; height: 7px; border-radius: 99px; }
+.node .top { display: flex; justify-content: space-between; align-items: center; }
+
+.node.is-v { border-color: var(--flow); border-left: 4px solid var(--flow); }
+.node.is-a { border-color: var(--slow); border-left: 4px solid var(--slow); }
+.node.is-r { border-color: var(--clog); border-left: 4px solid var(--clog); box-shadow: 0 0 0 1px var(--clog), 0 6px 26px rgba(180,64,64,0.24); }
+.node.is-g { border: 1.5px dashed var(--idle); background: transparent; }
+.node.is-g .nm, .node.is-g .sb2 { color: var(--faint); }
+.pipe-row.r2 .node { border-left: 1.5px solid var(--line); }
+.pipe-row.r2 .node.is-v { border-left-color: var(--flow); border-right: 4px solid var(--flow); }
+.pipe-row.r2 .node.is-a { border-left-color: var(--slow); border-right: 4px solid var(--slow); }
+.pipe-row.r2 .node.is-r { border-left-color: var(--clog); border-right: 4px solid var(--clog); }
+.node.sel { box-shadow: 0 0 0 2px var(--gold); }
+
+.run { display: flex; align-items: center; padding: 0 2px; }
+.tube {
+  width: 100%; height: 22px; border-radius: 4px; overflow: hidden;
+  background: linear-gradient(#e6e2da, #cfcabf);
+  border: 1px solid var(--line); display: flex; align-items: center; justify-content: center;
+}
+:root[data-theme="dark"] .tube, :root:not([data-theme="light"]) .tube { background: linear-gradient(#2a3550, #16202f); }
+@media (prefers-color-scheme: light) { :root:not([data-theme="dark"]) .tube { background: linear-gradient(#e6e2da, #cfcabf); } }
+.water { border-radius: 2px; width: 100%; transition: height .5s ease, background-color .5s ease, opacity .5s ease; }
+.water.w-v { height: 16px; background: linear-gradient(var(--flow-l), var(--flow)); }
+.water.w-a { height: 8px;  background: linear-gradient(var(--slow-l), var(--slow)); }
+.water.w-r { height: 4px;  background: linear-gradient(var(--clog-l), var(--clog)); align-self: flex-end; margin-bottom: 2px; }
+.water.w-g { height: 3px;  background: var(--idle); opacity: 0.5; }
+
+.drop { display: flex; justify-content: flex-end; padding: 0 14px; }
+.drop .stem { width: 22px; height: 22px; background: linear-gradient(90deg, #e6e2da, #cfcabf); border-left: 1px solid var(--line); border-right: 1px solid var(--line); }
+:root[data-theme="dark"] .drop .stem, :root:not([data-theme="light"]) .drop .stem { background: linear-gradient(90deg, #2a3550, #16202f); }
+
+.pipe-ends { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-top: 0.9rem; }
+.endcard { background: var(--page-2); border: 1px solid var(--line-2); border-radius: 10px; padding: 0.75rem 0.95rem; }
+.endcard .k { font: 600 0.6rem/1 var(--body); letter-spacing: 0.13em; text-transform: uppercase; color: var(--faint); }
+.endcard .v { margin-top: 0.3rem; font-weight: 700; font-size: 0.95rem; }
+.gauge { margin-top: 0.5rem; height: 7px; border-radius: 4px; background: var(--line-2); overflow: hidden; }
+.gauge span { display: block; height: 100%; background: var(--slow); border-radius: 4px; }
+
+.legend { display: flex; flex-wrap: wrap; gap: 1rem 1.4rem; padding: 0.95rem 1.3rem; border-top: 1px solid var(--line-2); }
+.legend i { display: flex; align-items: center; gap: 0.45rem; font-style: normal; font-size: 0.74rem; color: var(--muted); }
+.legend b { width: 11px; height: 11px; border-radius: 3px; display: block; }
+
+/* drill-down under the pipe */
+.drill { border-top: 1px solid var(--line-2); padding: 1.1rem 1.3rem 1.3rem; }
+.drill h4 { margin: 0; font-size: 1rem; font-weight: 700; display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; }
+.pill { font: 600 0.6rem/1 var(--body); letter-spacing: 0.08em; text-transform: uppercase; padding: 0.28rem 0.6rem; border-radius: 99px; }
+.pill.p-v { color: var(--flow); background: rgba(63,125,78,0.12); }
+.pill.p-a { color: var(--gold-deep); background: rgba(168,132,42,0.14); }
+.pill.p-r { color: var(--clog); background: rgba(180,64,64,0.13); }
+.pill.p-g { color: var(--faint); background: var(--line-2); }
+.drill .sum { margin-top: 0.4rem; font-size: 0.87rem; color: var(--muted); }
+.subs { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 0.4rem; margin-top: 0.85rem; }
+.sub { display: flex; align-items: center; gap: 0.45rem; padding: 0.45rem 0.6rem; border-radius: 7px; background: var(--page-2); border: 1px solid var(--line-2); font-size: 0.75rem; color: var(--muted); }
+.sub .d { width: 6px; height: 6px; border-radius: 99px; background: var(--flow); flex: none; }
+.sub.bad { background: rgba(180,64,64,0.08); border-color: rgba(180,64,64,0.35); color: var(--ink); font-weight: 600; }
+.sub.bad .d { background: var(--clog); }
+.sub.warn { background: rgba(168,132,42,0.09); border-color: rgba(168,132,42,0.35); color: var(--ink); font-weight: 600; }
+.sub.warn .d { background: var(--slow); }
+.points { margin-top: 0.9rem; display: flex; flex-direction: column; }
+.pt { display: flex; gap: 0.65rem; padding: 0.6rem 0; border-bottom: 1px solid var(--line-2); }
+.pt:last-child { border-bottom: 0; }
+.pt .d { width: 7px; height: 7px; border-radius: 99px; margin-top: 0.45rem; flex: none; }
+.pt .ti { font-size: 0.83rem; font-weight: 600; }
+.pt .de { font-size: 0.8rem; color: var(--muted); }
+.fixline { margin-top: 0.9rem; padding: 0.7rem 0.9rem; border-radius: 9px; background: var(--page-2); display: flex; gap: 0.7rem; font-size: 0.82rem; color: var(--muted); }
+.fixline .k { font: 600 0.6rem/1.5 var(--body); letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold-deep); flex: none; }
+
+/* ---------- ASSESSMENT mock ---------- */
+.q { padding: 1.2rem 1.35rem; }
+.q .num { font: 600 0.62rem/1 var(--body); letter-spacing: 0.13em; text-transform: uppercase; color: var(--faint); }
+.q .ask { margin-top: 0.55rem; font-size: 1.02rem; font-weight: 600; line-height: 1.3; }
+.opts { display: flex; flex-wrap: wrap; gap: 0.45rem; margin-top: 0.9rem; }
+.opt {
+  font: 500 0.83rem/1 var(--body); padding: 0.6rem 0.85rem; border-radius: 8px; cursor: pointer;
+  background: var(--card); border: 1px solid var(--line); color: var(--ink);
+  transition: border-color .18s, background-color .18s;
+}
+.opt:hover { border-color: var(--faint); }
+.opt[aria-pressed="true"] { background: var(--green); border-color: var(--green); color: #fff; font-weight: 600; }
+.gated { margin-top: 0.9rem; padding: 0.75rem 0.95rem; border-radius: 9px; background: var(--page-2); border-left: 3px solid var(--idle); font-size: 0.82rem; color: var(--muted); }
+.gated b { color: var(--ink); }
+.probe { margin-top: 0.9rem; padding: 0.9rem 1rem; border-radius: 9px; background: var(--page-2); border-left: 3px solid var(--gold); }
+.probe .lbl { font: 600 0.6rem/1 var(--body); letter-spacing: 0.11em; text-transform: uppercase; color: var(--gold-deep); }
+.probe .ask2 { margin-top: 0.5rem; font-size: 0.92rem; font-weight: 600; }
+.opts.stack { flex-direction: column; align-items: stretch; }
+.opts.stack .opt { display: flex; justify-content: space-between; align-items: center; gap: 0.9rem; text-align: left; }
+.tagx { font: 600 0.58rem/1 var(--body); letter-spacing: 0.08em; text-transform: uppercase; padding: 0.24rem 0.5rem; border-radius: 99px; flex: none; }
+.tagx.t-v { color: var(--flow); background: rgba(63,125,78,0.13); }
+.tagx.t-a { color: var(--gold-deep); background: rgba(168,132,42,0.15); }
+.tagx.t-r { color: var(--clog); background: rgba(180,64,64,0.13); }
+.opt[aria-pressed="true"] .tagx { background: rgba(255,255,255,0.2); color: #fff; }
+
+/* ---------- VERIFICATION split ---------- */
+.verify { padding: 1.2rem 1.35rem; }
+.vrow { display: grid; grid-template-columns: 1fr 1fr auto; gap: 0.8rem; padding: 0.75rem 0; border-bottom: 1px solid var(--line-2); align-items: start; }
+.vrow:last-of-type { border-bottom: 0; }
+.vrow .lbl2 { font: 600 0.62rem/1 var(--body); letter-spacing: 0.1em; text-transform: uppercase; color: var(--faint); margin-bottom: 0.28rem; }
+.vrow .said { font-size: 0.84rem; color: var(--muted); font-style: italic; }
+.vrow .found { font-size: 0.84rem; font-weight: 600; }
+.vhead { display: grid; grid-template-columns: 1fr 1fr auto; gap: 0.8rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--line); }
+.vhead span { font: 600 0.62rem/1 var(--body); letter-spacing: 0.11em; text-transform: uppercase; color: var(--faint); }
+.scan-badge { display: inline-flex; align-items: center; gap: 0.4rem; font: 600 0.62rem/1 var(--body); letter-spacing: 0.09em; text-transform: uppercase; color: var(--gold-deep); padding: 0.3rem 0.6rem; border: 1px solid rgba(200,168,96,0.4); border-radius: 99px; }
+
+/* ---------- TAPE alert ---------- */
+.tape { padding: 1.2rem 1.35rem; }
+.tapecard { border: 1px solid rgba(200,168,96,0.45); background: rgba(200,168,96,0.06); border-radius: 10px; padding: 0.95rem 1.1rem; display: flex; gap: 0.8rem; }
+.tapecard + .tapecard { margin-top: 0.7rem; }
+.tapecard .ti { font-size: 0.88rem; font-weight: 600; }
+.tapecard .de { margin-top: 0.2rem; font-size: 0.82rem; color: var(--muted); }
+.tapecard .de b { color: var(--ink); }
+
+/* ---------- PHONE (daily log) ---------- */
+.phone-wrap { display: flex; justify-content: center; padding: 1.4rem; }
+.phone { width: 280px; background: var(--card); border: 1px solid var(--line); border-radius: 20px; padding: 1rem 0.95rem 1.1rem; box-shadow: 0 8px 30px var(--shadow); }
+.phone .pt2 { display: flex; justify-content: space-between; align-items: center; }
+.phone .day { font: 600 0.6rem/1 var(--body); letter-spacing: 0.1em; text-transform: uppercase; color: var(--faint); }
+.phone .ind { width: 7px; height: 7px; border-radius: 99px; background: var(--clog); }
+.phone .pq { margin-top: 0.8rem; font-size: 0.98rem; font-weight: 600; line-height: 1.3; }
+.phone .pbtns { display: flex; gap: 0.5rem; margin-top: 0.9rem; }
+.phone .pbtns button { flex: 1; font: 600 0.85rem/1 var(--body); padding: 0.7rem 0; border-radius: 9px; cursor: pointer; border: 1px solid var(--line); background: var(--card); color: var(--ink); }
+.phone .pbtns button[aria-pressed="true"] { background: var(--green); border-color: var(--green); color: #fff; }
+.phone .pf { margin-top: 0.8rem; font-size: 0.72rem; color: var(--muted); text-align: center; }
+
+/* ---------- WHO FILLS THE GAP ---------- */
+.fills { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 1rem; margin-top: 2rem; }
+.fill { background: var(--card); border: 1px solid var(--line); border-radius: var(--r); padding: 1.15rem 1.25rem; box-shadow: 0 1px 2px var(--shadow); }
+.fill .k { font: 600 0.63rem/1 var(--body); letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold-deep); }
+.fill h3 { margin-top: 0.6rem; font-size: 1.08rem; }
+.fill p { margin-top: 0.45rem; font-size: 0.88rem; color: var(--muted); }
+
+/* ---------- LADDER ---------- */
+.ladder { margin-top: 2rem; display: flex; flex-direction: column; }
+.rung { display: grid; grid-template-columns: 30px 1fr; gap: 1rem; padding: 1.05rem 0; border-bottom: 1px solid var(--line-2); }
+.rung:last-child { border-bottom: 0; }
+.rung .n { width: 30px; height: 30px; border-radius: 99px; display: grid; place-items: center; font: 700 0.8rem/1 var(--body); background: var(--page-2); color: var(--faint); }
+.rung.on .n { background: var(--flow); color: #fff; }
+.rung h3 { font-size: 1.1rem; }
+.rung p { margin-top: 0.3rem; font-size: 0.9rem; color: var(--muted); max-width: 46ch; }
+
+/* ---------- COURSE ---------- */
+.course { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1rem; margin-top: 1.8rem; }
+
+/* ---------- CLOSE ---------- */
+.close h2 { font-size: clamp(1.8rem, 4.4vw, 2.9rem); max-width: 20ch; }
+.close .lede { margin-top: 1.2rem; font-size: clamp(1.02rem, 2vw, 1.2rem); color: var(--muted); max-width: 46ch; }
+.rise { opacity: 0; transform: translateY(14px); transition: opacity .6s ease, transform .6s ease; }
+.rise.in { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) { .rise { opacity: 1; transform: none; transition: none; } }
+</style>
+</head>
+<body>
+
+<!-- ============ OPENING ============ -->
+<section class="open">
+  <div class="wrap col">
+    <p class="who"><span>Resonate</span><span class="who-x" aria-hidden="true">·</span><img class="who-logo" alt="Apex" src="assets/apex-logo.png"></p>
+    <h1 data-pt="O dono não vê o dinheiro parar."
+        data-en="The owner cannot see the money stop.">O dono não vê o dinheiro parar.</h1>
+    <p class="lede"
+       data-pt="Ele vê os números que já tem. Todos parecem bons. E mesmo assim o mês fecha apertado."
+       data-en="He sees the numbers he already has. They all look fine. And the month still closes tight.">Ele vê os números que já tem. Todos parecem bons. E mesmo assim o mês fecha apertado.</p>
+
+    <div class="tiles">
+      <div class="tile">
+        <div class="k" data-pt="Obras entregues" data-en="Jobs delivered">Obras entregues</div>
+        <div class="v good">47</div>
+        <div class="c" data-pt="em 6 meses" data-en="in 6 months">em 6 meses</div>
+      </div>
+      <div class="tile">
+        <div class="k" data-pt="Retrabalho" data-en="Rework">Retrabalho</div>
+        <div class="v good">2</div>
+        <div class="c" data-pt="de 47 — qualidade alta" data-en="of 47 — high quality">de 47 — qualidade alta</div>
+      </div>
+      <div class="tile">
+        <div class="k" data-pt="Orçamentos enviados" data-en="Quotes sent">Orçamentos enviados</div>
+        <div class="v good">63</div>
+        <div class="c" data-pt="taxa de fechamento 74%" data-en="74% close rate">taxa de fechamento 74%</div>
+      </div>
+      <div class="tile">
+        <div class="k" data-pt="Faturado" data-en="Invoiced">Faturado</div>
+        <div class="v good">$312k</div>
+        <div class="c" data-pt="nota emitida no mesmo dia" data-en="invoiced same day">nota emitida no mesmo dia</div>
+      </div>
+    </div>
+
+    <p class="after-tiles"
+       data-pt="Nada aqui explica por que falta caixa."
+       data-en="Nothing here explains why cash is short.">Nada aqui explica por que falta caixa.</p>
+  </div>
+</section>
+
+<!-- ============ STORY BEATS ============ -->
+<section class="hero-story" id="story">
+  <div class="story-stage">
+    <div class="grid-bg" aria-hidden="true"></div>
+    <div class="story-veil"></div>
+  </div>
+
+  <div class="story-rail">
+    <div class="story-mark"></div>
+
+    <div class="sb" data-b="0">
+      <p data-pt="Ele faz um trabalho bom. Entrega no prazo. O cliente elogia."
+         data-en="He does good work. Delivers on time. The client is happy.">Ele faz um trabalho bom. Entrega no prazo. O cliente elogia.</p>
+    </div>
+    <div class="sb" data-b="1">
+      <p data-pt="A nota sai no mesmo dia. Ele controla tudo numa planilha."
+         data-en="The invoice goes out same day. He tracks it all in a spreadsheet.">A nota sai no mesmo dia. Ele controla tudo numa planilha.</p>
+    </div>
+    <div class="sb" data-b="2">
+      <p data-pt="Aí o mês vira e não tem dinheiro para o material da próxima obra."
+         data-en="Then the month turns and there is no money for the next job's materials.">Aí o mês vira e não tem dinheiro para o material da próxima obra.</p>
+    </div>
+    <div class="sb sb--turn" data-b="3">
+      <p data-pt="Ninguém nunca cobrou os atrasados. Porque ninguém sabia quais eram."
+         data-en="Nobody ever chased the overdue invoices. Because nobody knew which they were.">Ninguém nunca cobrou os atrasados. Porque ninguém sabia quais eram.</p>
+    </div>
+    <div class="sb" data-b="4">
+      <p data-pt="Ele não tem um problema de vendas. Tem um cano entupido."
+         data-en="He does not have a sales problem. He has a blocked pipe.">Ele não tem um problema de vendas. Tem um cano entupido.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ NAMED ============ -->
+<section class="named">
+  <div class="wrap">
+    <h1 data-pt="Todo negócio é um cano."
+        data-en="Every business is a pipe.">Todo negócio é um cano.</h1>
+    <p class="lede"
+       data-pt="O dinheiro do cliente entra de um lado e precisa sair do outro, na conta da empresa. Entre os dois pontos existem etapas — e é numa delas que ele para."
+       data-en="The client's money goes in one end and has to come out the other, in the company's account. Between those points sit the stages — and it stops in one of them.">O dinheiro do cliente entra de um lado e precisa sair do outro, na conta da empresa. Entre os dois pontos existem etapas — e é numa delas que ele para.</p>
+  </div>
+</section>
+
+<!-- ============ SCROLLY 1 : THE PIPE ============ -->
+<section class="scrolly" id="pipe">
+  <div class="wrap sc-grid">
+
+    <div class="sc-steps">
+      <div class="sc-step" data-p="0">
+        <div>
+          <span class="eyebrow" data-pt="O mapa" data-en="The map">O mapa</span>
+          <p data-pt="Oito etapas. O dinheiro atravessa todas antes de virar caixa. Verde corre. Laranja escoa devagar. Vermelho para."
+             data-en="Eight stages. The money crosses all of them before it becomes cash. Green runs. Amber drains slowly. Red stops.">Oito etapas. O dinheiro atravessa todas antes de virar caixa. Verde corre. Laranja escoa devagar. Vermelho para.</p>
+        </div>
+      </div>
+      <div class="sc-step" data-p="1">
+        <div>
+          <span class="eyebrow" data-pt="O entupimento" data-en="The blockage">O entupimento</span>
+          <p data-pt="Faturamento e cobrança está vermelho. $84.200 entregues, faturados e nunca recebidos. O cano a jusante fica sem água."
+             data-en="Billing and collections is red. $84,200 delivered, invoiced and never collected. Everything downstream runs dry.">Faturamento e cobrança está vermelho. $84.200 entregues, faturados e nunca recebidos. O cano a jusante fica sem água.</p>
+        </div>
+      </div>
+      <div class="sc-step" data-p="2">
+        <div>
+          <span class="eyebrow" data-pt="Uma etapa tem sub-áreas" data-en="A stage has sub-areas">Uma etapa tem sub-áreas</span>
+          <p data-pt="A etapa não está entupida inteira. Seis sub-áreas: quatro limpas, duas travando. Clicar mostra exatamente quais."
+             data-en="The stage is not blocked as a whole. Six sub-areas: four clear, two blocking. Clicking shows exactly which.">A etapa não está entupida inteira. Seis sub-áreas: quatro limpas, duas travando. Clicar mostra exatamente quais.</p>
+        </div>
+      </div>
+      <div class="sc-step" data-p="3">
+        <div>
+          <span class="eyebrow" data-pt="Cinza não é problema" data-en="Grey is not a problem">Cinza não é problema</span>
+          <p data-pt="Indicações está cinza porque ele trabalha sozinho — nunca foi instalado. Não trava o fluxo. Fica no mapa para quando for hora de escalar."
+             data-en="Referrals is grey because he works alone — it was never installed. It does not block flow. It stays on the map for when it is time to scale.">Indicações está cinza porque ele trabalha sozinho — nunca foi instalado. Não trava o fluxo. Fica no mapa para quando for hora de escalar.</p>
+        </div>
+      </div>
+      <div class="sc-step" data-p="4">
+        <div>
+          <span class="eyebrow" data-pt="E quando desentope" data-en="And when it clears">E quando desentope</span>
+          <p data-pt="O consultor muda a resposta e o cliente vê a cor mudar no próprio painel. É o progresso dele, visível, sem relatório nenhum."
+             data-en="The consultant changes the answer and the client watches the colour change on his own dashboard. It is his progress, visible, with no report at all.">O consultor muda a resposta e o cliente vê a cor mudar no próprio painel. É o progresso dele, visível, sem relatório nenhum.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="sc-stage">
+      <div class="stage-card">
+        <div class="pipe-head">
+          <span class="co" data-pt="Serralheria Ferro &amp; Arte" data-en="Ferro &amp; Arte Ironworks">Serralheria Ferro &amp; Arte</span>
+          <span class="st" id="pipeStatus"></span>
+        </div>
+
+        <div class="pipe-body">
+          <div class="pipe-row r1">
+            <div class="run"><div class="tube"><div class="water w-v"></div></div></div>
+            <button class="node" data-s="s1"><div class="top"><span class="n">01</span><span class="dot"></span></div><span class="nm"></span><span class="sb2"></span></button>
+            <div class="run"><div class="tube"><div class="water" data-w="s1"></div></div></div>
+            <button class="node" data-s="s2"><div class="top"><span class="n">02</span><span class="dot"></span></div><span class="nm"></span><span class="sb2"></span></button>
+            <div class="run"><div class="tube"><div class="water" data-w="s2"></div></div></div>
+            <button class="node" data-s="s3"><div class="top"><span class="n">03</span><span class="dot"></span></div><span class="nm"></span><span class="sb2"></span></button>
+            <div class="run"><div class="tube"><div class="water" data-w="s3"></div></div></div>
+            <button class="node" data-s="s4"><div class="top"><span class="n">04</span><span class="dot"></span></div><span class="nm"></span><span class="sb2"></span></button>
+          </div>
+
+          <div class="drop"><div class="stem"></div></div>
+
+          <div class="pipe-row r2">
+            <button class="node" data-s="s8"><div class="top"><span class="dot"></span><span class="n">08</span></div><span class="nm"></span><span class="sb2"></span></button>
+            <div class="run"><div class="tube"><div class="water" data-w="s7"></div></div></div>
+            <button class="node" data-s="s7"><div class="top"><span class="dot"></span><span class="n">07</span></div><span class="nm"></span><span class="sb2"></span></button>
+            <div class="run"><div class="tube"><div class="water" data-w="s6"></div></div></div>
+            <button class="node" data-s="s6"><div class="top"><span class="dot"></span><span class="n">06</span></div><span class="nm"></span><span class="sb2"></span></button>
+            <div class="run"><div class="tube"><div class="water" data-w="s5"></div></div></div>
+            <button class="node" data-s="s5"><div class="top"><span class="dot"></span><span class="n">05</span></div><span class="nm"></span><span class="sb2"></span></button>
+          </div>
+
+          <div class="pipe-ends">
+            <div class="endcard">
+              <div class="k" data-pt="Chega na conta" data-en="Reaches the account">Chega na conta</div>
+              <div class="v" id="outMoney"></div>
+            </div>
+            <div class="endcard">
+              <div class="k" data-pt="Pressão do sistema" data-en="System pressure">Pressão do sistema</div>
+              <div class="v" id="pressVal">74%</div>
+              <div class="gauge"><span style="width:74%"></span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="legend">
+          <i><b style="background:#3f7d4e"></b><span data-pt="Fluindo" data-en="Flowing">Fluindo</span></i>
+          <i><b style="background:#a8842a"></b><span data-pt="Escoamento lento" data-en="Slow drain">Escoamento lento</span></i>
+          <i><b style="background:#b44040"></b><span data-pt="Entupido" data-en="Clogged">Entupido</span></i>
+          <i><b style="background:transparent;border:1.4px dashed #8B93A0"></b><span data-pt="Ainda não instalado" data-en="Not installed yet">Ainda não instalado</span></i>
+        </div>
+
+        <div class="drill" id="drill"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SCROLLY 2 : THE ASSESSMENT ============ -->
+<section class="scrolly tint" id="assess">
+  <div class="wrap sc-grid">
+
+    <div class="sc-steps">
+      <div class="sc-step" data-q="0">
+        <div>
+          <span class="eyebrow" data-pt="De onde vêm as cores" data-en="Where the colours come from">De onde vêm as cores</span>
+          <p data-pt="Uma avaliação que quase toda é sim ou não, então anda rápido. Duas coisas fazem a diferença."
+             data-en="An assessment that is almost all yes or no, so it moves fast. Two things make the difference.">Uma avaliação que quase toda é sim ou não, então anda rápido. Duas coisas fazem a diferença.</p>
+        </div>
+      </div>
+      <div class="sc-step" data-q="1">
+        <div>
+          <span class="eyebrow" data-pt="Ela se ajusta" data-en="It adapts">Ela se ajusta</span>
+          <p data-pt="“Só eu” desliga nove perguntas sobre contratar e treinar. Elas não se aplicam hoje — e aquelas etapas ficam cinzas sem travar o fluxo."
+             data-en="“Just me” switches off nine questions about hiring and training. They do not apply today — and those stages go grey without blocking flow.">“Só eu” desliga nove perguntas sobre contratar e treinar. Elas não se aplicam hoje — e aquelas etapas ficam cinzas sem travar o fluxo.</p>
+        </div>
+      </div>
+      <div class="sc-step" data-q="2">
+        <div>
+          <span class="eyebrow" data-pt="Um sim não basta" data-en="A yes is not enough">Um sim não basta</span>
+          <p data-pt="“Sim, eu controlo os pagamentos” pode ser um sistema financeiro ou um caderno. Uma única pergunta de profundidade separa o sólido do remendo."
+             data-en="“Yes, I track payments” can mean an accounting system or a notebook. A single depth question separates solid from duct tape.">“Sim, eu controlo os pagamentos” pode ser um sistema financeiro ou um caderno. Uma única pergunta de profundidade separa o sólido do remendo.</p>
+        </div>
+      </div>
+      <div class="sc-step" data-q="3">
+        <div>
+          <span class="eyebrow" data-pt="Verde com remendo" data-en="Green, held with tape">Verde com remendo</span>
+          <p data-pt="Isto continua verde: a nota sai todo dia. Mas está preso por fita, e o relatório do consultor avisa antes de quebrar."
+             data-en="This stays green: invoices go out every day. But it is held together with tape, and the consultant's report flags it before it breaks.">Isto continua verde: a nota sai todo dia. Mas está preso por fita, e o relatório do consultor avisa antes de quebrar.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="sc-stage">
+      <div class="stage-card" id="qcard"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ VERIFICATION ============ -->
+<section id="verify">
+  <div class="wrap">
+    <div class="col">
+      <span class="scan-badge" data-pt="SEO · GEO · Redes" data-en="SEO · GEO · Social">SEO · GEO · Redes</span>
+      <h2 style="margin-top:1.1rem; font-size:clamp(1.7rem,4vw,2.6rem); max-width:19ch"
+          data-pt="Autoavaliação é opinião."
+          data-en="Self-assessment is opinion.">Autoavaliação é opinião.</h2>
+      <p class="lede" style="margin-top:1.1rem; color:var(--muted); max-width:44ch"
+         data-pt="Por isso a avaliação pede os links e os @ das contas. Antes da reunião o sistema roda SEO, presença local (GEO) e os números reais das redes. O consultor chega sabendo o que o cliente não contou."
+         data-en="That is why the assessment asks for the links and the @ handles. Before the meeting the system runs SEO, local presence (GEO) and the real social numbers. The consultant arrives knowing what the client did not say.">Por isso a avaliação pede os links e os @ das contas. Antes da reunião o sistema roda SEO, presença local (GEO) e os números reais das redes. O consultor chega sabendo o que o cliente não contou.</p>
+    </div>
+
+    <div class="stage-card" style="margin-top:2rem">
+      <div class="verify">
+        <div class="vhead">
+          <span data-pt="Disse na avaliação" data-en="Said in the assessment">Disse na avaliação</span>
+          <span data-pt="O que a varredura achou" data-en="What the scan found">O que a varredura achou</span>
+          <span></span>
+        </div>
+
+        <div class="vrow">
+          <div><div class="lbl2" data-pt="Google — ficha" data-en="Google profile">Google — ficha</div>
+            <div class="said" data-pt="“Sim, a gente aparece.”" data-en="“Yes, we show up.”">“Sim, a gente aparece.”</div></div>
+          <div><div class="lbl2">GEO</div>
+            <div class="found" data-pt="11 avaliações · 4,9 · nenhuma respondida" data-en="11 reviews · 4.9 · none replied to">11 avaliações · 4,9 · nenhuma respondida</div></div>
+          <span class="pill p-a" data-pt="Desperdiçado" data-en="Wasted">Desperdiçado</span>
+        </div>
+
+        <div class="vrow">
+          <div><div class="lbl2" data-pt="Formulário do site" data-en="Site contact form">Formulário do site</div>
+            <div class="said" data-pt="“Recebo contatos pelo site.”" data-en="“I get enquiries from the site.”">“Recebo contatos pelo site.”</div></div>
+          <div><div class="lbl2">SEO</div>
+            <div class="found" data-pt="Envia para um e-mail desativado" data-en="Sends to a disabled mailbox">Envia para um e-mail desativado</div></div>
+          <span class="pill p-r" data-pt="Perdido há meses" data-en="Lost for months">Perdido há meses</span>
+        </div>
+
+        <div class="vrow">
+          <div><div class="lbl2" data-pt="Velocidade no celular" data-en="Mobile speed">Velocidade no celular</div>
+            <div class="said" data-pt="“O site está ok.”" data-en="“The site is fine.”">“O site está ok.”</div></div>
+          <div><div class="lbl2">SEO</div>
+            <div class="found" data-pt="6,8 s para carregar" data-en="6.8 s to load">6,8 s para carregar</div></div>
+          <span class="pill p-r" data-pt="Metade sai antes" data-en="Half leave first">Metade sai antes</span>
+        </div>
+
+        <div class="vrow">
+          <div><div class="lbl2">Instagram</div>
+            <div class="said" data-pt="“Posto toda semana.”" data-en="“I post weekly.”">“Posto toda semana.”</div></div>
+          <div><div class="lbl2" data-pt="Redes" data-en="Social">Redes</div>
+            <div class="found" data-pt="Último post há 34 dias" data-en="Last post 34 days ago">Último post há 34 dias</div></div>
+          <span class="pill p-a" data-pt="Parou" data-en="Stalled">Parou</span>
+        </div>
+      </div>
+    </div>
+
+    <p style="margin-top:1.4rem; font-size:0.92rem; color:var(--muted); max-width:52ch"
+       data-pt="Esta página é o que o consultor entrega ao parceiro de marketing. O formulário quebrado é conserto de uma tarde e devolve dinheiro na mesma semana."
+       data-en="This page is what the consultant hands to the marketing partner. The broken form is an afternoon's fix and returns money the same week.">Esta página é o que o consultor entrega ao parceiro de marketing. O formulário quebrado é conserto de uma tarde e devolve dinheiro na mesma semana.</p>
+  </div>
+</section>
+
+<!-- ============ DAILY LOG ============ -->
+<section class="tint" id="daily">
+  <div class="wrap sc-grid" style="align-items:center">
+    <div>
+      <span class="eyebrow" style="font:600 0.68rem/1 var(--body); letter-spacing:0.13em; text-transform:uppercase; color:var(--gold-deep)"
+            data-pt="O dia a dia" data-en="The daily rhythm">O dia a dia</span>
+      <h2 style="margin-top:0.9rem; font-size:clamp(1.7rem,4vw,2.5rem); max-width:18ch"
+          data-pt="A avaliação é a foto. O registro diário é o filme."
+          data-en="The assessment is the photograph. The daily log is the film.">A avaliação é a foto. O registro diário é o filme.</h2>
+      <p style="margin-top:1.1rem; color:var(--muted); max-width:42ch"
+         data-pt="Hoje ninguém preenche, porque pede muito e não devolve nada. A proposta é uma pergunta por dia, escolhida pelo trecho que está vermelho."
+         data-en="Today nobody fills it in, because it asks a lot and gives nothing back. The proposal is one question a day, chosen by whichever length is red.">Hoje ninguém preenche, porque pede muito e não devolve nada. A proposta é uma pergunta por dia, escolhida pelo trecho que está vermelho.</p>
+      <p style="margin-top:1rem; color:var(--muted); max-width:42ch"
+         data-pt="Trinta segundos, dois botões. E a resposta move a cor no painel dele — responder tem consequência visível."
+         data-en="Thirty seconds, two buttons. And the answer moves the colour on his own dashboard — answering has a visible consequence.">Trinta segundos, dois botões. E a resposta move a cor no painel dele — responder tem consequência visível.</p>
+    </div>
+
+    <div class="stage-card">
+      <div class="phone-wrap">
+        <div class="phone">
+          <div class="pt2">
+            <span class="day" data-pt="Terça · 30 seg" data-en="Tuesday · 30 sec">Terça · 30 seg</span>
+            <span class="ind"></span>
+          </div>
+          <p class="pq" data-pt="Você cobrou algum cliente atrasado ontem?"
+             data-en="Did you chase any overdue client yesterday?">Você cobrou algum cliente atrasado ontem?</p>
+          <div class="pbtns">
+            <button type="button" data-log="y" aria-pressed="true" data-pt="Sim" data-en="Yes">Sim</button>
+            <button type="button" data-log="n" aria-pressed="false" data-pt="Não" data-en="No">Não</button>
+          </div>
+          <p class="pf" id="logFoot" data-pt="4 dias seguidos · Cobrança está mudando"
+             data-en="4 days running · Collections is moving">4 dias seguidos · Cobrança está mudando</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WHO FILLS THE GAP ============ -->
+<section id="fills">
+  <div class="wrap">
+    <div class="col">
+      <h2 style="font-size:clamp(1.8rem,4.4vw,2.7rem); max-width:20ch"
+          data-pt="Achar o entupimento é metade. A outra metade é destravar."
+          data-en="Finding the blockage is half of it. The other half is clearing it.">Achar o entupimento é metade. A outra metade é destravar.</h2>
+      <p class="lede" style="margin-top:1.1rem; color:var(--muted); max-width:46ch"
+         data-pt="Nenhum cliente sai com uma lista de problemas e a conta. Todo entupimento tem quem resolve."
+         data-en="No client leaves with a list of problems and the bill. Every blockage has someone who clears it.">Nenhum cliente sai com uma lista de problemas e a conta. Todo entupimento tem quem resolve.</p>
+    </div>
+
+    <div class="fills">
+      <div class="fill">
+        <div class="k" data-pt="O sistema" data-en="The system">O sistema</div>
+        <h3 data-pt="Onde a ferramenta resolve" data-en="Where the tool does it">Onde a ferramenta resolve</h3>
+        <p data-pt="Sem CRM, o portal vira o CRM. Sem cobrança, entra a régua. Orçamento, nota e agendamento já fazem parte. O trecho vermelho fica verde porque o software que ele já usa passou a fazer o serviço."
+           data-en="No CRM, the portal becomes the CRM. No chasing, the sequence goes in. Estimates, invoicing and scheduling are already part of it. The red length turns green because the software he already pays for now does the job.">Sem CRM, o portal vira o CRM. Sem cobrança, entra a régua. Orçamento, nota e agendamento já fazem parte. O trecho vermelho fica verde porque o software que ele já usa passou a fazer o serviço.</p>
+      </div>
+      <div class="fill">
+        <div class="k" data-pt="Os parceiros" data-en="The partners">Os parceiros</div>
+        <h3 data-pt="Onde outro especialista resolve" data-en="Where another specialist does it">Onde outro especialista resolve</h3>
+        <p data-pt="Marketing pega os entupimentos de aquisição — e recebe o relatório de SEO e GEO pronto. Contabilidade tem o contador da rede de parceiros. Cada lacuna tem dono."
+           data-en="Marketing takes the acquisition blockages — and gets the SEO and GEO report ready-made. Accounting has the accountant on the partner roster. Every gap has an owner.">Marketing pega os entupimentos de aquisição — e recebe o relatório de SEO e GEO pronto. Contabilidade tem o contador da rede de parceiros. Cada lacuna tem dono.</p>
+      </div>
+      <div class="fill">
+        <div class="k" data-pt="O consultor" data-en="The consultant">O consultor</div>
+        <h3 data-pt="Onde só gente resolve" data-en="Where only a person does it">Onde só gente resolve</h3>
+        <p data-pt="Vendas é humano. Ferramenta apoia, mas quem ensina a vender é alguém com experiência, um a um. O sistema não substitui o consultor — é com o que ele treina."
+           data-en="Sales is human. Tools support it, but the person who teaches someone to sell is experienced and does it one to one. The system does not replace the consultant — it is what he coaches with.">Vendas é humano. Ferramenta apoia, mas quem ensina a vender é alguém com experiência, um a um. O sistema não substitui o consultor — é com o que ele treina.</p>
+      </div>
+    </div>
+
+    <p style="margin-top:1.6rem; font-size:1.02rem; font-weight:600; max-width:40ch"
+       data-pt="Tudo dentro do mesmo sistema, e tudo trabalhando junto."
+       data-en="All inside the same system, and all of it working together.">Tudo dentro do mesmo sistema, e tudo trabalhando junto.</p>
+  </div>
+</section>
+
+<!-- ============ THE LADDER ============ -->
+<section class="tint" id="levels">
+  <div class="wrap">
+    <div class="col">
+      <h2 style="font-size:clamp(1.8rem,4.4vw,2.7rem); max-width:18ch"
+          data-pt="Desentupir. Escalar. Se libertar."
+          data-en="Unclog. Scale. Break free.">Desentupir. Escalar. Se libertar.</h2>
+      <p class="lede" style="margin-top:1.1rem; color:var(--muted); max-width:44ch"
+         data-pt="O cano precisa correr antes de qualquer outra conversa. Só então faz sentido ligar o que ainda não existe."
+         data-en="The pipe has to run before any other conversation. Only then does it make sense to switch on what does not exist yet.">O cano precisa correr antes de qualquer outra conversa. Só então faz sentido ligar o que ainda não existe.</p>
+    </div>
+
+    <div class="ladder">
+      <div class="rung on">
+        <span class="n">1</span>
+        <div>
+          <h3 data-pt="Dinheiro no banco" data-en="Money in the bank">Dinheiro no banco</h3>
+          <p data-pt="Tirar o que trava o dinheiro. É a fase mais curta e a que paga todas as outras."
+             data-en="Remove what stops the money. It is the shortest phase and the one that pays for the rest.">Tirar o que trava o dinheiro. É a fase mais curta e a que paga todas as outras.</p>
+        </div>
+      </div>
+      <div class="rung">
+        <span class="n">2</span>
+        <div>
+          <h3 data-pt="Escala" data-en="Scale">Escala</h3>
+          <p data-pt="Ligar os trechos cinzas — contratar, treinar, delegar, indicações. Eles já estavam no mapa desde o primeiro dia, esperando a hora."
+             data-en="Switch on the grey lengths — hire, train, delegate, referrals. They were on the map from day one, waiting their turn.">Ligar os trechos cinzas — contratar, treinar, delegar, indicações. Eles já estavam no mapa desde o primeiro dia, esperando a hora.</p>
+        </div>
+      </div>
+      <div class="rung">
+        <span class="n">3</span>
+        <div>
+          <h3 data-pt="Dono, não refém" data-en="Own it, not owned">Dono, não refém</h3>
+          <p data-pt="Sair de férias e a empresa não parar. Não depende de ter equipe: depende de o dono não ser o cano mais fino. Um autônomo com boa margem chega aqui. Um dono com dez funcionários pode nunca chegar."
+             data-en="Take a holiday and the business does not stop. It does not depend on having a team: it depends on the owner not being the narrowest pipe. A solo operator with good margins gets here. An owner with ten staff may never.">Sair de férias e a empresa não parar. Não depende de ter equipe: depende de o dono não ser o cano mais fino. Um autônomo com boa margem chega aqui. Um dono com dez funcionários pode nunca chegar.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ THE COURSE ============ -->
+<section id="course">
+  <div class="wrap">
+    <div class="col">
+      <h2 style="font-size:clamp(1.7rem,4vw,2.5rem); max-width:20ch"
+          data-pt="E quem ainda não pode pagar?"
+          data-en="And the ones who cannot pay yet?">E quem ainda não pode pagar?</h2>
+      <p class="lede" style="margin-top:1.1rem; color:var(--muted); max-width:46ch"
+         data-pt="Se o pacote de entrada é inviável, o negócio está em apuros — o que é exatamente a prova de que precisa de ajuda. O preço não cai. A porta é outra."
+         data-en="If the entry package is out of reach, the business is in trouble — which is exactly the proof that it needs help. The price does not come down. The door is a different one.">Se o pacote de entrada é inviável, o negócio está em apuros — o que é exatamente a prova de que precisa de ajuda. O preço não cai. A porta é outra.</p>
+    </div>
+
+    <div class="course">
+      <div class="fill">
+        <div class="k" data-pt="A avaliação escolhe" data-en="The assessment chooses">A avaliação escolhe</div>
+        <p style="margin-top:0.5rem" data-pt="O consultor olha o maior entupimento e libera a aula que faz a água voltar a correr mais rápido. Não é um curso genérico — é o trecho dele."
+           data-en="The consultant looks at the biggest blockage and opens the class that gets water running again fastest. It is not a generic course — it is his length of pipe.">O consultor olha o maior entupimento e libera a aula que faz a água voltar a correr mais rápido. Não é um curso genérico — é o trecho dele.</p>
+      </div>
+      <div class="fill">
+        <div class="k" data-pt="Mensalidade" data-en="Billed monthly">Mensalidade</div>
+        <p style="margin-top:0.5rem" data-pt="Quanto mais rápido resolvem, menos pagam. A pressa trabalha a favor deles — e com um canal para perguntar enquanto implementam."
+           data-en="The faster they finish, the less they pay. Urgency works in their favour — with a channel to ask questions while they implement.">Quanto mais rápido resolvem, menos pagam. A pressa trabalha a favor deles — e com um canal para perguntar enquanto implementam.</p>
+      </div>
+      <div class="fill">
+        <div class="k" data-pt="É uma porta" data-en="It is a door">É uma porta</div>
+        <p style="margin-top:0.5rem" data-pt="O curso existe para destravar caixa suficiente e virar cliente do pacote completo. Ninguém é desqualificado por não poder pagar hoje."
+           data-en="The course exists to unlock enough cash to become a full-package client. Nobody is disqualified for not affording it today.">O curso existe para destravar caixa suficiente e virar cliente do pacote completo. Ninguém é desqualificado por não poder pagar hoje.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CLOSE ============ -->
+<section class="close tint">
+  <div class="wrap col rise">
+    <h2 data-pt="Um diagnóstico que qualquer dono entende, e um sistema que resolve o que ele encontra."
+        data-en="A diagnostic any owner understands, and a system that fixes what it finds.">Um diagnóstico que qualquer dono entende, e um sistema que resolve o que ele encontra.</h2>
+    <p class="lede"
+       data-pt="O cliente entra para ver o próprio cano correr. Fica porque continua correndo."
+       data-en="The client logs in to watch his own pipe run. He stays because it keeps running.">O cliente entra para ver o próprio cano correr. Fica porque continua correndo.</p>
+    <p style="margin-top:2rem; font-size:0.8rem; color:var(--faint)"
+       data-pt="Empresa, respostas e números desta página são fictícios."
+       data-en="The company, answers and figures on this page are fictional.">Empresa, respostas e números desta página são fictícios.</p>
+  </div>
+</section>
+
+<script>
+(function () {
+  'use strict';
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------------- language ---------------- */
+  var KEY = 'fluxo-lang';
+  var LANG = 'pt';
+
+  function getLang() {
+    try { var s = localStorage.getItem(KEY); if (s === 'en' || s === 'pt') return s; } catch (e) {}
+    return 'pt';
+  }
+  function setLang(lang) {
+    LANG = lang;
+    document.documentElement.setAttribute('data-lang', lang);
+    document.documentElement.setAttribute('lang', lang === 'pt' ? 'pt-BR' : 'en');
+    try { localStorage.setItem(KEY, lang); } catch (e) {}
+    document.querySelectorAll('[data-pt]').forEach(function (el) {
+      var t = lang === 'pt' ? el.dataset.pt : el.dataset.en;
+      if (t !== undefined) el.innerHTML = t;
+    });
+    document.querySelectorAll('.lang button').forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.dataset.l === lang));
+    });
+    paintPipe();
+    paintDrill();
+    paintQ();
+    paintLog();
+  }
+
+  var nav = document.createElement('div');
+  nav.className = 'lang';
+  nav.setAttribute('role', 'group');
+  nav.setAttribute('aria-label', 'Idioma / Language');
+  nav.innerHTML = '<button type="button" data-l="pt" aria-pressed="false">PT</button>' +
+                  '<button type="button" data-l="en" aria-pressed="false">EN</button>';
+  nav.addEventListener('click', function (e) {
+    var b = e.target.closest('button[data-l]');
+    if (b) setLang(b.dataset.l);
+  });
+  document.body.appendChild(nav);
+
+  /* ---------------- pipe data ---------------- */
+  var STATE = { s1:'v', s2:'v', s3:'a', s4:'a', s5:'v', s6:'r', s7:'a', s8:'g' };
+  var SEL = 's6';
+  var ORDER = ['s1','s2','s3','s4','s5','s6','s7','s8'];
+
+  var D = {
+    pt: {
+      s1:{nm:'Estratégia', sb:'Oferta, preço, capacidade',
+          subs:['Posicionamento','Oferta e pacotes','Preço e margem','Capacidade','Metas','Concorrência'],
+          sum:'A base: quem atende, o que vende e por quanto.',
+          fix:'Preço e margem sustentam tudo o que vem depois. Aqui está sólido.'},
+      s2:{nm:'Aquisição de clientes', sb:'Marketing, site, presença',
+          subs:['Marca','Site','Redes sociais','Anúncios','SEO local','Captação'],
+          sum:'Como um desconhecido vira um contato conhecido.',
+          fix:'Aparece, é achado e o telefone toca. Nada represa o dinheiro aqui.'},
+      s3:{nm:'Leads e vendas', sb:'CRM, resposta, orçamento',
+          subs:['CRM','Tempo de resposta','Qualificação','Orçamento','Follow-up','Fechamento'],
+          sum:'Os contatos chegam, mas esfriam antes de alguém responder.',
+          fix:'Falta um lugar único onde o contato entra e alguém é dono da resposta. O portal faz isso.',
+          bad:['CRM','Tempo de resposta'],
+          pts:[{t:'CRM · é uma planilha compartilhada', d:'Funciona, mas só uma pessoa sabe manter.', s:'a'},
+               {t:'Tempo de resposta · sem prazo', d:'“Depende. Às vezes no mesmo dia, às vezes na semana.”', s:'r'}]},
+      s4:{nm:'Entrada do pedido', sb:'Contrato, sinal, agenda',
+          subs:['Contrato','Sinal','Questionário','Agendamento','Ordem de serviço','Equipe'],
+          sum:'A ponte entre a venda fechada e a obra começar.',
+          fix:'Duas obras na mesma equipe no mesmo dia já aconteceu duas vezes. Agendamento resolve.',
+          bad:['Agendamento'],
+          pts:[{t:'Agendamento · caderno e WhatsApp', d:'A agenda vive na cabeça do dono.', s:'a'}]},
+      s5:{nm:'Entrega', sb:'2 retrabalhos em 47 obras',
+          subs:['Checklist','Qualidade','Comunicação','Escopo','Conclusão','Documentação'],
+          sum:'O serviço é bom e o cliente reclama pouco.',
+          fix:'Ponto forte real. Serve de âncora para vender melhor lá na frente.'},
+      s6:{nm:'Faturamento e cobrança', sb:'Nota, recebimento, cobrança',
+          subs:['Emissão de nota','Formas de pagamento','Sinal','Contas a receber','Cobrança de atrasados','Contabilidade'],
+          sum:'Seis sub-áreas. Quatro limpas — duas travando o cano.',
+          fix:'O dinheiro já foi ganho, só não entrou. É o mais rápido de corrigir: a régua de cobrança do sistema faz o trabalho.',
+          bad:['Contas a receber','Cobrança de atrasados'],
+          pts:[{t:'Contas a receber · ninguém acompanha o vencido', d:'“Só percebemos quando falta caixa.”', s:'r'},
+               {t:'Cobrança de atrasados · não existe processo', d:'Nenhuma régua, nenhum lembrete. $84.200 em 47 obras.', s:'r'}]},
+      s7:{nm:'Pós-venda', sb:'Contato, suporte, recompra',
+          subs:['Contato pós-obra','Suporte','Garantia','Recompra','Upsell','Histórico'],
+          sum:'Entrega e some. O cliente satisfeito não volta porque ninguém volta nele.',
+          fix:'47 obras entregues, nenhum contato depois. É a lista mais barata que essa empresa tem.',
+          bad:['Contato pós-obra'],
+          pts:[{t:'Contato pós-obra · não existe', d:'6 de 47 voltaram sozinhos.', s:'a'}]},
+      s8:{nm:'Indicações', sb:'Ainda não instalado',
+          subs:['Pedido de avaliação','Depoimentos','Programa','Reputação','Casos','Atribuição'],
+          sum:'Não está quebrado. Ainda não existe. O cano segue sem perder pressão.',
+          fix:'Instalar isto faz sentido depois que a cobrança destravar. É o próximo passo, não o problema de hoje.'}
+    },
+    en: {
+      s1:{nm:'Strategy', sb:'Offer, pricing, capacity',
+          subs:['Positioning','Offers','Price and margin','Capacity','Goals','Competition'],
+          sum:'The foundation: who it serves, what it sells and for how much.',
+          fix:'Price and margin hold up everything downstream. Solid here.'},
+      s2:{nm:'Client acquisition', sb:'Marketing, website, presence',
+          subs:['Brand','Website','Social media','Advertising','Local SEO','Lead capture'],
+          sum:'How a stranger becomes a known enquiry.',
+          fix:'Visible, findable, and the phone rings. Nothing dams the money here.'},
+      s3:{nm:'Leads and sales', sb:'CRM, response, quoting',
+          subs:['CRM','Response time','Qualification','Quoting','Follow-up','Closing'],
+          sum:'Enquiries arrive, then go cold before anyone answers.',
+          fix:'What is missing is one place the enquiry lands and one person who owns the reply. The portal does that.',
+          bad:['CRM','Response time'],
+          pts:[{t:'CRM · it is a shared spreadsheet', d:'It works, but only one person can maintain it.', s:'a'},
+               {t:'Response time · no standard', d:'“Depends. Sometimes same day, sometimes that week.”', s:'r'}]},
+      s4:{nm:'Order intake', sb:'Contract, deposit, schedule',
+          subs:['Contract','Deposit','Intake form','Scheduling','Work order','Crew'],
+          sum:'The bridge between a closed sale and work starting.',
+          fix:'Two jobs, one crew, same day has happened twice. Scheduling fixes it.',
+          bad:['Scheduling'],
+          pts:[{t:'Scheduling · notebook and WhatsApp', d:'The calendar lives in the owner’s head.', s:'a'}]},
+      s5:{nm:'Delivery', sb:'2 reworks in 47 jobs',
+          subs:['Checklist','Quality','Communication','Scope','Sign-off','Documentation'],
+          sum:'The work is good and complaints are rare.',
+          fix:'A genuine strength. It anchors a better offer further up the pipe.'},
+      s6:{nm:'Billing and collections', sb:'Invoicing, receipts, chasing',
+          subs:['Raising invoices','Payment methods','Deposits','Accounts receivable','Chasing overdue','Bookkeeping'],
+          sum:'Six sub-areas. Four clear — two blocking the pipe.',
+          fix:'The money is already earned, it just never arrived. Fastest to clear: the system’s chase sequence does the work.',
+          bad:['Accounts receivable','Chasing overdue'],
+          pts:[{t:'Accounts receivable · nobody tracks overdue', d:'“We only notice when cash runs short.”', s:'r'},
+               {t:'Chasing overdue · no process exists', d:'No sequence, no reminders. $84,200 across 47 jobs.', s:'r'}]},
+      s7:{nm:'Client care', sb:'Contact, support, repeat work',
+          subs:['Post-job contact','Support','Warranty','Repeat work','Upsell','History'],
+          sum:'Deliver and vanish. The happy client does not come back because nobody goes back to them.',
+          fix:'47 jobs delivered, zero follow-up. The cheapest client list this company owns.',
+          bad:['Post-job contact'],
+          pts:[{t:'Post-job contact · does not exist', d:'6 of 47 came back on their own.', s:'a'}]},
+      s8:{nm:'Referrals', sb:'Not installed yet',
+          subs:['Review requests','Testimonials','Programme','Reputation','Case studies','Attribution'],
+          sum:'Not broken. Not built yet. The pipe carries on without losing pressure.',
+          fix:'Installing this makes sense once collections is unblocked. Next step, not today’s problem.'}
+    }
+  };
+
+  var LBL = {
+    pt:{ v:'Fluindo', a:'Escoamento lento', r:'Entupido', g:'Não instalado',
+         notYet:'Ainda não instalado', one:'1 ponto travando', many:' pontos travando',
+         clean:'Nenhum ponto travando nesta etapa.', cleanFix:'Nada a fazer aqui agora.',
+         read:'Leitura', reaches:'$0 — tudo preso atrás do entupimento', reachesOk:'Tudo que entrou',
+         status:'Clique numa etapa' },
+    en:{ v:'Flowing', a:'Slow drain', r:'Clogged', g:'Not installed',
+         notYet:'Not installed yet', one:'1 point restricting', many:' points restricting',
+         clean:'No blocking points in this stage.', cleanFix:'Nothing to do here now.',
+         read:'Read', reaches:'$0 — all held behind the blockage', reachesOk:'Everything that came in',
+         status:'Click a stage' }
+  };
+
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) {
+    return { '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;' }[c]; }); }
+
+  function paintPipe() {
+    var d = D[LANG], L = LBL[LANG];
+    document.querySelectorAll('.node[data-s]').forEach(function (n) {
+      var id = n.dataset.s, s = STATE[id], info = d[id];
+      n.className = 'node is-' + s + (id === SEL ? ' sel' : '');
+      n.querySelector('.nm').textContent = info.nm;
+      var sub;
+      if (s === 'g') { sub = L.notYet; }
+      else if (s === 'v' || !info.pts) { sub = info.sb; }
+      else { sub = info.pts.length === 1 ? L.one : (info.pts.length + L.many); }
+      n.querySelector('.sb2').textContent = sub;
+      var dot = n.querySelector('.dot');
+      dot.style.background = s === 'v' ? '#3f7d4e' : s === 'a' ? '#a8842a' : s === 'r' ? '#b44040' : 'transparent';
+      dot.style.border = s === 'g' ? '1.5px dashed #8B93A0' : '0';
+    });
+    document.querySelectorAll('.water[data-w]').forEach(function (w) {
+      w.className = 'water w-' + STATE[w.dataset.w];
+    });
+    var anyClog = ORDER.some(function (k) { return STATE[k] === 'r'; });
+    var out = document.getElementById('outMoney');
+    if (out) {
+      out.textContent = anyClog ? L.reaches : L.reachesOk;
+      out.style.color = anyClog ? '#b44040' : '#3f7d4e';
+    }
+    var st = document.getElementById('pipeStatus');
+    if (st) { st.textContent = L.status; }
+  }
+
+  function paintDrill() {
+    var host = document.getElementById('drill');
+    if (!host) return;
+    var d = D[LANG][SEL], L = LBL[LANG], s = STATE[SEL];
+    var show = (s === 'r' || s === 'a') && !!d.pts;
+    var bad = show && d.bad ? d.bad : [];
+
+    var h = '<h4>' + esc(d.nm) + ' <span class="pill p-' + s + '">' + esc(L[s]) + '</span></h4>';
+    h += '<p class="sum">' + esc(show ? d.sum : (s === 'v' && d.pts ? L.clean : d.sum)) + '</p>';
+
+    h += '<div class="subs">';
+    d.subs.forEach(function (nm) {
+      var isBad = bad.indexOf(nm) !== -1;
+      var cls = isBad ? (s === 'r' ? 'sub bad' : 'sub warn') : 'sub';
+      h += '<span class="' + cls + '"><span class="d"></span>' + esc(nm) + '</span>';
+    });
+    h += '</div>';
+
+    if (show) {
+      h += '<div class="points">';
+      d.pts.forEach(function (p) {
+        var c = p.s === 'r' ? '#b44040' : '#a8842a';
+        h += '<div class="pt"><span class="d" style="background:' + c + '"></span><div>' +
+             '<div class="ti">' + esc(p.t) + '</div><div class="de">' + esc(p.d) + '</div></div></div>';
+      });
+      h += '</div>';
+    }
+
+    h += '<div class="fixline"><span class="k">' + esc(L.read) + '</span><span>' +
+         esc(s === 'v' && d.pts ? L.cleanFix : d.fix) + '</span></div>';
+    host.innerHTML = h;
+  }
+
+  document.querySelectorAll('.node[data-s]').forEach(function (n) {
+    n.addEventListener('click', function () { SEL = n.dataset.s; paintPipe(); paintDrill(); });
+  });
+
+  /* pipe scrolly: each step selects a stage / tells a beat */
+  var pipeSteps = [].slice.call(document.querySelectorAll('.sc-step[data-p]'));
+  var PIPE_FOCUS = ['s6', 's6', 's6', 's8', 's6'];
+  if (pipeSteps.length && 'IntersectionObserver' in window && !reduce) {
+    var pio = new IntersectionObserver(function (es) {
+      es.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        var i = Number(e.target.dataset.p);
+        pipeSteps.forEach(function (s) { s.classList.toggle('on', s === e.target); });
+        if (i === 4) { STATE.s6 = 'v'; } else { STATE.s6 = 'r'; }
+        SEL = PIPE_FOCUS[i] || 's6';
+        paintPipe(); paintDrill();
+      });
+    }, { rootMargin: '-45% 0px -45% 0px', threshold: 0 });
+    pipeSteps.forEach(function (s) { pio.observe(s); });
+  } else {
+    pipeSteps.forEach(function (s) { s.classList.add('on'); });
+  }
+
+  /* ---------------- assessment mock ---------------- */
+  var QSTEP = 0;
+  var Q = {
+    pt: [
+      { num:'Pergunta 4 de 38', ask:'Quem trabalha na empresa hoje?',
+        opts:['Só eu','Eu e meu cônjuge','Tenho equipe'], pick:0,
+        gate:'<b>Isto desliga 9 perguntas</b> sobre contratação, treinamento e desenvolvimento de equipe. No mapa, essas etapas ficam cinzas — não estão quebradas, ainda não existem.' },
+      { num:'Pergunta 4 de 38', ask:'Quem trabalha na empresa hoje?',
+        opts:['Só eu','Eu e meu cônjuge','Tenho equipe'], pick:0,
+        gate:'<b>Isto desliga 9 perguntas</b> sobre contratação, treinamento e desenvolvimento de equipe. No mapa, essas etapas ficam cinzas — não estão quebradas, ainda não existem.' },
+      { num:'Pergunta 11 de 38', ask:'Você controla o que os clientes já pagaram?',
+        opts:['Sim','Não'], pick:0, probeQ:'Onde esse controle fica?',
+        probe:[['Sistema financeiro','Sólido','v'],['Planilha no computador','Remendo','a'],['Caderno de papel','Frágil','r'],['Está na minha cabeça','Frágil','r']],
+        probePick:1,
+        note:'Os quatro são “sim”. Só o segundo nível mostra que este verde está preso por fita.' },
+      { num:'Relatório do consultor', ask:'Faturamento · verde, com um alerta',
+        tape:[['A planilha de faturamento não tem cópia','Está verde porque a nota sai no mesmo dia. Mas o arquivo vive em <b>um único computador</b>. Um HD queimado apaga o histórico de cobrança inteiro.']] }
+    ],
+    en: [
+      { num:'Question 4 of 38', ask:'Who works in the business today?',
+        opts:['Just me','Me and my spouse','I have a team'], pick:0,
+        gate:'<b>This switches off 9 questions</b> about hiring, training and team development. On the map those stages go grey — not broken, not built yet.' },
+      { num:'Question 4 of 38', ask:'Who works in the business today?',
+        opts:['Just me','Me and my spouse','I have a team'], pick:0,
+        gate:'<b>This switches off 9 questions</b> about hiring, training and team development. On the map those stages go grey — not broken, not built yet.' },
+      { num:'Question 11 of 38', ask:'Do you track what clients have already paid?',
+        opts:['Yes','No'], pick:0, probeQ:'Where does that tracking live?',
+        probe:[['Accounting system','Solid','v'],['Spreadsheet on a computer','Taped','a'],['Paper notebook','Fragile','r'],['It is in my head','Fragile','r']],
+        probePick:1,
+        note:'All four are a “yes”. Only the second level shows this green is held on with tape.' },
+      { num:'Consultant report', ask:'Invoicing · green, with one alert',
+        tape:[['The invoicing spreadsheet has no backup','It is green because invoices go out same day. But the file lives on <b>one computer</b>. One dead drive erases the entire billing history.']] }
+    ]
+  };
+
+  function paintQ() {
+    var host = document.getElementById('qcard');
+    if (!host) return;
+    var q = Q[LANG][QSTEP];
+    var h = '<div class="q"><div class="num">' + esc(q.num) + '</div><div class="ask">' + esc(q.ask) + '</div>';
+
+    if (q.opts) {
+      h += '<div class="opts">';
+      q.opts.forEach(function (o, i) {
+        h += '<button type="button" class="opt" aria-pressed="' + (i === q.pick) + '">' + esc(o) + '</button>';
+      });
+      h += '</div>';
+    }
+    if (q.gate) { h += '<div class="gated">' + q.gate + '</div>'; }
+    if (q.probe) {
+      h += '<div class="probe"><div class="lbl">' +
+           (LANG === 'pt' ? 'Pergunta de profundidade' : 'Depth question') + '</div>' +
+           '<div class="ask2">' + esc(q.probeQ) + '</div><div class="opts stack">';
+      q.probe.forEach(function (p, i) {
+        h += '<button type="button" class="opt" aria-pressed="' + (i === q.probePick) + '">' +
+             '<span>' + esc(p[0]) + '</span><span class="tagx t-' + p[2] + '">' + esc(p[1]) + '</span></button>';
+      });
+      h += '</div></div>';
+    }
+    if (q.note) { h += '<p style="margin-top:0.9rem;font-size:0.8rem;color:var(--muted)">' + esc(q.note) + '</p>'; }
+    if (q.tape) {
+      h += '<div style="margin-top:0.9rem">';
+      q.tape.forEach(function (tp) {
+        h += '<div class="tapecard"><svg width="20" height="20" viewBox="0 0 24 24" style="flex:none" aria-hidden="true">' +
+             '<path d="M12 3 L22 20 H2 Z" fill="none" stroke="#8A6F2C" stroke-width="2" stroke-linejoin="round"/>' +
+             '<path d="M12 10 v4" stroke="#8A6F2C" stroke-width="2" stroke-linecap="round"/>' +
+             '<circle cx="12" cy="16.6" r="1.1" fill="#8A6F2C"/></svg>' +
+             '<div><div class="ti">' + esc(tp[0]) + '</div><div class="de">' + tp[1] + '</div></div></div>';
+      });
+      h += '</div>';
+    }
+    h += '</div>';
+    host.innerHTML = h;
+  }
+
+  var qSteps = [].slice.call(document.querySelectorAll('.sc-step[data-q]'));
+  if (qSteps.length && 'IntersectionObserver' in window && !reduce) {
+    var qio = new IntersectionObserver(function (es) {
+      es.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        QSTEP = Number(e.target.dataset.q);
+        qSteps.forEach(function (s) { s.classList.toggle('on', s === e.target); });
+        paintQ();
+      });
+    }, { rootMargin: '-45% 0px -45% 0px', threshold: 0 });
+    qSteps.forEach(function (s) { qio.observe(s); });
+  } else {
+    qSteps.forEach(function (s) { s.classList.add('on'); });
+  }
+
+  /* ---------------- daily log ---------------- */
+  var LOGYES = true;
+  function paintLog() {
+    var f = document.getElementById('logFoot');
+    if (!f) return;
+    f.textContent = LOGYES
+      ? (LANG === 'pt' ? '4 dias seguidos · Cobrança está mudando' : '4 days running · Collections is moving')
+      : (LANG === 'pt' ? 'Sequência quebrada · Cobrança segue vermelha' : 'Streak broken · Collections stays red');
+  }
+  document.querySelectorAll('.phone .pbtns button').forEach(function (b) {
+    b.addEventListener('click', function () {
+      LOGYES = b.dataset.log === 'y';
+      document.querySelectorAll('.phone .pbtns button').forEach(function (x) {
+        x.setAttribute('aria-pressed', String(x === b));
+      });
+      paintLog();
+    });
+  });
+
+  /* ---------------- story beats ---------------- */
+  var beats = [].slice.call(document.querySelectorAll('.sb'));
+  if (beats.length) {
+    if (reduce || !('IntersectionObserver' in window)) {
+      beats.forEach(function (b) { b.classList.add('on'); });
+    } else {
+      var bio = new IntersectionObserver(function (es) {
+        es.forEach(function (e) { e.target.classList.toggle('on', e.isIntersecting); });
+      }, { rootMargin: '-42% 0px -42% 0px', threshold: 0 });
+      beats.forEach(function (b) { bio.observe(b); });
+    }
+  }
+
+  /* ---------------- close reveal ---------------- */
+  var rise = document.querySelector('.rise');
+  if (rise) {
+    if (!('IntersectionObserver' in window) || reduce) { rise.classList.add('in'); }
+    else {
+      new IntersectionObserver(function (es, o) {
+        es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); o.unobserve(e.target); } });
+      }, { threshold: 0.2 }).observe(rise);
+    }
+  }
+
+  setLang(getLang());
+})();
+</script>
+
+</body>
+</html>
