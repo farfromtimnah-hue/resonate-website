@@ -95,7 +95,7 @@ body {
 h1, h2, h3 { margin: 0; font-family: var(--display); font-weight: 700; line-height: 1.14; letter-spacing: -0.021em; text-wrap: balance; }
 p { margin: 0; }
 
-.wrap { width: 100%; max-width: var(--wide); margin: 0 auto; padding: 0 clamp(1.15rem, 5vw, 2.5rem); }
+.wrap { width: 100%; max-width: 76rem; margin: 0 auto; padding: 0 clamp(1.15rem, 4vw, 2rem); }
 .scrolly .wrap { max-width: 72rem; }
 .col { max-width: var(--measure); }
 section { padding: clamp(4rem, 11vh, 7.5rem) 0; }
@@ -156,21 +156,22 @@ section { padding: clamp(4rem, 11vh, 7.5rem) 0; }
 .tier .note { margin-top: 0.85rem; color: var(--muted); max-width: 52ch; font-size: 0.95rem; }
 
 .tbl-wrap { margin-top: 1.5rem; overflow-x: auto; border: 1px solid var(--line); border-radius: var(--r); background: var(--card); box-shadow: 0 1px 2px var(--shadow); }
-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; min-width: 860px; }
+table { width: 100%; border-collapse: collapse; font-size: 0.84rem; min-width: 1020px; }
 thead th {
-  text-align: left; font: 600 0.62rem/1.3 var(--body); letter-spacing: 0.1em; text-transform: uppercase;
-  color: var(--faint); padding: 0.85rem 1rem; border-bottom: 1px solid var(--line); white-space: nowrap;
+  text-align: left; font: 600 0.6rem/1.3 var(--body); letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--faint); padding: 0.8rem 0.75rem; border-bottom: 1px solid var(--line); white-space: nowrap;
 }
 thead th.num, td.num { text-align: right; }
-tbody td { padding: 0.9rem 1rem; border-bottom: 1px solid var(--line-2); vertical-align: top; }
+tbody td { padding: 0.8rem 0.75rem; border-bottom: 1px solid var(--line-2); vertical-align: top; }
 tbody tr:last-child td { border-bottom: 0; }
 td.pkg { font-weight: 700; white-space: nowrap; }
-td.what { color: var(--muted); line-height: 1.5; min-width: 300px; }
-td.num { font-variant-numeric: tabular-nums; white-space: nowrap; font-weight: 600; min-width: 118px; }
-thead th.num { min-width: 118px; }
+td.what { color: var(--muted); line-height: 1.45; min-width: 260px; max-width: 340px; }
+td.num { font-variant-numeric: tabular-nums; white-space: nowrap; font-weight: 600; min-width: 104px; }
+thead th.num { min-width: 104px; }
 td.retail { color: var(--ink); }
 td.you { color: var(--flow); }
 td.apex { color: var(--gold-deep); }
+td.oh { color: var(--muted); font-weight: 500; }
 tbody tr.total td { background: var(--page-2); font-weight: 700; }
 
 .split { display: flex; gap: 1.2rem; flex-wrap: wrap; margin-top: 1rem; font-size: 0.8rem; color: var(--faint); }
@@ -230,6 +231,7 @@ footer p { font-size: 0.82rem; color: var(--faint); max-width: 56ch; }
             <th data-pt="Pacote" data-en="Package">Pacote</th>
             <th data-pt="O que é" data-en="What it is">O que é</th>
             <th class="num" data-pt="Retail" data-en="Retail">Retail</th>
+            <th class="num" data-pt="Custo fixo*" data-en="Overhead*">Custo fixo*</th>
             <th class="num" data-pt="Resonate (65%)" data-en="Resonate (65%)">Resonate (65%)</th>
             <th class="num" data-pt="Apex (35%)" data-en="Apex (35%)">Apex (35%)</th>
           </tr>
@@ -241,6 +243,7 @@ footer p { font-size: 0.82rem; color: var(--faint); max-width: 56ch; }
                 data-pt="O portal como está hoje: Analytics com orientação em linguagem simples, registro diário e metas mensais, Pipeline completo (leads, parceiros de indicação com atribuição automática, Base de Ouro), Projetos com margem, Calendário próprio, Financeiro, Execução, Documentos, Tarefas e os sete diagnósticos Apex. Bilíngue PT/EN, instala no celular."
                 data-en="The portal as it stands today: Analytics with plain-language coaching, daily log and monthly goals, full Pipeline (leads, referral partners with auto-tracked attribution, Base de Ouro), Projects with margin tracking, own Calendar, Financeiro, Execução, Documents, Tasks, and the seven Apex diagnostics. Bilingual PT/EN, installs to the phone.">O portal como está hoje: Analytics com orientação em linguagem simples, registro diário e metas mensais, Pipeline completo (leads, parceiros de indicação com atribuição automática, Base de Ouro), Projetos com margem, Calendário próprio, Financeiro, Execução, Documentos, Tarefas e os sete diagnósticos Apex. Bilíngue PT/EN, instala no celular.</td>
             <td class="num retail">$129/mo</td>
+            <td class="num oh">—</td>
             <td class="num you">$84</td>
             <td class="num apex">$45</td>
           </tr>
@@ -250,6 +253,7 @@ footer p { font-size: 0.82rem; color: var(--faint); max-width: 56ch; }
                 data-pt="Tudo do Essencial, mais estimativas, faturamento e agendamento com marca — o mesmo link de marcação que a Apex usa, nas cores e logo do cliente."
                 data-en="Everything in Essencial, plus estimates, invoicing, and branded scheduling — the same booking link Apex uses, in the client's own colors and logo.">Tudo do Essencial, mais estimativas, faturamento e agendamento com marca — o mesmo link de marcação que a Apex usa, nas cores e logo do cliente.</td>
             <td class="num retail">$199/mo</td>
+            <td class="num oh">—</td>
             <td class="num you">$129</td>
             <td class="num apex">$70</td>
           </tr>
@@ -259,6 +263,7 @@ footer p { font-size: 0.82rem; color: var(--faint); max-width: 56ch; }
                 data-pt="Tudo do Completo, mais logins para os vendedores do cliente — cada um vê só os leads que são dele, nunca o financeiro, os projetos ou as metas."
                 data-en="Everything in Completo, plus logins for the client's salespeople — each sees only the leads they own, never the finances, projects, or goals.">Tudo do Completo, mais logins para os vendedores do cliente — cada um vê só os leads que são dele, nunca o financeiro, os projetos ou as metas.</td>
             <td class="num retail">$199/mo + $45<span style="font-weight:400;color:var(--faint)">/seat</span></td>
+            <td class="num oh">—</td>
             <td class="num you">$129 + $29</td>
             <td class="num apex">$70 + $16</td>
           </tr>
@@ -268,6 +273,7 @@ footer p { font-size: 0.82rem; color: var(--faint); max-width: 56ch; }
                 data-pt="Configuração inicial: conta, marca, listas de serviços/vendedores/parceiros e página de indicação."
                 data-en="One-time setup: account, branding, their services/salespeople/partner lists, and referral page configured.">Configuração inicial: conta, marca, listas de serviços/vendedores/parceiros e página de indicação.</td>
             <td class="num retail">$250 <span style="font-weight:400;color:var(--faint)" data-pt="uma vez" data-en="once">uma vez</span></td>
+            <td class="num oh">—</td>
             <td class="num you">$163</td>
             <td class="num apex">$88</td>
           </tr>
@@ -331,6 +337,7 @@ footer p { font-size: 0.82rem; color: var(--faint); max-width: 56ch; }
             <th data-pt="O que muda" data-en="What changes">O que muda</th>
             <th class="num" data-pt="Hoje" data-en="Today">Hoje</th>
             <th class="num" data-pt="Projetado" data-en="Projected">Projetado</th>
+            <th class="num" data-pt="Custo fixo*" data-en="Overhead*">Custo fixo*</th>
             <th class="num" data-pt="Resonate / Apex" data-en="Resonate / Apex">Resonate / Apex</th>
           </tr>
         </thead>
@@ -342,6 +349,7 @@ footer p { font-size: 0.82rem; color: var(--faint); max-width: 56ch; }
                 data-en="Gains the flow map and the reworked daily log. It is still the portal — which is why it barely moves.">Ganha o mapa do fluxo e o registro diário reformulado. Continua sendo o portal — por isso quase não se mexe.</td>
             <td class="num" style="color:var(--faint)">$129</td>
             <td class="num retail">$149/mo</td>
+            <td class="num oh">—</td>
             <td class="num you">$97 / <span class="apex">$52</span></td>
           </tr>
           <tr>
@@ -351,6 +359,7 @@ footer p { font-size: 0.82rem; color: var(--faint); max-width: 56ch; }
                 data-en="This is the package the vision transforms: full diagnostic, sub-area drill-down, duct-tape alerts, before/after report. The client stops buying a tool and starts buying an answer.">É o pacote que a visão transforma: diagnóstico completo, drill-down por sub-área, alertas de remendo, relatório de antes e depois. O cliente para de comprar ferramenta e passa a comprar resposta.</td>
             <td class="num" style="color:var(--faint)">$199</td>
             <td class="num retail">$349/mo</td>
+            <td class="num oh">—</td>
             <td class="num you">$227 / <span class="apex">$122</span></td>
           </tr>
           <tr>
@@ -360,6 +369,7 @@ footer p { font-size: 0.82rem; color: var(--faint); max-width: 56ch; }
                 data-en="Same per-seat structure. The seat rises only a little on purpose — it must never become the reason not to add a salesperson.">Mesma estrutura por assento. O assento sobe pouco de propósito — não pode virar o motivo de não contratar mais um vendedor.</td>
             <td class="num" style="color:var(--faint)">+$45</td>
             <td class="num retail">+$59<span style="font-weight:400;color:var(--faint)">/seat</span></td>
+            <td class="num oh">—</td>
             <td class="num you">$38 / <span class="apex">$21</span></td>
           </tr>
           <tr>
@@ -369,6 +379,7 @@ footer p { font-size: 0.82rem; color: var(--faint); max-width: 56ch; }
                 data-en="Stops being setup and starts including the full assessment, the public scans (SEO, GEO, reviews, competitors) and the consultant report. That is real analyst work — and it is the highest-value moment in the whole relationship.">Deixa de ser configuração e passa a incluir a avaliação completa, os levantamentos públicos (SEO, GEO, avaliações, concorrentes) e o relatório do consultor. É trabalho de análise de verdade — e é o momento de maior valor da relação inteira.</td>
             <td class="num" style="color:var(--faint)">$250</td>
             <td class="num retail">$950 <span style="font-weight:400;color:var(--faint)" data-pt="uma vez" data-en="once">uma vez</span></td>
+            <td class="num oh">~$56</td>
             <td class="num you">$618 / <span class="apex">$332</span></td>
           </tr>
           <tr>
@@ -378,25 +389,11 @@ footer p { font-size: 0.82rem; color: var(--faint); max-width: 56ch; }
                 data-en="The line that does not exist yet. A business not ready for a subscription will still pay for a diagnostic that finds money. It disqualifies nobody and it is the on-ramp into Completo. <b>The one item at 50 / 50</b> — see the note below.">A linha que ainda não existe. Um negócio que não está pronto para assinatura mesmo assim paga por um diagnóstico que acha dinheiro. Não desqualifica ninguém e é a porta de entrada para o Completo. <b>Único item em 50 / 50</b> — ver a nota abaixo.</td>
             <td class="num" style="color:var(--faint)">—</td>
             <td class="num retail">$1.500</td>
+            <td class="num oh">~$56</td>
             <td class="num you">$750 / <span class="apex">$750</span><div style="font-weight:600;font-size:0.7rem;color:var(--gold-deep);margin-top:0.25rem">50 / 50</div></td>
           </tr>
         </tbody>
       </table>
-    </div>
-
-    <div class="callout">
-      <div class="k" data-pt="Por que o Completo quase dobra" data-en="Why Completo nearly doubles">Por que o Completo quase dobra</div>
-      <p data-pt="Porque deixa de ser a mesma coisa. Hoje ele compra um lugar para organizar o negócio. Com a visão construída ele compra um diagnóstico que aponta onde o dinheiro para, e um sistema que destrava aquilo. <b>$349/mês é irrelevante ao lado de $84.200 parados no cano</b> — e o cliente vê os dois números na mesma tela."
-         data-en="Because it stops being the same thing. Today he buys a place to organise the business. With the vision built he buys a diagnostic that points at where the money stops, and a system that clears it. <b>$349/mo is irrelevant next to $84,200 stuck in the pipe</b> — and the client sees both numbers on the same screen.">Porque deixa de ser a mesma coisa. Hoje ele compra um lugar para organizar o negócio. Com a visão construída ele compra um diagnóstico que aponta onde o dinheiro para, e um sistema que destrava aquilo. <b>$349/mês é irrelevante ao lado de $84.200 parados no cano</b> — e o cliente vê os dois números na mesma tela.</p>
-      <p data-pt="O diagnóstico também é o que segura o cliente: ele entra para ver o próprio cano correr, e fica porque continua correndo."
-         data-en="The diagnostic is also what keeps the client: he logs in to watch his own pipe run, and stays because it keeps running.">O diagnóstico também é o que segura o cliente: ele entra para ver o próprio cano correr, e fica porque continua correndo.</p>
-    </div>
-    <div class="callout">
-      <div class="k" data-pt="Por que o Raio-X avulso é 50 / 50" data-en="Why the standalone X-Ray is 50 / 50">Por que o Raio-X avulso é 50 / 50</div>
-      <p data-pt="Porque não é indicação, é co-produção — e porque compete com ele. A Apex entra com o método e a leitura; a Resonate entra com o levantamento e a entrega. E um negócio que compra o Raio-X avulso ganha um caminho para seguir <b>sem contratar a consultoria</b>. Não substitui a Apex (não vai o playbook inteiro), mas reduz a necessidade — e ninguém vende com vontade uma coisa que concorre consigo mesmo por 35%."
-         data-en="Because it is not a referral, it is a co-production — and because it competes with him. Apex brings the method and the interpretation; Resonate brings the scans and the delivery. And a business that buys the standalone X-Ray gets a path to move forward <b>without hiring the consulting</b>. It does not replace Apex (the full playbook does not go with it), but it reduces the need — and nobody sells with any enthusiasm something that competes with them for 35%.">Porque não é indicação, é co-produção — e porque compete com ele. A Apex entra com o método e a leitura; a Resonate entra com o levantamento e a entrega. E um negócio que compra o Raio-X avulso ganha um caminho para seguir <b>sem contratar a consultoria</b>. Não substitui a Apex (não vai o playbook inteiro), mas reduz a necessidade — e ninguém vende com vontade uma coisa que concorre consigo mesmo por 35%.</p>
-      <p data-pt="A conta fecha: o custo de rodar um Raio-X é baixo (são chamadas de API e tokens, não mão de obra), então 50 / 50 ainda deixa margem confortável para a Resonate. E o trabalho de verdade do Raio-X é virar Completo — onde a Apex ganha recorrente por anos."
-         data-en="The maths holds: running an X-Ray costs little (it is API calls and tokens, not labour), so 50 / 50 still leaves Resonate a comfortable margin. And the X-Ray's real job is to become a Completo — where Apex earns recurring for years.">A conta fecha: o custo de rodar um Raio-X é baixo (são chamadas de API e tokens, não mão de obra), então 50 / 50 ainda deixa margem confortável para a Resonate. E o trabalho de verdade do Raio-X é virar Completo — onde a Apex ganha recorrente por anos.</p>
     </div>
   </div>
 </section>
@@ -420,6 +417,7 @@ footer p { font-size: 0.82rem; color: var(--faint); max-width: 56ch; }
             <th data-pt="O que faz" data-en="What it does">O que faz</th>
             <th data-pt="Etapa do cano" data-en="Pipe stage">Etapa do cano</th>
             <th class="num" data-pt="Projetado" data-en="Projected">Projetado</th>
+            <th class="num" data-pt="Custo fixo*" data-en="Overhead*">Custo fixo*</th>
             <th class="num" data-pt="Resonate / Apex" data-en="Resonate / Apex">Resonate / Apex</th>
           </tr>
         </thead>
@@ -431,6 +429,7 @@ footer p { font-size: 0.82rem; color: var(--faint); max-width: 56ch; }
                 data-en="Writes and sends the chase for each overdue invoice, in the right tone, and escalates to the owner only when a human decision is needed.">Escreve e envia a cobrança de cada atrasado, no tom certo, e escala para o dono só quando precisa de decisão humana.</td>
             <td style="color:var(--muted)" data-pt="Faturamento" data-en="Billing">Faturamento</td>
             <td class="num retail">$79/mo</td>
+            <td class="num oh">~$11</td>
             <td class="num you">$63 / <span class="apex">$16</span></td>
           </tr>
           <tr>
@@ -440,6 +439,7 @@ footer p { font-size: 0.82rem; color: var(--faint); max-width: 56ch; }
                 data-en="Answers every new lead within minutes, qualifies it with the trade's own questions and books it. It clears the single most common blockage there is.">Responde todo lead novo em minutos, qualifica com as perguntas do ramo e já põe na agenda. Resolve o entupimento mais comum de todos.</td>
             <td style="color:var(--muted)" data-pt="Leads e vendas" data-en="Leads and sales">Leads e vendas</td>
             <td class="num retail">$99/mo</td>
+            <td class="num oh">~$17</td>
             <td class="num you">$79 / <span class="apex">$20</span></td>
           </tr>
           <tr>
@@ -449,6 +449,7 @@ footer p { font-size: 0.82rem; color: var(--faint); max-width: 56ch; }
                 data-en="Makes the post-job contact, asks for the review at the right moment, and flags the owner when an old client has gone cold.">Faz o contato depois da entrega, pede a avaliação na hora certa e avisa o dono quando um cliente antigo esfriou.</td>
             <td style="color:var(--muted)" data-pt="Pós-venda e indicações" data-en="Client care and referrals">Pós-venda e indicações</td>
             <td class="num retail">$69/mo</td>
+            <td class="num oh">~$10</td>
             <td class="num you">$55 / <span class="apex">$14</span></td>
           </tr>
           <tr>
@@ -458,6 +459,7 @@ footer p { font-size: 0.82rem; color: var(--faint); max-width: 56ch; }
                 data-en="Runs the public scans monthly, re-reads the trade's reviews, and warns when a green stage has started to slip — before it turns red.">Roda os levantamentos públicos todo mês, relê as avaliações do ramo e avisa quando uma etapa verde começou a escorregar — antes de virar vermelho.</td>
             <td style="color:var(--muted)" data-pt="Todas" data-en="All of them">Todas</td>
             <td class="num retail">$89/mo</td>
+            <td class="num oh">~$21</td>
             <td class="num you">$71 / <span class="apex">$18</span></td>
           </tr>
           <tr>
@@ -466,8 +468,9 @@ footer p { font-size: 0.82rem; color: var(--faint); max-width: 56ch; }
                 data-pt="O grande. Faz o acompanhamento do lead por mensagem de texto direto do CRM — a sequência que ninguém tem tempo de fazer à mão. <b>Tem custo real por trás</b>: registro da marca e do número junto às operadoras (10DLC), taxa por mensagem e as regras de consentimento. É o agente de maior retorno e o de maior preparo."
                 data-en="The big one. Follows up with the lead by text straight from the CRM — the sequence nobody has time to do by hand. <b>There is real cost behind it</b>: brand and number registration with the carriers (10DLC), per-message fees and the consent rules. Highest-return agent and the one with the most groundwork.">O grande. Faz o acompanhamento do lead por mensagem de texto direto do CRM — a sequência que ninguém tem tempo de fazer à mão. <b>Tem custo real por trás</b>: registro da marca e do número junto às operadoras (10DLC), taxa por mensagem e as regras de consentimento. É o agente de maior retorno e o de maior preparo.</td>
             <td style="color:var(--muted)" data-pt="Leads e vendas" data-en="Leads and sales">Leads e vendas</td>
-            <td class="num retail">$129/mo<div style="font-weight:400;font-size:0.74rem;color:var(--faint);margin-top:0.25rem" data-pt="+ uso" data-en="+ usage">+ uso</div></td>
-            <td class="num you">$103 / <span class="apex">$26</span></td>
+            <td class="num retail">$169/mo<div style="font-weight:400;font-size:0.74rem;color:var(--faint);margin-top:0.25rem" data-pt="+ uso" data-en="+ usage">+ uso</div></td>
+            <td class="num oh">~$63<div style="font-weight:400;font-size:0.7rem;color:var(--faint);margin-top:0.2rem" data-pt="10DLC + msg" data-en="10DLC + msg">10DLC + msg</div></td>
+            <td class="num you">$135 / <span class="apex">$34</span></td>
           </tr>
           <tr>
             <td class="pkg" data-pt="Atendimento por voz" data-en="Voice answering">Atendimento por voz</td>
@@ -475,8 +478,9 @@ footer p { font-size: 0.82rem; color: var(--faint); max-width: 56ch; }
                 data-pt="Atende a ligação que hoje cai na caixa postal — em português, inglês e espanhol. Numa região onde o cliente e o dono nem sempre falam a mesma língua, isso deixa de ser conveniência e vira o motivo de ganhar o trabalho. Precisa de desenvolvimento e teste de verdade antes de vender."
                 data-en="Answers the call that today goes to voicemail — in Portuguese, English and Spanish. In a region where the customer and the owner do not always share a language, that stops being a convenience and becomes the reason the job is won. Needs real development and testing before it is sold.">Atende a ligação que hoje cai na caixa postal — em português, inglês e espanhol. Numa região onde o cliente e o dono nem sempre falam a mesma língua, isso deixa de ser conveniência e vira o motivo de ganhar o trabalho. Precisa de desenvolvimento e teste de verdade antes de vender.</td>
             <td style="color:var(--muted)" data-pt="Leads e vendas" data-en="Leads and sales">Leads e vendas</td>
-            <td class="num retail">$149/mo<div style="font-weight:400;font-size:0.74rem;color:var(--faint);margin-top:0.25rem" data-pt="+ minutos" data-en="+ minutes">+ minutos</div></td>
-            <td class="num you">$119 / <span class="apex">$30</span></td>
+            <td class="num retail">$199/mo<div style="font-weight:400;font-size:0.74rem;color:var(--faint);margin-top:0.25rem" data-pt="+ minutos" data-en="+ minutes">+ minutos</div></td>
+            <td class="num oh">~$84<div style="font-weight:400;font-size:0.7rem;color:var(--faint);margin-top:0.2rem" data-pt="Quo + minutos" data-en="Quo + minutes">Quo + minutos</div></td>
+            <td class="num you">$159 / <span class="apex">$40</span></td>
           </tr>
           <tr class="total">
             <td class="pkg" data-pt="Os seis" data-en="All six">Os seis</td>
@@ -484,29 +488,62 @@ footer p { font-size: 0.82rem; color: var(--faint); max-width: 56ch; }
                 data-pt="Preço de conjunto, fora o uso de SMS e minutos. O argumento de venda é direto: custa menos que meio salário, atende em três línguas e não falta."
                 data-en="Bundle price, before SMS and voice usage. The sales argument is direct: it costs less than half a salary, answers in three languages and never calls in sick.">Preço de conjunto, fora o uso de SMS e minutos. O argumento de venda é direto: custa menos que meio salário, atende em três línguas e não falta.</td>
             <td></td>
-            <td class="num retail">$449/mo</td>
-            <td class="num you">$359 / <span class="apex">$90</span></td>
+            <td class="num retail">$600/mo</td>
+            <td class="num oh">~$206</td>
+            <td class="num you">$480 / <span class="apex">$120</span></td>
           </tr>
         </tbody>
       </table>
     </div>
+  </div>
+</section>
 
-    <div class="callout">
-      <div class="k" data-pt="Por que separado dos pacotes" data-en="Why it sits outside the packages">Por que separado dos pacotes</div>
-      <p data-pt="Um agente tem custo por uso — quanto mais o cliente usa, mais custa rodar. Enfiar isso dentro de uma mensalidade fixa transforma o cliente mais engajado no menos lucrativo. Fora, cada agente se paga sozinho e o cliente escolhe."
-         data-en="An agent carries usage cost — the more the client uses it, the more it costs to run. Folding that into a flat monthly turns the most engaged client into the least profitable one. Kept outside, each agent pays for itself and the client chooses.">Um agente tem custo por uso — quanto mais o cliente usa, mais custa rodar. Enfiar isso dentro de uma mensalidade fixa transforma o cliente mais engajado no menos lucrativo. Fora, cada agente se paga sozinho e o cliente escolhe.</p>
-      <p data-pt="<b>A divisão aqui é 80 / 20, não 65 / 35</b> — e o motivo é aritmética, não negociação. O custo de uso sai inteiro do lado da Resonate, antes de dividir. Num 65 / 35, a voz deixaria $37 para a Resonate e $52 para a Apex: a parte que paga o custo ficaria com menos que a parte que não paga. O 80 / 20 corrige isso e ainda deixa a Apex ganhando em cima de receita recorrente que ela trouxe."
-         data-en="<b>The split here is 80 / 20, not 65 / 35</b> — and the reason is arithmetic, not negotiation. Usage cost comes entirely out of Resonate's side, before anything is divided. On 65 / 35, voice would leave $37 for Resonate and $52 for Apex: the side paying the cost ends up with less than the side that does not. 80 / 20 corrects that and still has Apex earning on recurring revenue it brought in.">A divisão aqui é 80 / 20, não 65 / 35 — e o motivo é aritmética, não negociação. O custo de uso sai inteiro do lado da Resonate, antes de dividir. Num 65 / 35, a voz deixaria $37 para a Resonate e $52 para a Apex: a parte que paga o custo ficaria com menos que a parte que não paga. O 80 / 20 corrige isso e ainda deixa a Apex ganhando em cima de receita recorrente que ela trouxe.</p>
-      <p data-pt="Os dois com custo por fora vão como base + uso: SMS paga registro nas operadoras e taxa por mensagem, voz paga por minuto."
-         data-en="Two of them carry outside cost that cannot be absorbed: SMS pays carrier registration and a per-message fee, and voice pays per minute. Those two go out as base + usage — it is the only honest way to price them.">Dois deles têm custo por fora que não dá para embutir: SMS paga registro nas operadoras e taxa por mensagem, e voz paga por minuto. Esses dois vão como base + uso — é o único jeito honesto de precificar.</p>
-      <p data-pt="E a ordem importa: agente só entra depois que o diagnóstico apontou o entupimento. Automatizar uma etapa quebrada só faz o erro acontecer mais rápido."
-         data-en="And the order matters: an agent only goes in after the diagnostic has named the blockage. Automating a broken stage just makes the mistake happen faster.">E a ordem importa: agente só entra depois que o diagnóstico apontou o entupimento. Automatizar uma etapa quebrada só faz o erro acontecer mais rápido.</p>
+<section class="tier" style="padding-top:clamp(2rem,5vh,3rem)">
+  <div class="wrap">
+    <div class="tbl-wrap">
+      <table style="min-width:640px">
+        <thead>
+          <tr>
+            <th data-pt="Custo fixo da plataforma" data-en="Platform overhead">Custo fixo da plataforma</th>
+            <th data-pt="Situação" data-en="Status">Situação</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="pkg" style="white-space:normal">Quo</td>
+            <td class="what"
+                data-pt="Assinatura fica do lado da Resonate, não do cliente. Para dar suporte é preciso entrar nas configurações da conta, e pedir senha para cliente não se faz — ainda mais com autenticação em dois fatores. Custo fixo mensal, independente de quantos clientes usam."
+                data-en="The subscription sits on Resonate's side, not the client's. Supporting it means getting into the account settings, and asking a client for their password is not something you do — least of all with two-factor authentication in play. Flat monthly cost, regardless of how many clients use it.">Assinatura fica do lado da Resonate, não do cliente. Para dar suporte é preciso entrar nas configurações da conta, e pedir senha para cliente não se faz — ainda mais com autenticação em dois fatores. Custo fixo mensal, independente de quantos clientes usam.</td>
+          </tr>
+          <tr>
+            <td class="pkg" style="white-space:normal">Cloudflare</td>
+            <td class="what"
+                data-pt="Hoje tudo cabe no plano gratuito — Workers, D1, R2. Isso não se mantém para sempre: o custo sobe com o número de clientes, não com o pacote de cada um. Entra como custo de plataforma quando cruzar o limite."
+                data-en="Everything fits the free tier today — Workers, D1, R2. That does not hold forever: the cost rises with the number of clients, not with any one client's package. It becomes a platform cost once the threshold is crossed.">Hoje tudo cabe no plano gratuito — Workers, D1, R2. Isso não se mantém para sempre: o custo sobe com o número de clientes, não com o pacote de cada um. Entra como custo de plataforma quando cruzar o limite.</td>
+          </tr>
+          <tr>
+            <td class="pkg" style="white-space:normal" data-pt="Servidor n8n" data-en="n8n server">Servidor n8n</td>
+            <td class="what"
+                data-pt="Os agentes rodam num n8n auto-hospedado por um parceiro — ~$50/mês pela manutenção, atualizações e por ter alguém para chamar quando um fluxo cai. Custo de plataforma, não por cliente. Vale combinar desde já em que volume esse valor é revisto: $50 é justo com 5 clientes e barato com 50."
+                data-en="The agents run on an n8n instance self-hosted by a partner — about $50/mo for maintenance, updates and having someone to call when a workflow dies. Platform cost, not per client. Worth agreeing up front at what volume the figure gets revisited: $50 is fair at 5 clients and cheap at 50.">Os agentes rodam num n8n auto-hospedado por um parceiro — ~$50/mês pela manutenção, atualizações e por ter alguém para chamar quando um fluxo cai. Custo de plataforma, não por cliente. Vale combinar desde já em que volume esse valor é revisto: $50 é justo com 5 clientes e barato com 50.</td>
+          </tr>
+          <tr>
+            <td class="pkg" style="white-space:normal" data-pt="Registro 10DLC" data-en="10DLC registration">Registro 10DLC</td>
+            <td class="what"
+                data-pt="Registro de marca e número junto às operadoras, exigido para SMS comercial nos EUA. Taxa de cadastro mais mensalidade por número, além do custo por mensagem."
+                data-en="Brand and number registration with the US carriers, required for business SMS. A registration fee plus a monthly per-number charge, on top of the per-message cost.">Registro de marca e número junto às operadoras, exigido para SMS comercial nos EUA. Taxa de cadastro mais mensalidade por número, além do custo por mensagem.</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </section>
 
 <footer>
   <div class="wrap col">
+    <p style="margin-bottom:1rem"
+       data-pt="* Custo fixo já vem com folga de ~40% sobre a estimativa. Serve para o mês em que o uso vem acima do previsto ou o Cloudflare sai do plano gratuito — melhor a folga estar no preço do que descobrir depois."
+       data-en="* Overhead already carries roughly a 40% buffer over the estimate. It covers the month where usage runs above forecast or Cloudflare leaves the free tier — better the slack is in the price than discovered later.">* Custo fixo já vem com folga de ~40% sobre a estimativa. Serve para o mês em que o uso vem acima do previsto ou o Cloudflare sai do plano gratuito — melhor a folga estar no preço do que descobrir depois.</p>
     <p data-pt="A tabela de hoje está fechada. As duas de baixo são projeção — números para a conversa, não para a proposta. As divisões variam por linha: 65 / 35 nas assinaturas, 50 / 50 no Raio-X avulso, 80 / 20 nos agentes."
        data-en="Today's table is settled. The two below are projections — numbers for the conversation, not the proposal. The splits vary by line: 65 / 35 on subscriptions, 50 / 50 on the standalone X-Ray, 80 / 20 on the agents.">A tabela de hoje está fechada. As duas de baixo são projeção — números para a conversa, não para a proposta. As divisões variam por linha: 65 / 35 nas assinaturas, 50 / 50 no Raio-X avulso, 80 / 20 nos agentes.</p>
     <p style="margin-top:1rem">
