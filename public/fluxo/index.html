@@ -134,7 +134,7 @@ section { padding: clamp(4rem, 11vh, 7.5rem) 0; }
 :focus-visible { outline: 2px solid var(--green); outline-offset: 3px; border-radius: 4px; }
 
 /* ---------- OPENING: the owner who cannot see it ---------- */
-.open { padding-top: clamp(5rem, 14vh, 9rem); }
+.open { padding-top: clamp(5rem, 14vh, 9rem); padding-bottom: clamp(3rem, 9vh, 5.5rem); }
 .open .who {
   font: 600 0.72rem/1 var(--body);
   letter-spacing: 0.13em; text-transform: uppercase;
@@ -199,14 +199,18 @@ section { padding: clamp(4rem, 11vh, 7.5rem) 0; }
 .named .lede { margin-top: 1.3rem; font-size: clamp(1.05rem, 2vw, 1.24rem); color: var(--muted); max-width: 44ch; }
 
 /* ---------- SCROLLY shell ---------- */
-.scrolly { padding: 0 0 clamp(3rem, 8vh, 6rem); }
+.scrolly { padding: clamp(2rem, 6vh, 4rem) 0 clamp(3rem, 8vh, 6rem); }
 .sc-grid { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.45fr); gap: clamp(2rem, 5vw, 3.6rem); align-items: start; }
 .sc-steps { display: flex; flex-direction: column; }
+/* the sticky stage centres itself, so without a lead-in it rides up beside
+   the previous section while that section is still being read */
+.sc-steps > .sc-step:first-child { padding-top: 46vh; }
+.sc-stage { padding-top: 46vh; }
 .sc-step { min-height: 82vh; display: flex; align-items: center; opacity: 0.26; transition: opacity .45s ease; }
 .sc-step.on { opacity: 1; }
 .sc-step p { font-size: clamp(1.1rem, 2.1vw, 1.42rem); line-height: 1.44; max-width: 30ch; }
 .sc-step .eyebrow { font: 600 0.68rem/1 var(--body); letter-spacing: 0.13em; text-transform: uppercase; color: var(--gold-deep); margin-bottom: 0.7rem; display: block; }
-.sc-stage { position: sticky; top: 0; height: 100vh; display: flex; align-items: center; }
+.sc-stage { position: sticky; top: 4.5rem; height: calc(100vh - 9rem); display: flex; align-items: center; }
 .stage-card {
   width: 100%; background: var(--card); border: 1px solid var(--line);
   border-radius: var(--r); box-shadow: 0 2px 20px var(--shadow); overflow: hidden;
@@ -384,6 +388,16 @@ section { padding: clamp(4rem, 11vh, 7.5rem) 0; }
 .rung h3 { font-size: 1.1rem; }
 .rung p { margin-top: 0.3rem; font-size: 0.9rem; color: var(--muted); max-width: 46ch; }
 
+.quote {
+  margin: 1.1rem 0 0; padding: 0.9rem 0 0.9rem 1.1rem;
+  border-left: 3px solid var(--gold);
+}
+.quote p { font-size: 1.06rem; line-height: 1.42; font-weight: 500; max-width: 44ch; }
+.quote cite {
+  display: block; margin-top: 0.6rem; font-style: normal;
+  font: 600 0.68rem/1 var(--body); letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold-deep);
+}
+
 /* ---------- COURSE ---------- */
 .course { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1rem; margin-top: 1.8rem; }
 
@@ -401,82 +415,14 @@ section { padding: clamp(4rem, 11vh, 7.5rem) 0; }
 <section class="open">
   <div class="wrap col">
     <p class="who"><span>Resonate</span><span class="who-x" aria-hidden="true">·</span><img class="who-logo" alt="Apex" src="assets/apex-logo.png"></p>
-    <h1 data-pt="O dono não vê o dinheiro parar."
-        data-en="The owner cannot see the money stop.">O dono não vê o dinheiro parar.</h1>
-    <p class="lede"
-       data-pt="Ele vê os números que já tem. Todos parecem bons. E mesmo assim o mês fecha apertado."
-       data-en="He sees the numbers he already has. They all look fine. And the month still closes tight.">Ele vê os números que já tem. Todos parecem bons. E mesmo assim o mês fecha apertado.</p>
-
-    <div class="tiles">
-      <div class="tile">
-        <div class="k" data-pt="Obras entregues" data-en="Jobs delivered">Obras entregues</div>
-        <div class="v good">47</div>
-        <div class="c" data-pt="em 6 meses" data-en="in 6 months">em 6 meses</div>
-      </div>
-      <div class="tile">
-        <div class="k" data-pt="Retrabalho" data-en="Rework">Retrabalho</div>
-        <div class="v good">2</div>
-        <div class="c" data-pt="de 47 — qualidade alta" data-en="of 47 — high quality">de 47 — qualidade alta</div>
-      </div>
-      <div class="tile">
-        <div class="k" data-pt="Orçamentos enviados" data-en="Quotes sent">Orçamentos enviados</div>
-        <div class="v good">63</div>
-        <div class="c" data-pt="taxa de fechamento 74%" data-en="74% close rate">taxa de fechamento 74%</div>
-      </div>
-      <div class="tile">
-        <div class="k" data-pt="Faturado" data-en="Invoiced">Faturado</div>
-        <div class="v good">$312k</div>
-        <div class="c" data-pt="nota emitida no mesmo dia" data-en="invoiced same day">nota emitida no mesmo dia</div>
-      </div>
-    </div>
-
-    <p class="after-tiles"
-       data-pt="Nada aqui explica por que falta caixa."
-       data-en="Nothing here explains why cash is short.">Nada aqui explica por que falta caixa.</p>
-  </div>
-</section>
-
-<!-- ============ STORY BEATS ============ -->
-<section class="hero-story" id="story">
-  <div class="story-stage">
-    <div class="grid-bg" aria-hidden="true"></div>
-    <div class="story-veil"></div>
-  </div>
-
-  <div class="story-rail">
-    <div class="story-mark"></div>
-
-    <div class="sb" data-b="0">
-      <p data-pt="Ele faz um trabalho bom. Entrega no prazo. O cliente elogia."
-         data-en="He does good work. Delivers on time. The client is happy.">Ele faz um trabalho bom. Entrega no prazo. O cliente elogia.</p>
-    </div>
-    <div class="sb" data-b="1">
-      <p data-pt="A nota sai no mesmo dia. Ele controla tudo numa planilha."
-         data-en="The invoice goes out same day. He tracks it all in a spreadsheet.">A nota sai no mesmo dia. Ele controla tudo numa planilha.</p>
-    </div>
-    <div class="sb" data-b="2">
-      <p data-pt="Aí o mês vira e não tem dinheiro para o material da próxima obra."
-         data-en="Then the month turns and there is no money for the next job's materials.">Aí o mês vira e não tem dinheiro para o material da próxima obra.</p>
-    </div>
-    <div class="sb sb--turn" data-b="3">
-      <p data-pt="Ninguém nunca cobrou os atrasados. Porque ninguém sabia quais eram."
-         data-en="Nobody ever chased the overdue invoices. Because nobody knew which they were.">Ninguém nunca cobrou os atrasados. Porque ninguém sabia quais eram.</p>
-    </div>
-    <div class="sb" data-b="4">
-      <p data-pt="Ele não tem um problema de vendas. Tem um cano entupido."
-         data-en="He does not have a sales problem. He has a blocked pipe.">Ele não tem um problema de vendas. Tem um cano entupido.</p>
-    </div>
-  </div>
-</section>
-
-<!-- ============ NAMED ============ -->
-<section class="named">
-  <div class="wrap">
     <h1 data-pt="Todo negócio é um cano."
         data-en="Every business is a pipe.">Todo negócio é um cano.</h1>
     <p class="lede"
-       data-pt="O dinheiro do cliente entra de um lado e precisa sair do outro, na conta da empresa. Entre os dois pontos existem etapas — e é numa delas que ele para."
-       data-en="The client's money goes in one end and has to come out the other, in the company's account. Between those points sit the stages — and it stops in one of them.">O dinheiro do cliente entra de um lado e precisa sair do outro, na conta da empresa. Entre os dois pontos existem etapas — e é numa delas que ele para.</p>
+       data-pt="O dinheiro do cliente entra de um lado e precisa sair do outro, na conta da empresa. Entre os dois pontos existem etapas — e o dinheiro para numa delas."
+       data-en="The client's money goes in one end and has to come out the other, in the company's account. Between those points sit the stages — and the money stops in one of them.">O dinheiro do cliente entra de um lado e precisa sair do outro, na conta da empresa. Entre os dois pontos existem etapas — e o dinheiro para numa delas.</p>
+    <p class="after-tiles"
+       data-pt="Verde corre. Laranja escoa devagar. Vermelho para."
+       data-en="Green runs. Amber drains slowly. Red stops.">Verde corre. Laranja escoa devagar. Vermelho para.</p>
   </div>
 </section>
 
@@ -624,98 +570,206 @@ section { padding: clamp(4rem, 11vh, 7.5rem) 0; }
 <section id="verify">
   <div class="wrap">
     <div class="col">
-      <span class="scan-badge" data-pt="SEO · GEO · Redes" data-en="SEO · GEO · Social">SEO · GEO · Redes</span>
+      <span class="scan-badge" data-pt="Antes da primeira reunião" data-en="Before the first meeting">Antes da primeira reunião</span>
       <h2 style="margin-top:1.1rem; font-size:clamp(1.7rem,4vw,2.6rem); max-width:19ch"
           data-pt="Autoavaliação é opinião."
           data-en="Self-assessment is opinion.">Autoavaliação é opinião.</h2>
-      <p class="lede" style="margin-top:1.1rem; color:var(--muted); max-width:44ch"
-         data-pt="Por isso a avaliação pede os links e os @ das contas. Antes da reunião o sistema roda SEO, presença local (GEO) e os números reais das redes. O consultor chega sabendo o que o cliente não contou."
-         data-en="That is why the assessment asks for the links and the @ handles. Before the meeting the system runs SEO, local presence (GEO) and the real social numbers. The consultant arrives knowing what the client did not say.">Por isso a avaliação pede os links e os @ das contas. Antes da reunião o sistema roda SEO, presença local (GEO) e os números reais das redes. O consultor chega sabendo o que o cliente não contou.</p>
+      <p class="lede" style="margin-top:1.1rem; color:var(--muted); max-width:46ch"
+         data-pt="Um “sim” raramente conta a história toda. Antes de assinar nada, o sistema levanta o que é público — e o consultor chega sabendo o que o dono não contou, às vezes porque nem ele sabia."
+         data-en="A “yes” rarely tells the whole story. Before anything is signed, the system gathers what is public — and the consultant arrives knowing what the owner did not say, sometimes because he did not know it either.">Um “sim” raramente conta a história toda. Antes de assinar nada, o sistema levanta o que é público — e o consultor chega sabendo o que o dono não contou, às vezes porque nem ele sabia.</p>
     </div>
 
     <div class="stage-card" style="margin-top:2rem">
       <div class="verify">
         <div class="vhead">
           <span data-pt="Disse na avaliação" data-en="Said in the assessment">Disse na avaliação</span>
-          <span data-pt="O que a varredura achou" data-en="What the scan found">O que a varredura achou</span>
+          <span data-pt="O que o levantamento achou" data-en="What the scan found">O que o levantamento achou</span>
           <span></span>
-        </div>
-
-        <div class="vrow">
-          <div><div class="lbl2" data-pt="Google — ficha" data-en="Google profile">Google — ficha</div>
-            <div class="said" data-pt="“Sim, a gente aparece.”" data-en="“Yes, we show up.”">“Sim, a gente aparece.”</div></div>
-          <div><div class="lbl2">GEO</div>
-            <div class="found" data-pt="11 avaliações · 4,9 · nenhuma respondida" data-en="11 reviews · 4.9 · none replied to">11 avaliações · 4,9 · nenhuma respondida</div></div>
-          <span class="pill p-a" data-pt="Desperdiçado" data-en="Wasted">Desperdiçado</span>
         </div>
 
         <div class="vrow">
           <div><div class="lbl2" data-pt="Formulário do site" data-en="Site contact form">Formulário do site</div>
             <div class="said" data-pt="“Recebo contatos pelo site.”" data-en="“I get enquiries from the site.”">“Recebo contatos pelo site.”</div></div>
-          <div><div class="lbl2">SEO</div>
+          <div><div class="lbl2" data-pt="Aquisição" data-en="Acquisition">Aquisição</div>
             <div class="found" data-pt="Envia para um e-mail desativado" data-en="Sends to a disabled mailbox">Envia para um e-mail desativado</div></div>
           <span class="pill p-r" data-pt="Perdido há meses" data-en="Lost for months">Perdido há meses</span>
         </div>
 
         <div class="vrow">
-          <div><div class="lbl2" data-pt="Velocidade no celular" data-en="Mobile speed">Velocidade no celular</div>
-            <div class="said" data-pt="“O site está ok.”" data-en="“The site is fine.”">“O site está ok.”</div></div>
-          <div><div class="lbl2">SEO</div>
-            <div class="found" data-pt="6,8 s para carregar" data-en="6.8 s to load">6,8 s para carregar</div></div>
-          <span class="pill p-r" data-pt="Metade sai antes" data-en="Half leave first">Metade sai antes</span>
+          <div><div class="lbl2" data-pt="Atendimento ao telefone" data-en="How the phone is answered">Atendimento ao telefone</div>
+            <div class="said" data-pt="“A gente responde rápido.”" data-en="“We respond fast.”">“A gente responde rápido.”</div></div>
+          <div><div class="lbl2" data-pt="Leads e vendas" data-en="Leads and sales">Leads e vendas</div>
+            <div class="found" data-pt="Ligação de teste: caixa postal, sem retorno em 4 dias" data-en="Test call: voicemail, no callback in 4 days">Ligação de teste: caixa postal, sem retorno em 4 dias</div></div>
+          <span class="pill p-r" data-pt="Entra e some" data-en="Arrives and vanishes">Entra e some</span>
         </div>
 
         <div class="vrow">
-          <div><div class="lbl2">Instagram</div>
-            <div class="said" data-pt="“Posto toda semana.”" data-en="“I post weekly.”">“Posto toda semana.”</div></div>
-          <div><div class="lbl2" data-pt="Redes" data-en="Social">Redes</div>
-            <div class="found" data-pt="Último post há 34 dias" data-en="Last post 34 days ago">Último post há 34 dias</div></div>
-          <span class="pill p-a" data-pt="Parou" data-en="Stalled">Parou</span>
+          <div><div class="lbl2" data-pt="Avaliações" data-en="Reviews">Avaliações</div>
+            <div class="said" data-pt="“Os clientes gostam do serviço.”" data-en="“Clients like the work.”">“Os clientes gostam do serviço.”</div></div>
+          <div><div class="lbl2" data-pt="Pós-venda" data-en="Client care">Pós-venda</div>
+            <div class="found" data-pt="4,9 de 11 — mas a última chegou há 14 meses" data-en="4.9 from 11 — but the last one arrived 14 months ago">4,9 de 11 — mas a última chegou há 14 meses</div></div>
+          <span class="pill p-a" data-pt="Parou de crescer" data-en="Stopped growing">Parou de crescer</span>
+        </div>
+
+        <div class="vrow">
+          <div><div class="lbl2" data-pt="Presença local" data-en="Local presence">Presença local</div>
+            <div class="said" data-pt="“A gente aparece no Google.”" data-en="“We show up on Google.”">“A gente aparece no Google.”</div></div>
+          <div><div class="lbl2">SEO · GEO</div>
+            <div class="found" data-pt="Aparece — mas telefone divergente em 3 diretórios" data-en="Shows up — but a different phone number in 3 directories">Aparece — mas telefone divergente em 3 diretórios</div></div>
+          <span class="pill p-a" data-pt="Perde chamada" data-en="Losing calls">Perde chamada</span>
+        </div>
+
+        <div class="vrow">
+          <div><div class="lbl2" data-pt="Fotos do trabalho" data-en="Work photos">Fotos do trabalho</div>
+            <div class="said" data-pt="“Tem foto no perfil.”" data-en="“There are photos on the profile.”">“Tem foto no perfil.”</div></div>
+          <div><div class="lbl2" data-pt="Aquisição" data-en="Acquisition">Aquisição</div>
+            <div class="found" data-pt="6 fotos, todas de 2023" data-en="6 photos, all from 2023">6 fotos, todas de 2023</div></div>
+          <span class="pill p-a" data-pt="Desatualizado" data-en="Out of date">Desatualizado</span>
         </div>
       </div>
     </div>
 
-    <p style="margin-top:1.4rem; font-size:0.92rem; color:var(--muted); max-width:52ch"
-       data-pt="Esta página é o que o consultor entrega ao parceiro de marketing. O formulário quebrado é conserto de uma tarde e devolve dinheiro na mesma semana."
-       data-en="This page is what the consultant hands to the marketing partner. The broken form is an afternoon's fix and returns money the same week.">Esta página é o que o consultor entrega ao parceiro de marketing. O formulário quebrado é conserto de uma tarde e devolve dinheiro na mesma semana.</p>
+    <p style="margin-top:1.4rem; font-size:0.92rem; color:var(--muted); max-width:54ch"
+       data-pt="Nada aqui pede acesso aos números da empresa. É tudo público — e é o que o consultor entrega pronto ao parceiro certo. O formulário quebrado é conserto de uma tarde e devolve dinheiro na mesma semana."
+       data-en="None of this needs access to the company's books. It is all public — and it is what the consultant hands ready-made to the right partner. The broken form is an afternoon's fix and returns money the same week.">Nada aqui pede acesso aos números da empresa. É tudo público — e é o que o consultor entrega pronto ao parceiro certo. O formulário quebrado é conserto de uma tarde e devolve dinheiro na mesma semana.</p>
+  </div>
+</section>
+
+<!-- ============ THE COMPETITOR MINE ============ -->
+<section class="tint" id="hospitality">
+  <div class="wrap sc-grid" style="align-items:center">
+    <div>
+      <span class="scan-badge" data-pt="Hospitalidade Absurda" data-en="Unreasonable Hospitality">Hospitalidade Absurda</span>
+      <h2 style="margin-top:1rem; font-size:clamp(1.7rem,4vw,2.4rem); max-width:19ch"
+          data-pt="O setor inteiro leva reclamação pela mesma coisa."
+          data-en="The whole trade gets complained about for the same thing.">O setor inteiro leva reclamação pela mesma coisa.</h2>
+      <p style="margin-top:1.1rem; color:var(--muted); max-width:42ch"
+         data-pt="O levantamento não para nas avaliações dele. Lê as dos concorrentes também, procurando o padrão: a falha que todo mundo do ramo comete."
+         data-en="The scan does not stop at his reviews. It reads the competitors' too, looking for the pattern: the failure everyone in the trade makes.">O levantamento não para nas avaliações dele. Lê as dos concorrentes também, procurando o padrão: a falha que todo mundo do ramo comete.</p>
+      <p style="margin-top:1rem; color:var(--muted); max-width:42ch"
+         data-pt="Aí deixa de ser diagnóstico e vira posicionamento. Ser o único que faz aquilo direito é mais barato do que anunciar — e é a coisa que os clientes já estão pedindo em voz alta."
+         data-en="At that point it stops being a diagnosis and becomes positioning. Being the only one who gets that right is cheaper than advertising — and it is the thing customers are already asking for out loud.">Aí deixa de ser diagnóstico e vira posicionamento. Ser o único que faz aquilo direito é mais barato do que anunciar — e é a coisa que os clientes já estão pedindo em voz alta.</p>
+    </div>
+
+    <div class="stage-card">
+      <div class="verify">
+        <div style="font:600 0.62rem/1 var(--body); letter-spacing:0.11em; text-transform:uppercase; color:var(--faint); padding-bottom:0.7rem; border-bottom:1px solid var(--line)"
+             data-pt="312 avaliações · 9 serralherias · mesma região" data-en="312 reviews · 9 ironworks · same region">312 avaliações · 9 serralherias · mesma região</div>
+
+        <div class="vrow" style="grid-template-columns:1fr auto">
+          <div><div class="found" data-pt="“Sumiu depois de pegar o sinal”" data-en="“Vanished after taking the deposit”">“Sumiu depois de pegar o sinal”</div>
+            <div class="said" style="font-style:normal" data-pt="a reclamação nº 1 do setor" data-en="the trade's number-one complaint">a reclamação nº 1 do setor</div></div>
+          <span class="pill p-r">41%</span>
+        </div>
+        <div class="vrow" style="grid-template-columns:1fr auto">
+          <div><div class="found" data-pt="“Nunca sei quando vão aparecer”" data-en="“Never know when they'll turn up”">“Nunca sei quando vão aparecer”</div>
+            <div class="said" style="font-style:normal" data-pt="agendamento, em todos os concorrentes" data-en="scheduling, across every competitor">agendamento, em todos os concorrentes</div></div>
+          <span class="pill p-r">33%</span>
+        </div>
+        <div class="vrow" style="grid-template-columns:1fr auto">
+          <div><div class="found" data-pt="“Orçamento demorou duas semanas”" data-en="“Quote took two weeks”">“Orçamento demorou duas semanas”</div>
+            <div class="said" style="font-style:normal" data-pt="e ele responde em 48 h" data-en="and he quotes in 48 h">e ele responde em 48 h</div></div>
+          <span class="pill p-a">27%</span>
+        </div>
+
+        <div class="fixline" style="margin-top:1rem">
+          <span class="k" data-pt="A brecha" data-en="The opening">A brecha</span>
+          <span data-pt="Ele já entrega no prazo e orça em dois dias. Nunca disse isso em lugar nenhum. É a posição dele, de graça."
+                data-en="He already delivers on time and quotes in two days. He has never said so anywhere. That is his position, for free.">Ele já entrega no prazo e orça em dois dias. Nunca disse isso em lugar nenhum. É a posição dele, de graça.</span>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
 <!-- ============ DAILY LOG ============ -->
-<section class="tint" id="daily">
-  <div class="wrap sc-grid" style="align-items:center">
-    <div>
-      <span class="eyebrow" style="font:600 0.68rem/1 var(--body); letter-spacing:0.13em; text-transform:uppercase; color:var(--gold-deep)"
-            data-pt="O dia a dia" data-en="The daily rhythm">O dia a dia</span>
-      <h2 style="margin-top:0.9rem; font-size:clamp(1.7rem,4vw,2.5rem); max-width:18ch"
+<section id="daily">
+  <div class="wrap">
+    <div class="col">
+      <span class="scan-badge" data-pt="O registro diário" data-en="The daily log">O registro diário</span>
+      <h2 style="margin-top:1rem; font-size:clamp(1.7rem,4vw,2.5rem); max-width:20ch"
           data-pt="A avaliação é a foto. O registro diário é o filme."
           data-en="The assessment is the photograph. The daily log is the film.">A avaliação é a foto. O registro diário é o filme.</h2>
-      <p style="margin-top:1.1rem; color:var(--muted); max-width:42ch"
-         data-pt="Hoje ninguém preenche, porque pede muito e não devolve nada. A proposta é uma pergunta por dia, escolhida pelo trecho que está vermelho."
-         data-en="Today nobody fills it in, because it asks a lot and gives nothing back. The proposal is one question a day, chosen by whichever length is red.">Hoje ninguém preenche, porque pede muito e não devolve nada. A proposta é uma pergunta por dia, escolhida pelo trecho que está vermelho.</p>
-      <p style="margin-top:1rem; color:var(--muted); max-width:42ch"
-         data-pt="Trinta segundos, dois botões. E a resposta move a cor no painel dele — responder tem consequência visível."
-         data-en="Thirty seconds, two buttons. And the answer moves the colour on his own dashboard — answering has a visible consequence.">Trinta segundos, dois botões. E a resposta move a cor no painel dele — responder tem consequência visível.</p>
+      <p class="lede" style="margin-top:1.1rem; color:var(--muted); max-width:48ch"
+         data-pt="Hoje ele pede 28 números, todo dia. Um dono ocupado não faz isso — e sem ele o mapa envelhece. A questão não é pedir menos: é o sistema parar de perguntar o que já consegue ver."
+         data-en="Today it asks for 28 numbers, every day. A busy owner does not do that — and without him the map goes stale. The answer is not to ask less: it is for the system to stop asking what it can already see.">Hoje ele pede 28 números, todo dia. Um dono ocupado não faz isso — e sem ele o mapa envelhece. A questão não é pedir menos: é o sistema parar de perguntar o que já consegue ver.</p>
     </div>
 
-    <div class="stage-card">
-      <div class="phone-wrap">
-        <div class="phone">
-          <div class="pt2">
-            <span class="day" data-pt="Terça · 30 seg" data-en="Tuesday · 30 sec">Terça · 30 seg</span>
-            <span class="ind"></span>
+    <div class="fills" style="margin-top:2.2rem">
+      <div class="fill">
+        <div class="k" data-pt="1 · O sistema já viu" data-en="1 · The system already saw">1 · O sistema já viu</div>
+        <p style="margin-top:0.5rem"
+           data-pt="Orçamento enviado, obra entregue, nota emitida, quem está vencido, lead que entrou, visita agendada. Tudo isso acontece dentro do portal — ele não digita nada disso, só confere."
+           data-en="Quote sent, job delivered, invoice raised, who is overdue, lead that arrived, visit booked. All of it happens inside the portal — he types none of it, he just checks it.">Orçamento enviado, obra entregue, nota emitida, quem está vencido, lead que entrou, visita agendada. Tudo isso acontece dentro do portal — ele não digita nada disso, só confere.</p>
+      </div>
+      <div class="fill">
+        <div class="k" data-pt="2 · Ele confirma" data-en="2 · He confirms">2 · Ele confirma</div>
+        <p style="margin-top:0.5rem"
+           data-pt="Se o número está errado, ele corrige — e a correção é o sinal. Quer dizer que aquela etapa acontece fora do sistema, e isso por si só é um entupimento."
+           data-en="If a number is wrong he corrects it — and the correction is the signal. It means that stage is happening outside the system, and that on its own is a blockage.">Se o número está errado, ele corrige — e a correção é o sinal. Quer dizer que aquela etapa acontece fora do sistema, e isso por si só é um entupimento.</p>
+      </div>
+      <div class="fill">
+        <div class="k" data-pt="3 · Sim ou não no resto" data-en="3 · Yes or no on the rest">3 · Sim ou não no resto</div>
+        <p style="margin-top:0.5rem"
+           data-pt="Só o que nada consegue observar: uma visita estratégica, um treinamento, uma melhoria. Duas ou três perguntas — nunca vinte e oito."
+           data-en="Only what nothing can observe: a strategic visit, a training, an improvement. Two or three questions — never twenty-eight.">Só o que nada consegue observar: uma visita estratégica, um treinamento, uma melhoria. Duas ou três perguntas — nunca vinte e oito.</p>
+      </div>
+    </div>
+
+    <div class="sc-grid" style="margin-top:2.4rem; align-items:center">
+      <div>
+        <h3 style="font-size:1.35rem; max-width:22ch"
+            data-pt="Diário pega o sinal cedo. Mensal confere o resto."
+            data-en="Daily catches the early signal. Monthly checks the rest.">Diário pega o sinal cedo. Mensal confere o resto.</h3>
+        <p style="margin-top:0.9rem; color:var(--muted); max-width:42ch"
+           data-pt="Olhar só para o trecho vermelho é perigoso: quando o dono ataca um problema, outra área que estava bem começa a cair sem ninguém ver."
+           data-en="Watching only the red length is dangerous: when the owner attacks one problem, another area that was fine starts to slip with nobody watching.">Olhar só para o trecho vermelho é perigoso: quando o dono ataca um problema, outra área que estava bem começa a cair sem ninguém ver.</p>
+        <p style="margin-top:0.9rem; color:var(--muted); max-width:42ch"
+           data-pt="Então o diário acompanha os poucos indicadores que se mexem primeiro — os que avisam antes do estrago. Uma vez por mês o sistema faz a varredura completa e reconfere o mapa inteiro."
+           data-en="So the daily log follows the few indicators that move first — the ones that warn before the damage. Once a month the system runs the full sweep and re-checks the whole map.">Então o diário acompanha os poucos indicadores que se mexem primeiro — os que avisam antes do estrago. Uma vez por mês o sistema faz a varredura completa e reconfere o mapa inteiro.</p>
+      </div>
+
+      <div class="stage-card">
+        <div class="verify">
+          <div style="font:600 0.62rem/1 var(--body); letter-spacing:0.11em; text-transform:uppercase; color:var(--faint); padding-bottom:0.7rem; border-bottom:1px solid var(--line)"
+               data-pt="Terça · 40 segundos" data-en="Tuesday · 40 seconds">Terça · 40 segundos</div>
+
+          <div class="vrow" style="grid-template-columns:1fr auto; align-items:center">
+            <div><div class="found" data-pt="2 orçamentos enviados · 1 obra entregue" data-en="2 quotes sent · 1 job delivered">2 orçamentos enviados · 1 obra entregue</div>
+              <div class="said" style="font-style:normal" data-pt="o sistema viu sozinho" data-en="the system saw it on its own">o sistema viu sozinho</div></div>
+            <span class="pill p-v" data-pt="Confere" data-en="Correct">Confere</span>
           </div>
-          <p class="pq" data-pt="Você cobrou algum cliente atrasado ontem?"
-             data-en="Did you chase any overdue client yesterday?">Você cobrou algum cliente atrasado ontem?</p>
-          <div class="pbtns">
-            <button type="button" data-log="y" aria-pressed="true" data-pt="Sim" data-en="Yes">Sim</button>
-            <button type="button" data-log="n" aria-pressed="false" data-pt="Não" data-en="No">Não</button>
+
+          <div class="vrow" style="grid-template-columns:1fr auto; align-items:center">
+            <div><div class="found" data-pt="3 clientes venceram hoje" data-en="3 clients went overdue today">3 clientes venceram hoje</div>
+              <div class="said" style="font-style:normal" data-pt="cobrou algum?" data-en="did you chase any?">cobrou algum?</div></div>
+            <div style="display:flex; gap:0.4rem">
+              <button type="button" class="opt" data-log="y" aria-pressed="true" data-pt="Sim" data-en="Yes">Sim</button>
+              <button type="button" class="opt" data-log="n" aria-pressed="false" data-pt="Não" data-en="No">Não</button>
+            </div>
           </div>
-          <p class="pf" id="logFoot" data-pt="4 dias seguidos · Cobrança está mudando"
-             data-en="4 days running · Collections is moving">4 dias seguidos · Cobrança está mudando</p>
+
+          <div class="vrow" style="grid-template-columns:1fr auto; align-items:center">
+            <div><div class="found" data-pt="Alguma visita ou contato estratégico?" data-en="Any strategic visit or contact?">Alguma visita ou contato estratégico?</div>
+              <div class="said" style="font-style:normal" data-pt="isto o sistema não vê" data-en="the system cannot see this">isto o sistema não vê</div></div>
+            <div style="display:flex; gap:0.4rem">
+              <button type="button" class="opt" aria-pressed="false" data-pt="Sim" data-en="Yes">Sim</button>
+              <button type="button" class="opt" aria-pressed="true" data-pt="Não" data-en="No">Não</button>
+            </div>
+          </div>
+
+          <div class="fixline" style="margin-top:0.9rem">
+            <span class="k" data-pt="No mapa" data-en="On the map">No mapa</span>
+            <span id="logFoot" data-pt="4 dias seguidos cobrando · Faturamento saindo do vermelho"
+                  data-en="4 days running on chasing · Billing coming out of red">4 dias seguidos cobrando · Faturamento saindo do vermelho</span>
+          </div>
         </div>
       </div>
     </div>
+
+    <p style="margin-top:1.6rem; font-size:1.02rem; font-weight:600; max-width:44ch"
+       data-pt="E responder move a cor no painel dele. O registro deixa de ser dever de casa e vira o lugar onde ele vê o progresso."
+       data-en="And answering moves the colour on his own dashboard. The log stops being homework and becomes where he watches his progress.">E responder move a cor no painel dele. O registro deixa de ser dever de casa e vira o lugar onde ele vê o progresso.</p>
   </div>
 </section>
 
@@ -791,8 +845,18 @@ section { padding: clamp(4rem, 11vh, 7.5rem) 0; }
         <span class="n">3</span>
         <div>
           <h3 data-pt="Dono, não refém" data-en="Own it, not owned">Dono, não refém</h3>
-          <p data-pt="Sair de férias e a empresa não parar. Não depende de ter equipe: depende de o dono não ser o cano mais fino. Um autônomo com boa margem chega aqui. Um dono com dez funcionários pode nunca chegar."
-             data-en="Take a holiday and the business does not stop. It does not depend on having a team: it depends on the owner not being the narrowest pipe. A solo operator with good margins gets here. An owner with ten staff may never.">Sair de férias e a empresa não parar. Não depende de ter equipe: depende de o dono não ser o cano mais fino. Um autônomo com boa margem chega aqui. Um dono com dez funcionários pode nunca chegar.</p>
+          <p data-pt="A régua não é “dá para se afastar”. É a empresa crescer sem você na sala. Não depende de ter equipe: depende de o dono não ser o cano mais fino."
+             data-en="The bar is not “can you step away”. It is the business growing without you in the room. It does not depend on having a team: it depends on the owner not being the narrowest pipe.">A régua não é “dá para se afastar”. É a empresa crescer sem você na sala. Não depende de ter equipe: depende de o dono não ser o cano mais fino.</p>
+
+          <blockquote class="quote">
+            <p data-pt="“A maioria dos donos não constrói um negócio. Constrói um emprego com uma logo — e vira o funcionário mais caro, menos substituível e mais sobrecarregado da própria empresa.”"
+               data-en="“Most owners don't build a business. They build a job with a logo, and then they become the most expensive, least replaceable, most overworked employee in it.”">“A maioria dos donos não constrói um negócio. Constrói um emprego com uma logo — e vira o funcionário mais caro, menos substituível e mais sobrecarregado da própria empresa.”</p>
+            <cite>Codie Sanchez</cite>
+          </blockquote>
+
+          <p style="margin-top:1rem"
+             data-pt="E o obstáculo raramente é processo. É identidade: em algum momento ela se fundiu com a empresa, e se afastar passa a parecer apagar o próprio propósito. Nenhum sistema resolve isso sozinho — mas um cano que corre sem ele é o que torna a conversa possível."
+             data-en="And the obstacle is rarely process. It is identity: somewhere along the way it fused with the business, and stepping away starts to feel like erasing your own purpose. No system solves that alone — but a pipe that runs without him is what makes the conversation possible.">E o obstáculo raramente é processo. É identidade: em algum momento ela se fundiu com a empresa, e se afastar passa a parecer apagar o próprio propósito. Nenhum sistema resolve isso sozinho — mas um cano que corre sem ele é o que torna a conversa possível.</p>
         </div>
       </div>
     </div>
@@ -1180,13 +1244,15 @@ section { padding: clamp(4rem, 11vh, 7.5rem) 0; }
     var f = document.getElementById('logFoot');
     if (!f) return;
     f.textContent = LOGYES
-      ? (LANG === 'pt' ? '4 dias seguidos · Cobrança está mudando' : '4 days running · Collections is moving')
-      : (LANG === 'pt' ? 'Sequência quebrada · Cobrança segue vermelha' : 'Streak broken · Collections stays red');
+      ? (LANG === 'pt' ? '4 dias seguidos cobrando · Faturamento saindo do vermelho'
+                       : '4 days running on chasing · Billing coming out of red')
+      : (LANG === 'pt' ? 'Sequência quebrada · Faturamento segue vermelho'
+                       : 'Streak broken · Billing stays red');
   }
-  document.querySelectorAll('.phone .pbtns button').forEach(function (b) {
+  document.querySelectorAll('[data-log]').forEach(function (b) {
     b.addEventListener('click', function () {
       LOGYES = b.dataset.log === 'y';
-      document.querySelectorAll('.phone .pbtns button').forEach(function (x) {
+      document.querySelectorAll('[data-log]').forEach(function (x) {
         x.setAttribute('aria-pressed', String(x === b));
       });
       paintLog();
