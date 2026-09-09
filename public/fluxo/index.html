@@ -202,24 +202,31 @@ section { padding: clamp(4rem, 11vh, 7.5rem) 0; }
 .scrolly { padding: clamp(2rem, 6vh, 4rem) 0 clamp(3rem, 8vh, 6rem); }
 .sc-grid { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.45fr); gap: clamp(2rem, 5vw, 3.6rem); align-items: start; }
 .sc-steps { display: flex; flex-direction: column; }
-/* the sticky stage centres itself, so without a lead-in it rides up beside
-   the previous section while that section is still being read */
-.sc-steps > .sc-step:first-child { padding-top: 46vh; }
-.sc-stage { padding-top: 46vh; }
-.sc-step { min-height: 82vh; display: flex; align-items: center; opacity: 0.26; transition: opacity .45s ease; }
+/* A lead-in spacer, NOT padding on the first step: padding eats into the
+   step's own height, which made every step shorter than the viewport and
+   stopped the observer firing at all. */
+.sc-lead { height: 42vh; flex: none; }
+.sc-step { min-height: 105vh; display: flex; align-items: center; opacity: 0.26; transition: opacity .45s ease; }
 .sc-step.on { opacity: 1; }
 .sc-step p { font-size: clamp(1.1rem, 2.1vw, 1.42rem); line-height: 1.44; max-width: 30ch; }
 .sc-step .eyebrow { font: 600 0.68rem/1 var(--body); letter-spacing: 0.13em; text-transform: uppercase; color: var(--gold-deep); margin-bottom: 0.7rem; display: block; }
-.sc-stage { position: sticky; top: 4.5rem; height: calc(100vh - 9rem); display: flex; align-items: center; }
+.sc-stage { position: sticky; top: 0; height: 100vh; display: flex; align-items: center; }
 .stage-card {
   width: 100%; background: var(--card); border: 1px solid var(--line);
   border-radius: var(--r); box-shadow: 0 2px 20px var(--shadow); overflow: hidden;
 }
+/* The pinned card must never exceed the viewport, or it is clipped off the
+   top and the diagram reads as "buried under text". The drill-down is the
+   part that grows, so it scrolls inside the card instead of pushing it. */
+.sc-stage .stage-card { display: flex; flex-direction: column; max-height: calc(100vh - 2.5rem); }
+.sc-stage .pipe-body { flex: none; }
+.sc-stage .drill { overflow-y: auto; min-height: 0; }
 
 @media (max-width: 900px) {
   .sc-grid { grid-template-columns: 1fr; }
   .sc-stage { position: static; height: auto; margin-top: 1.4rem; }
   .sc-step { min-height: 0; padding: 1.5rem 0; opacity: 1; }
+  .sc-lead { display: none; }
 }
 @media (prefers-reduced-motion: reduce) {
   .sb p, .sc-step { opacity: 1; transform: none; transition: none; }
@@ -231,7 +238,7 @@ section { padding: clamp(4rem, 11vh, 7.5rem) 0; }
 .pipe-head { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; padding: 1.1rem 1.3rem; border-bottom: 1px solid var(--line-2); flex-wrap: wrap; }
 .pipe-head .co { font-weight: 700; font-size: 1rem; }
 .pipe-head .st { font-size: 0.78rem; color: var(--faint); }
-.pipe-body { padding: 1.3rem; }
+.pipe-body { padding: 1rem 1.1rem; }
 
 .pipe-row { display: grid; align-items: stretch; gap: 0; }
 .pipe-row.r1 { grid-template-columns: 34px 1fr 26px 1fr 26px 1fr 26px 1fr; }
@@ -239,7 +246,7 @@ section { padding: clamp(4rem, 11vh, 7.5rem) 0; }
 .pipe-row.r2 > * { direction: ltr; }
 
 .node {
-  border-radius: 10px; padding: 0.7rem 0.75rem; min-height: 74px;
+  border-radius: 10px; padding: 0.6rem 0.7rem; min-height: 66px;
   display: flex; flex-direction: column; gap: 0.2rem; justify-content: center;
   background: var(--card); border: 1.5px solid var(--line);
   font: inherit; text-align: left; cursor: pointer;
@@ -431,6 +438,7 @@ section { padding: clamp(4rem, 11vh, 7.5rem) 0; }
   <div class="wrap sc-grid">
 
     <div class="sc-steps">
+      <div class="sc-lead" aria-hidden="true"></div>
       <div class="sc-step" data-p="0">
         <div>
           <span class="eyebrow" data-pt="O mapa" data-en="The map">O mapa</span>
@@ -530,6 +538,7 @@ section { padding: clamp(4rem, 11vh, 7.5rem) 0; }
   <div class="wrap sc-grid">
 
     <div class="sc-steps">
+      <div class="sc-lead" aria-hidden="true"></div>
       <div class="sc-step" data-q="0">
         <div>
           <span class="eyebrow" data-pt="De onde vêm as cores" data-en="Where the colours come from">De onde vêm as cores</span>
