@@ -1,0 +1,521 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Preços — Portal Apex</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+<style>
+:root {
+  --navy:      #12233F;
+  --navy-deep: #0C1829;
+  --navy-soft: #1B3255;
+  --gold:      #C8A860;
+  --gold-lift: #D8B870;
+  --gold-deep: #8A6F2C;
+  --green:     #009639;
+  --green-lift:#2FD16C;
+
+  /* the pipe's own semantics — from Apex's live app, not invented */
+  --flow:   #3f7d4e;
+  --flow-l: #63ab75;
+  --slow:   #a8842a;
+  --slow-l: #d4ae45;
+  --clog:   #b44040;
+  --clog-l: #cd5a5a;
+  --idle:   #8B93A0;
+
+  --page:   #FBFAF8;
+  --page-2: #F2F0EB;
+  --card:   #FFFFFF;
+  --ink:    #14171C;
+  --muted:  #5A6270;
+  --faint:  #8B93A0;
+  --line:   rgba(20, 23, 28, 0.13);
+  --line-2: rgba(20, 23, 28, 0.07);
+  --shadow: rgba(12, 24, 41, 0.10);
+  --shadow-2: rgba(12, 24, 41, 0.20);
+
+  --display: 'Inter', system-ui, -apple-system, sans-serif;
+  --body:    'Inter', system-ui, -apple-system, sans-serif;
+
+  --measure: 34rem;
+  --wide: 62rem;
+  --r: 14px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --page:   #0C1829;
+    --page-2: #101F35;
+    --card:   #16273F;
+    --ink:    #EEF1F5;
+    --muted:  #9BA6B6;
+    --faint:  #74808F;
+    --line:   rgba(238, 241, 245, 0.16);
+    --line-2: rgba(238, 241, 245, 0.09);
+    --shadow: rgba(0, 0, 0, 0.5);
+    --shadow-2: rgba(0, 0, 0, 0.66);
+    --gold-deep: #D8B870;
+    --green: #2FD16C;
+    --idle: #74808F;
+  }
+}
+
+:root[data-theme="dark"] {
+  --page:   #0C1829;
+  --page-2: #101F35;
+  --card:   #16273F;
+  --ink:    #EEF1F5;
+  --muted:  #9BA6B6;
+  --faint:  #74808F;
+  --line:   rgba(238, 241, 245, 0.16);
+  --line-2: rgba(238, 241, 245, 0.09);
+  --shadow: rgba(0, 0, 0, 0.5);
+  --shadow-2: rgba(0, 0, 0, 0.66);
+  --gold-deep: #D8B870;
+  --green: #2FD16C;
+  --idle: #74808F;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--page);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 1.05rem;
+  line-height: 1.62;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 { margin: 0; font-family: var(--display); font-weight: 700; line-height: 1.14; letter-spacing: -0.021em; text-wrap: balance; }
+p { margin: 0; }
+
+.wrap { width: 100%; max-width: var(--wide); margin: 0 auto; padding: 0 clamp(1.15rem, 5vw, 2.5rem); }
+.scrolly .wrap { max-width: 72rem; }
+.col { max-width: var(--measure); }
+section { padding: clamp(4rem, 11vh, 7.5rem) 0; }
+.tint { background: var(--page-2); }
+
+/* ---------- language ---------- */
+.lang {
+  position: fixed; top: 0.85rem; right: 0.85rem; z-index: 60;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  box-shadow: 0 1px 3px var(--shadow);
+}
+.lang button {
+  border: 0; background: transparent; cursor: pointer;
+  font: 600 0.7rem/1 var(--body); letter-spacing: 0.07em;
+  color: var(--muted); padding: 0.45rem 0.75rem; border-radius: 999px;
+  transition: background-color .2s, color .2s;
+}
+.lang button[aria-pressed="true"] { background: var(--green); color: #fff; }
+:focus-visible { outline: 2px solid var(--green); outline-offset: 3px; border-radius: 4px; }
+
+/* ---------- language ---------- */
+.lang {
+  position: fixed; top: 0.85rem; right: 0.85rem; z-index: 60;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--card); border: 1px solid var(--line);
+  border-radius: 999px; box-shadow: 0 1px 3px var(--shadow);
+}
+.lang button {
+  border: 0; background: transparent; cursor: pointer;
+  font: 600 0.7rem/1 var(--body); letter-spacing: 0.07em;
+  color: var(--muted); padding: 0.45rem 0.75rem; border-radius: 999px;
+}
+.lang button[aria-pressed="true"] { background: var(--green); color: #fff; }
+:focus-visible { outline: 2px solid var(--green); outline-offset: 3px; border-radius: 4px; }
+
+.head { padding-top: clamp(4rem, 11vh, 7rem); padding-bottom: 0; }
+.head .who { font: 600 0.72rem/1 var(--body); letter-spacing: 0.13em; text-transform: uppercase; color: var(--faint); margin-bottom: 1.4rem; display: flex; align-items: center; gap: 0.75rem; }
+.who-logo { width: 84px; height: auto; display: block; }
+.who-x { opacity: 0.45; }
+.head h1 { font-size: clamp(2rem, 5vw, 3.1rem); max-width: 18ch; }
+.head .lede { margin-top: 1.2rem; font-size: clamp(1.04rem, 2vw, 1.22rem); color: var(--muted); max-width: 48ch; }
+.back { display: inline-flex; align-items: center; gap: 0.45rem; margin-top: 1.6rem; font-size: 0.86rem; color: var(--gold-deep); text-decoration: none; font-weight: 600; }
+.back:hover { text-decoration: underline; }
+
+.tier { padding: clamp(3rem, 8vh, 5rem) 0 0; }
+.tier-head { display: flex; align-items: baseline; gap: 0.9rem; flex-wrap: wrap; }
+.tier-head h2 { font-size: clamp(1.5rem, 3.4vw, 2.1rem); }
+.badge {
+  font: 600 0.6rem/1 var(--body); letter-spacing: 0.11em; text-transform: uppercase;
+  padding: 0.34rem 0.7rem; border-radius: 999px;
+}
+.badge.now { color: var(--flow); background: rgba(63,125,78,0.13); }
+.badge.next { color: var(--gold-deep); background: rgba(200,168,96,0.16); }
+.badge.later { color: var(--muted); background: var(--line-2); }
+.tier .note { margin-top: 0.85rem; color: var(--muted); max-width: 52ch; font-size: 0.95rem; }
+
+.tbl-wrap { margin-top: 1.5rem; overflow-x: auto; border: 1px solid var(--line); border-radius: var(--r); background: var(--card); box-shadow: 0 1px 2px var(--shadow); }
+table { width: 100%; border-collapse: collapse; font-size: 0.88rem; min-width: 720px; }
+thead th {
+  text-align: left; font: 600 0.62rem/1.3 var(--body); letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--faint); padding: 0.85rem 1rem; border-bottom: 1px solid var(--line); white-space: nowrap;
+}
+thead th.num, td.num { text-align: right; }
+tbody td { padding: 0.9rem 1rem; border-bottom: 1px solid var(--line-2); vertical-align: top; }
+tbody tr:last-child td { border-bottom: 0; }
+td.pkg { font-weight: 700; white-space: nowrap; }
+td.what { color: var(--muted); line-height: 1.5; min-width: 300px; }
+td.num { font-variant-numeric: tabular-nums; white-space: nowrap; font-weight: 600; }
+td.retail { color: var(--ink); }
+td.you { color: var(--flow); }
+td.apex { color: var(--gold-deep); }
+tbody tr.total td { background: var(--page-2); font-weight: 700; }
+
+.split { display: flex; gap: 1.2rem; flex-wrap: wrap; margin-top: 1rem; font-size: 0.8rem; color: var(--faint); }
+.split b { color: var(--ink); }
+
+.callout { margin-top: 1.4rem; padding: 1rem 1.2rem; border-radius: var(--r); background: var(--page-2); border-left: 3px solid var(--gold); }
+.callout .k { font: 600 0.6rem/1 var(--body); letter-spacing: 0.11em; text-transform: uppercase; color: var(--gold-deep); }
+.callout p { margin-top: 0.5rem; font-size: 0.9rem; color: var(--muted); max-width: 58ch; }
+.callout p + p { margin-top: 0.55rem; }
+.callout b { color: var(--ink); }
+
+.who-does { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.9rem; margin-top: 1.5rem; }
+.wd { background: var(--card); border: 1px solid var(--line); border-radius: var(--r); padding: 1rem 1.1rem; }
+.wd .k { font: 600 0.6rem/1 var(--body); letter-spacing: 0.11em; text-transform: uppercase; color: var(--gold-deep); }
+.wd h3 { margin-top: 0.5rem; font-size: 0.98rem; }
+.wd p { margin-top: 0.35rem; font-size: 0.82rem; color: var(--muted); }
+.wd ul { margin: 0.5rem 0 0; padding-left: 1.05rem; font-size: 0.82rem; color: var(--muted); }
+.wd li { margin-top: 0.25rem; }
+
+footer { padding: clamp(3rem,8vh,5rem) 0 clamp(4rem,10vh,6rem); }
+footer p { font-size: 0.82rem; color: var(--faint); max-width: 56ch; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+
+<section class="head">
+  <div class="wrap col">
+    <p class="who"><span>Resonate</span><span class="who-x" aria-hidden="true">·</span><img class="who-logo" alt="Apex" src="apex-logo.png"></p>
+    <h1 data-pt="O que o portal é hoje, e o que vira."
+        data-en="What the portal is today, and what it becomes.">O que o portal é hoje, e o que vira.</h1>
+    <p class="lede"
+       data-pt="Três estágios. O primeiro está fechado e é o que se vende agora. Os outros dois são projeção — servem para a conversa, não para a proposta."
+       data-en="Three stages. The first is settled and is what sells now. The other two are projections — they are for the conversation, not the proposal.">Três estágios. O primeiro está fechado e é o que se vende agora. Os outros dois são projeção — servem para a conversa, não para a proposta.</p>
+    <a class="back" href="../">
+      <svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3 L5 8 l5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span data-pt="Voltar para o fluxo do dinheiro" data-en="Back to the money flow">Voltar para o fluxo do dinheiro</span>
+    </a>
+  </div>
+</section>
+
+<!-- ============ TIER 1 : TODAY ============ -->
+<section class="tier">
+  <div class="wrap">
+    <div class="tier-head">
+      <h2 data-pt="Hoje" data-en="Today">Hoje</h2>
+      <span class="badge now" data-pt="Fechado" data-en="Settled">Fechado</span>
+    </div>
+    <p class="note"
+       data-pt="O portal como está, com estimativas, faturamento e agendamento entrando. É o que se vende a partir de agora."
+       data-en="The portal as it stands, with estimates, invoicing and scheduling going in. This is what sells from now.">O portal como está, com estimativas, faturamento e agendamento entrando. É o que se vende a partir de agora.</p>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th data-pt="Pacote" data-en="Package">Pacote</th>
+            <th data-pt="O que é" data-en="What it is">O que é</th>
+            <th class="num" data-pt="Retail" data-en="Retail">Retail</th>
+            <th class="num" data-pt="Você (65%)" data-en="You (65%)">Você (65%)</th>
+            <th class="num" data-pt="Apex (35%)" data-en="Apex (35%)">Apex (35%)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="pkg">Essencial</td>
+            <td class="what"
+                data-pt="O portal como está hoje: Analytics com orientação em linguagem simples, registro diário e metas mensais, Pipeline completo (leads, parceiros de indicação com atribuição automática, Base de Ouro), Projetos com margem, Calendário próprio, Financeiro, Execução, Documentos, Tarefas e os sete diagnósticos Apex. Bilíngue PT/EN, instala no celular."
+                data-en="The portal as it stands today: Analytics with plain-language coaching, daily log and monthly goals, full Pipeline (leads, referral partners with auto-tracked attribution, Base de Ouro), Projects with margin tracking, own Calendar, Financeiro, Execução, Documents, Tasks, and the seven Apex diagnostics. Bilingual PT/EN, installs to the phone.">O portal como está hoje: Analytics com orientação em linguagem simples, registro diário e metas mensais, Pipeline completo (leads, parceiros de indicação com atribuição automática, Base de Ouro), Projetos com margem, Calendário próprio, Financeiro, Execução, Documentos, Tarefas e os sete diagnósticos Apex. Bilíngue PT/EN, instala no celular.</td>
+            <td class="num retail">$129/mo</td>
+            <td class="num you">$84</td>
+            <td class="num apex">$45</td>
+          </tr>
+          <tr>
+            <td class="pkg">Completo</td>
+            <td class="what"
+                data-pt="Tudo do Essencial, mais estimativas, faturamento e agendamento com marca — o mesmo link de marcação que a Apex usa, nas cores e logo do cliente."
+                data-en="Everything in Essencial, plus estimates, invoicing, and branded scheduling — the same booking link Apex uses, in the client's own colors and logo.">Tudo do Essencial, mais estimativas, faturamento e agendamento com marca — o mesmo link de marcação que a Apex usa, nas cores e logo do cliente.</td>
+            <td class="num retail">$199/mo</td>
+            <td class="num you">$129</td>
+            <td class="num apex">$70</td>
+          </tr>
+          <tr>
+            <td class="pkg">Equipe</td>
+            <td class="what"
+                data-pt="Tudo do Completo, mais logins para os vendedores do cliente — cada um vê só os leads que são dele, nunca o financeiro, os projetos ou as metas."
+                data-en="Everything in Completo, plus logins for the client's salespeople — each sees only the leads they own, never the finances, projects, or goals.">Tudo do Completo, mais logins para os vendedores do cliente — cada um vê só os leads que são dele, nunca o financeiro, os projetos ou as metas.</td>
+            <td class="num retail">$199/mo + $45<span style="font-weight:400;color:var(--faint)">/seat</span></td>
+            <td class="num you">$129 + $29</td>
+            <td class="num apex">$70 + $16</td>
+          </tr>
+          <tr>
+            <td class="pkg">Onboarding</td>
+            <td class="what"
+                data-pt="Configuração inicial: conta, marca, listas de serviços/vendedores/parceiros e página de indicação."
+                data-en="One-time setup: account, branding, their services/salespeople/partner lists, and referral page configured.">Configuração inicial: conta, marca, listas de serviços/vendedores/parceiros e página de indicação.</td>
+            <td class="num retail">$250 <span style="font-weight:400;color:var(--faint)" data-pt="uma vez" data-en="once">uma vez</span></td>
+            <td class="num you">$163</td>
+            <td class="num apex">$88</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="split">
+      <span data-pt="Divisão <b>65 / 35</b> — Apex traz o cliente e recebe por isso, inclusive em clientes que não são da Apex."
+            data-en="Split <b>65 / 35</b> — Apex brings the client and earns on it, including clients who are not Apex's.">Divisão <b>65 / 35</b> — Apex traz o cliente e recebe por isso, inclusive em clientes que não são da Apex.</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TIER 2 : THE VISION ============ -->
+<section class="tier tint" style="margin-top:clamp(3rem,8vh,5rem); padding-bottom:clamp(3rem,8vh,5rem)">
+  <div class="wrap">
+    <div class="tier-head">
+      <h2 data-pt="Com a visão construída" data-en="With the vision built">Com a visão construída</h2>
+      <span class="badge next" data-pt="Projeção" data-en="Projection">Projeção</span>
+    </div>
+    <p class="note"
+       data-pt="O diagnóstico, o mapa do fluxo no painel, o registro diário reformulado, os levantamentos públicos e o relatório de antes e depois. Muda o que o cliente está comprando: deixa de ser software e vira resposta."
+       data-en="The diagnostic, the flow map on the dashboard, the reworked daily log, the public scans and the before/after report. It changes what the client is buying: it stops being software and becomes an answer.">O diagnóstico, o mapa do fluxo no painel, o registro diário reformulado, os levantamentos públicos e o relatório de antes e depois. Muda o que o cliente está comprando: deixa de ser software e vira resposta.</p>
+
+    <div class="who-does">
+      <div class="wd">
+        <div class="k" data-pt="O que o sistema passa a fazer" data-en="What the system takes on">O que o sistema passa a fazer</div>
+        <ul>
+          <li data-pt="Vira o CRM quando não existe um" data-en="Becomes the CRM when there isn't one">Vira o CRM quando não existe um</li>
+          <li data-pt="Régua de cobrança e lista de vencidos" data-en="Chase sequence and overdue list">Régua de cobrança e lista de vencidos</li>
+          <li data-pt="Estimativas, faturamento, agendamento" data-en="Estimates, invoicing, scheduling">Estimativas, faturamento, agendamento</li>
+          <li data-pt="Pedido de indicação automático" data-en="Automatic referral request">Pedido de indicação automático</li>
+          <li data-pt="Vigia as etapas que consegue observar" data-en="Watches the stages it can observe">Vigia as etapas que consegue observar</li>
+        </ul>
+      </div>
+      <div class="wd">
+        <div class="k" data-pt="O que fica com parceiro" data-en="What stays with a partner">O que fica com parceiro</div>
+        <ul>
+          <li data-pt="Marketing — recebe o relatório pronto" data-en="Marketing — gets the report ready-made">Marketing — recebe o relatório pronto</li>
+          <li data-pt="Contabilidade — contador da rede" data-en="Accounting — the accountant on the roster">Contabilidade — contador da rede</li>
+          <li data-pt="Jurídico e o que for técnico do ramo" data-en="Legal and whatever is trade-specific">Jurídico e o que for técnico do ramo</li>
+        </ul>
+      </div>
+      <div class="wd">
+        <div class="k" data-pt="O que só o consultor faz" data-en="What only the consultant does">O que só o consultor faz</div>
+        <ul>
+          <li data-pt="Ensinar a vender — é um a um" data-en="Teaching someone to sell — one to one">Ensinar a vender — é um a um</li>
+          <li data-pt="Ler o diagnóstico e definir a ordem" data-en="Reading the diagnostic and setting the order">Ler o diagnóstico e definir a ordem</li>
+          <li data-pt="Marcar as mudanças de método junto" data-en="Marking method changes together">Marcar as mudanças de método junto</li>
+          <li data-pt="A conversa de identidade do dono" data-en="The owner's identity conversation">A conversa de identidade do dono</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th data-pt="Pacote" data-en="Package">Pacote</th>
+            <th data-pt="O que muda" data-en="What changes">O que muda</th>
+            <th class="num" data-pt="Hoje" data-en="Today">Hoje</th>
+            <th class="num" data-pt="Projetado" data-en="Projected">Projetado</th>
+            <th class="num" data-pt="Você / Apex" data-en="You / Apex">Você / Apex</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="pkg">Essencial</td>
+            <td class="what"
+                data-pt="Ganha o mapa do fluxo e o registro diário reformulado. Continua sendo o portal — por isso quase não se mexe."
+                data-en="Gains the flow map and the reworked daily log. It is still the portal — which is why it barely moves.">Ganha o mapa do fluxo e o registro diário reformulado. Continua sendo o portal — por isso quase não se mexe.</td>
+            <td class="num" style="color:var(--faint)">$129</td>
+            <td class="num retail">$149/mo</td>
+            <td class="num you">$97 / <span class="apex">$52</span></td>
+          </tr>
+          <tr>
+            <td class="pkg">Completo</td>
+            <td class="what"
+                data-pt="É o pacote que a visão transforma: diagnóstico completo, drill-down por sub-área, alertas de remendo, relatório de antes e depois. O cliente para de comprar ferramenta e passa a comprar resposta."
+                data-en="This is the package the vision transforms: full diagnostic, sub-area drill-down, duct-tape alerts, before/after report. The client stops buying a tool and starts buying an answer.">É o pacote que a visão transforma: diagnóstico completo, drill-down por sub-área, alertas de remendo, relatório de antes e depois. O cliente para de comprar ferramenta e passa a comprar resposta.</td>
+            <td class="num" style="color:var(--faint)">$199</td>
+            <td class="num retail">$349/mo</td>
+            <td class="num you">$227 / <span class="apex">$122</span></td>
+          </tr>
+          <tr>
+            <td class="pkg">Equipe</td>
+            <td class="what"
+                data-pt="Mesma estrutura por assento. O assento sobe pouco de propósito — não pode virar o motivo de não contratar mais um vendedor."
+                data-en="Same per-seat structure. The seat rises only a little on purpose — it must never become the reason not to add a salesperson.">Mesma estrutura por assento. O assento sobe pouco de propósito — não pode virar o motivo de não contratar mais um vendedor.</td>
+            <td class="num" style="color:var(--faint)">+$45</td>
+            <td class="num retail">+$59<span style="font-weight:400;color:var(--faint)">/seat</span></td>
+            <td class="num you">$38 / <span class="apex">$21</span></td>
+          </tr>
+          <tr>
+            <td class="pkg">Onboarding</td>
+            <td class="what"
+                data-pt="Deixa de ser configuração e passa a incluir a avaliação completa, os levantamentos públicos (SEO, GEO, avaliações, concorrentes) e o relatório do consultor. É trabalho de análise de verdade — e é o momento de maior valor da relação inteira."
+                data-en="Stops being setup and starts including the full assessment, the public scans (SEO, GEO, reviews, competitors) and the consultant report. That is real analyst work — and it is the highest-value moment in the whole relationship.">Deixa de ser configuração e passa a incluir a avaliação completa, os levantamentos públicos (SEO, GEO, avaliações, concorrentes) e o relatório do consultor. É trabalho de análise de verdade — e é o momento de maior valor da relação inteira.</td>
+            <td class="num" style="color:var(--faint)">$250</td>
+            <td class="num retail">$950 <span style="font-weight:400;color:var(--faint)" data-pt="uma vez" data-en="once">uma vez</span></td>
+            <td class="num you">$618 / <span class="apex">$332</span></td>
+          </tr>
+          <tr>
+            <td class="pkg" data-pt="Raio-X avulso" data-en="Standalone X-Ray">Raio-X avulso</td>
+            <td class="what"
+                data-pt="A linha que ainda não existe. Um negócio que não está pronto para assinatura mesmo assim paga por um diagnóstico que acha dinheiro. Não desqualifica ninguém e é a porta de entrada para o Completo."
+                data-en="The line that does not exist yet. A business not ready for a subscription will still pay for a diagnostic that finds money. It disqualifies nobody and it is the on-ramp into Completo.">A linha que ainda não existe. Um negócio que não está pronto para assinatura mesmo assim paga por um diagnóstico que acha dinheiro. Não desqualifica ninguém e é a porta de entrada para o Completo.</td>
+            <td class="num" style="color:var(--faint)">—</td>
+            <td class="num retail">$1.500</td>
+            <td class="num you">$975 / <span class="apex">$525</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout">
+      <div class="k" data-pt="Por que o Completo quase dobra" data-en="Why Completo nearly doubles">Por que o Completo quase dobra</div>
+      <p data-pt="Porque deixa de ser a mesma coisa. Hoje ele compra um lugar para organizar o negócio. Com a visão construída ele compra um diagnóstico que aponta onde o dinheiro para, e um sistema que destrava aquilo. <b>$349/mês é irrelevante ao lado de $84.200 parados no cano</b> — e o cliente vê os dois números na mesma tela."
+         data-en="Because it stops being the same thing. Today he buys a place to organise the business. With the vision built he buys a diagnostic that points at where the money stops, and a system that clears it. <b>$349/mo is irrelevant next to $84,200 stuck in the pipe</b> — and the client sees both numbers on the same screen.">Porque deixa de ser a mesma coisa. Hoje ele compra um lugar para organizar o negócio. Com a visão construída ele compra um diagnóstico que aponta onde o dinheiro para, e um sistema que destrava aquilo. <b>$349/mês é irrelevante ao lado de $84.200 parados no cano</b> — e o cliente vê os dois números na mesma tela.</p>
+      <p data-pt="O diagnóstico também é o que segura o cliente: ele entra para ver o próprio cano correr, e fica porque continua correndo."
+         data-en="The diagnostic is also what keeps the client: he logs in to watch his own pipe run, and stays because it keeps running.">O diagnóstico também é o que segura o cliente: ele entra para ver o próprio cano correr, e fica porque continua correndo.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TIER 3 : AI AGENTS ============ -->
+<section class="tier">
+  <div class="wrap">
+    <div class="tier-head">
+      <h2 data-pt="Agentes de IA" data-en="AI agents">Agentes de IA</h2>
+      <span class="badge later" data-pt="Depois — camada própria" data-en="Later — its own tier">Depois — camada própria</span>
+    </div>
+    <p class="note"
+       data-pt="Camada separada, não incluída nos pacotes. A diferença é simples: até aqui o sistema mostra o que está errado. Um agente faz o trabalho. Por isso é um tier à parte — tem custo por uso e substitui horas de alguém."
+       data-en="A separate layer, not folded into the packages. The difference is simple: up to here the system shows what is wrong. An agent does the work. That is why it is its own tier — it carries usage cost and it replaces someone's hours.">Camada separada, não incluída nos pacotes. A diferença é simples: até aqui o sistema mostra o que está errado. Um agente faz o trabalho. Por isso é um tier à parte — tem custo por uso e substitui horas de alguém.</p>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th data-pt="Agente" data-en="Agent">Agente</th>
+            <th data-pt="O que faz" data-en="What it does">O que faz</th>
+            <th data-pt="Etapa do cano" data-en="Pipe stage">Etapa do cano</th>
+            <th class="num" data-pt="Projetado" data-en="Projected">Projetado</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="pkg" data-pt="Cobrador" data-en="Collections">Cobrador</td>
+            <td class="what"
+                data-pt="Escreve e envia a cobrança de cada atrasado, no tom certo, e escala para o dono só quando precisa de decisão humana."
+                data-en="Writes and sends the chase for each overdue invoice, in the right tone, and escalates to the owner only when a human decision is needed.">Escreve e envia a cobrança de cada atrasado, no tom certo, e escala para o dono só quando precisa de decisão humana.</td>
+            <td style="color:var(--muted)" data-pt="Faturamento" data-en="Billing">Faturamento</td>
+            <td class="num retail">$79/mo</td>
+          </tr>
+          <tr>
+            <td class="pkg" data-pt="Primeira resposta" data-en="First response">Primeira resposta</td>
+            <td class="what"
+                data-pt="Responde todo lead novo em minutos, qualifica com as perguntas do ramo e já põe na agenda. Resolve o entupimento mais comum de todos."
+                data-en="Answers every new lead within minutes, qualifies it with the trade's own questions and books it. It clears the single most common blockage there is.">Responde todo lead novo em minutos, qualifica com as perguntas do ramo e já põe na agenda. Resolve o entupimento mais comum de todos.</td>
+            <td style="color:var(--muted)" data-pt="Leads e vendas" data-en="Leads and sales">Leads e vendas</td>
+            <td class="num retail">$99/mo</td>
+          </tr>
+          <tr>
+            <td class="pkg" data-pt="Pós-venda" data-en="Client care">Pós-venda</td>
+            <td class="what"
+                data-pt="Faz o contato depois da entrega, pede a avaliação na hora certa e avisa o dono quando um cliente antigo esfriou."
+                data-en="Makes the post-job contact, asks for the review at the right moment, and flags the owner when an old client has gone cold.">Faz o contato depois da entrega, pede a avaliação na hora certa e avisa o dono quando um cliente antigo esfriou.</td>
+            <td style="color:var(--muted)" data-pt="Pós-venda e indicações" data-en="Client care and referrals">Pós-venda e indicações</td>
+            <td class="num retail">$69/mo</td>
+          </tr>
+          <tr>
+            <td class="pkg" data-pt="Vigia do cano" data-en="Pipe watch">Vigia do cano</td>
+            <td class="what"
+                data-pt="Roda os levantamentos públicos todo mês, relê as avaliações do ramo e avisa quando uma etapa verde começou a escorregar — antes de virar vermelho."
+                data-en="Runs the public scans monthly, re-reads the trade's reviews, and warns when a green stage has started to slip — before it turns red.">Roda os levantamentos públicos todo mês, relê as avaliações do ramo e avisa quando uma etapa verde começou a escorregar — antes de virar vermelho.</td>
+            <td style="color:var(--muted)" data-pt="Todas" data-en="All of them">Todas</td>
+            <td class="num retail">$89/mo</td>
+          </tr>
+          <tr class="total">
+            <td class="pkg" data-pt="Os quatro" data-en="All four">Os quatro</td>
+            <td class="what" style="color:var(--muted)"
+                data-pt="Preço de conjunto — e o argumento de venda é direto: custa menos que meio salário e não falta."
+                data-en="Bundle price — and the sales argument is direct: it costs less than half a salary and it never calls in sick.">Preço de conjunto — e o argumento de venda é direto: custa menos que meio salário e não falta.</td>
+            <td></td>
+            <td class="num retail">$249/mo</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout">
+      <div class="k" data-pt="Por que separado dos pacotes" data-en="Why it sits outside the packages">Por que separado dos pacotes</div>
+      <p data-pt="Um agente tem custo por uso — quanto mais o cliente usa, mais custa rodar. Enfiar isso dentro de uma mensalidade fixa transforma o cliente mais engajado no menos lucrativo. Fora, cada agente se paga sozinho e o cliente escolhe."
+         data-en="An agent carries usage cost — the more the client uses it, the more it costs to run. Folding that into a flat monthly turns the most engaged client into the least profitable one. Kept outside, each agent pays for itself and the client chooses.">Um agente tem custo por uso — quanto mais o cliente usa, mais custa rodar. Enfiar isso dentro de uma mensalidade fixa transforma o cliente mais engajado no menos lucrativo. Fora, cada agente se paga sozinho e o cliente escolhe.</p>
+      <p data-pt="E a ordem importa: agente só entra depois que o diagnóstico apontou o entupimento. Automatizar uma etapa quebrada só faz o erro acontecer mais rápido."
+         data-en="And the order matters: an agent only goes in after the diagnostic has named the blockage. Automating a broken stage just makes the mistake happen faster.">E a ordem importa: agente só entra depois que o diagnóstico apontou o entupimento. Automatizar uma etapa quebrada só faz o erro acontecer mais rápido.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap col">
+    <p data-pt="A tabela de hoje está fechada. As duas de baixo são projeção — números para a conversa, não para a proposta. A divisão 65 / 35 se mantém em todas."
+       data-en="Today's table is settled. The two below are projections — numbers for the conversation, not the proposal. The 65 / 35 split holds across all of them.">A tabela de hoje está fechada. As duas de baixo são projeção — números para a conversa, não para a proposta. A divisão 65 / 35 se mantém em todas.</p>
+    <p style="margin-top:1rem">
+      <a class="back" href="../" style="margin-top:0">
+        <svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3 L5 8 l5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span data-pt="Voltar para o fluxo do dinheiro" data-en="Back to the money flow">Voltar para o fluxo do dinheiro</span>
+      </a>
+    </p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+  var KEY = 'fluxo-lang';
+  function get() {
+    try { var s = localStorage.getItem(KEY); if (s === 'en' || s === 'pt') return s; } catch (e) {}
+    return 'pt';
+  }
+  function set(lang) {
+    document.documentElement.setAttribute('data-lang', lang);
+    document.documentElement.setAttribute('lang', lang === 'pt' ? 'pt-BR' : 'en');
+    try { localStorage.setItem(KEY, lang); } catch (e) {}
+    document.querySelectorAll('[data-pt]').forEach(function (el) {
+      var t = lang === 'pt' ? el.dataset.pt : el.dataset.en;
+      if (t !== undefined) el.innerHTML = t;
+    });
+    document.querySelectorAll('.lang button').forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.dataset.l === lang));
+    });
+  }
+  var n = document.createElement('div');
+  n.className = 'lang';
+  n.setAttribute('role', 'group');
+  n.setAttribute('aria-label', 'Idioma / Language');
+  n.innerHTML = '<button type="button" data-l="pt" aria-pressed="false">PT</button>' +
+                '<button type="button" data-l="en" aria-pressed="false">EN</button>';
+  n.addEventListener('click', function (e) {
+    var b = e.target.closest('button[data-l]');
+    if (b) set(b.dataset.l);
+  });
+  document.body.appendChild(n);
+  set(get());
+})();
+</script>
+
+</body>
+</html>
