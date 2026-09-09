@@ -156,7 +156,7 @@ section { padding: clamp(4rem, 11vh, 7.5rem) 0; }
 .tier .note { margin-top: 0.85rem; color: var(--muted); max-width: 52ch; font-size: 0.95rem; }
 
 .tbl-wrap { margin-top: 1.5rem; overflow-x: auto; border: 1px solid var(--line); border-radius: var(--r); background: var(--card); box-shadow: 0 1px 2px var(--shadow); }
-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; min-width: 720px; }
+table { width: 100%; border-collapse: collapse; font-size: 0.88rem; min-width: 860px; }
 thead th {
   text-align: left; font: 600 0.62rem/1.3 var(--body); letter-spacing: 0.1em; text-transform: uppercase;
   color: var(--faint); padding: 0.85rem 1rem; border-bottom: 1px solid var(--line); white-space: nowrap;
@@ -166,7 +166,8 @@ tbody td { padding: 0.9rem 1rem; border-bottom: 1px solid var(--line-2); vertica
 tbody tr:last-child td { border-bottom: 0; }
 td.pkg { font-weight: 700; white-space: nowrap; }
 td.what { color: var(--muted); line-height: 1.5; min-width: 300px; }
-td.num { font-variant-numeric: tabular-nums; white-space: nowrap; font-weight: 600; }
+td.num { font-variant-numeric: tabular-nums; white-space: nowrap; font-weight: 600; min-width: 118px; }
+thead th.num { min-width: 118px; }
 td.retail { color: var(--ink); }
 td.you { color: var(--flow); }
 td.apex { color: var(--gold-deep); }
@@ -229,7 +230,7 @@ footer p { font-size: 0.82rem; color: var(--faint); max-width: 56ch; }
             <th data-pt="Pacote" data-en="Package">Pacote</th>
             <th data-pt="O que é" data-en="What it is">O que é</th>
             <th class="num" data-pt="Retail" data-en="Retail">Retail</th>
-            <th class="num" data-pt="Você (65%)" data-en="You (65%)">Você (65%)</th>
+            <th class="num" data-pt="Resonate (65%)" data-en="Resonate (65%)">Resonate (65%)</th>
             <th class="num" data-pt="Apex (35%)" data-en="Apex (35%)">Apex (35%)</th>
           </tr>
         </thead>
@@ -330,7 +331,7 @@ footer p { font-size: 0.82rem; color: var(--faint); max-width: 56ch; }
             <th data-pt="O que muda" data-en="What changes">O que muda</th>
             <th class="num" data-pt="Hoje" data-en="Today">Hoje</th>
             <th class="num" data-pt="Projetado" data-en="Projected">Projetado</th>
-            <th class="num" data-pt="Você / Apex" data-en="You / Apex">Você / Apex</th>
+            <th class="num" data-pt="Resonate / Apex" data-en="Resonate / Apex">Resonate / Apex</th>
           </tr>
         </thead>
         <tbody>
@@ -447,13 +448,29 @@ footer p { font-size: 0.82rem; color: var(--faint); max-width: 56ch; }
             <td style="color:var(--muted)" data-pt="Todas" data-en="All of them">Todas</td>
             <td class="num retail">$89/mo</td>
           </tr>
+          <tr>
+            <td class="pkg" data-pt="Follow-up por SMS" data-en="SMS follow-up">Follow-up por SMS</td>
+            <td class="what"
+                data-pt="O grande. Faz o acompanhamento do lead por mensagem de texto direto do CRM — a sequência que ninguém tem tempo de fazer à mão. <b>Tem custo real por trás</b>: registro da marca e do número junto às operadoras (10DLC), taxa por mensagem e as regras de consentimento. É o agente de maior retorno e o de maior preparo."
+                data-en="The big one. Follows up with the lead by text straight from the CRM — the sequence nobody has time to do by hand. <b>There is real cost behind it</b>: brand and number registration with the carriers (10DLC), per-message fees and the consent rules. Highest-return agent and the one with the most groundwork.">O grande. Faz o acompanhamento do lead por mensagem de texto direto do CRM — a sequência que ninguém tem tempo de fazer à mão. <b>Tem custo real por trás</b>: registro da marca e do número junto às operadoras (10DLC), taxa por mensagem e as regras de consentimento. É o agente de maior retorno e o de maior preparo.</td>
+            <td style="color:var(--muted)" data-pt="Leads e vendas" data-en="Leads and sales">Leads e vendas</td>
+            <td class="num retail">$129/mo<div style="font-weight:400;font-size:0.74rem;color:var(--faint);margin-top:0.25rem" data-pt="+ uso" data-en="+ usage">+ uso</div></td>
+          </tr>
+          <tr>
+            <td class="pkg" data-pt="Atendimento por voz" data-en="Voice answering">Atendimento por voz</td>
+            <td class="what"
+                data-pt="Atende a ligação que hoje cai na caixa postal — em português, inglês e espanhol. Numa região onde o cliente e o dono nem sempre falam a mesma língua, isso deixa de ser conveniência e vira o motivo de ganhar o trabalho. Precisa de desenvolvimento e teste de verdade antes de vender."
+                data-en="Answers the call that today goes to voicemail — in Portuguese, English and Spanish. In a region where the customer and the owner do not always share a language, that stops being a convenience and becomes the reason the job is won. Needs real development and testing before it is sold.">Atende a ligação que hoje cai na caixa postal — em português, inglês e espanhol. Numa região onde o cliente e o dono nem sempre falam a mesma língua, isso deixa de ser conveniência e vira o motivo de ganhar o trabalho. Precisa de desenvolvimento e teste de verdade antes de vender.</td>
+            <td style="color:var(--muted)" data-pt="Leads e vendas" data-en="Leads and sales">Leads e vendas</td>
+            <td class="num retail">$149/mo<div style="font-weight:400;font-size:0.74rem;color:var(--faint);margin-top:0.25rem" data-pt="+ minutos" data-en="+ minutes">+ minutos</div></td>
+          </tr>
           <tr class="total">
-            <td class="pkg" data-pt="Os quatro" data-en="All four">Os quatro</td>
+            <td class="pkg" data-pt="Os seis" data-en="All six">Os seis</td>
             <td class="what" style="color:var(--muted)"
-                data-pt="Preço de conjunto — e o argumento de venda é direto: custa menos que meio salário e não falta."
-                data-en="Bundle price — and the sales argument is direct: it costs less than half a salary and it never calls in sick.">Preço de conjunto — e o argumento de venda é direto: custa menos que meio salário e não falta.</td>
+                data-pt="Preço de conjunto, fora o uso de SMS e minutos. O argumento de venda é direto: custa menos que meio salário, atende em três línguas e não falta."
+                data-en="Bundle price, before SMS and voice usage. The sales argument is direct: it costs less than half a salary, answers in three languages and never calls in sick.">Preço de conjunto, fora o uso de SMS e minutos. O argumento de venda é direto: custa menos que meio salário, atende em três línguas e não falta.</td>
             <td></td>
-            <td class="num retail">$249/mo</td>
+            <td class="num retail">$449/mo</td>
           </tr>
         </tbody>
       </table>
@@ -463,6 +480,8 @@ footer p { font-size: 0.82rem; color: var(--faint); max-width: 56ch; }
       <div class="k" data-pt="Por que separado dos pacotes" data-en="Why it sits outside the packages">Por que separado dos pacotes</div>
       <p data-pt="Um agente tem custo por uso — quanto mais o cliente usa, mais custa rodar. Enfiar isso dentro de uma mensalidade fixa transforma o cliente mais engajado no menos lucrativo. Fora, cada agente se paga sozinho e o cliente escolhe."
          data-en="An agent carries usage cost — the more the client uses it, the more it costs to run. Folding that into a flat monthly turns the most engaged client into the least profitable one. Kept outside, each agent pays for itself and the client chooses.">Um agente tem custo por uso — quanto mais o cliente usa, mais custa rodar. Enfiar isso dentro de uma mensalidade fixa transforma o cliente mais engajado no menos lucrativo. Fora, cada agente se paga sozinho e o cliente escolhe.</p>
+      <p data-pt="Dois deles têm custo por fora que não dá para embutir: SMS paga registro nas operadoras e taxa por mensagem, e voz paga por minuto. Esses dois vão como base + uso — é o único jeito honesto de precificar."
+         data-en="Two of them carry outside cost that cannot be absorbed: SMS pays carrier registration and a per-message fee, and voice pays per minute. Those two go out as base + usage — it is the only honest way to price them.">Dois deles têm custo por fora que não dá para embutir: SMS paga registro nas operadoras e taxa por mensagem, e voz paga por minuto. Esses dois vão como base + uso — é o único jeito honesto de precificar.</p>
       <p data-pt="E a ordem importa: agente só entra depois que o diagnóstico apontou o entupimento. Automatizar uma etapa quebrada só faz o erro acontecer mais rápido."
          data-en="And the order matters: an agent only goes in after the diagnostic has named the blockage. Automating a broken stage just makes the mistake happen faster.">E a ordem importa: agente só entra depois que o diagnóstico apontou o entupimento. Automatizar uma etapa quebrada só faz o erro acontecer mais rápido.</p>
     </div>
