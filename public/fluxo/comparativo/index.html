@@ -1,0 +1,409 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Comparativo — Apex, Jobber, Joist</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+<style>
+:root {
+  --navy:      #12233F;
+  --navy-deep: #0C1829;
+  --navy-soft: #1B3255;
+  --gold:      #C8A860;
+  --gold-lift: #D8B870;
+  --gold-deep: #8A6F2C;
+  --green:     #009639;
+  --green-lift:#2FD16C;
+
+  /* the pipe's own semantics — from Apex's live app, not invented */
+  --flow:   #3f7d4e;
+  --flow-l: #63ab75;
+  --slow:   #a8842a;
+  --slow-l: #d4ae45;
+  --clog:   #b44040;
+  --clog-l: #cd5a5a;
+  --idle:   #8B93A0;
+
+  --page:   #FBFAF8;
+  --page-2: #F2F0EB;
+  --card:   #FFFFFF;
+  --ink:    #14171C;
+  --muted:  #5A6270;
+  --faint:  #8B93A0;
+  --line:   rgba(20, 23, 28, 0.13);
+  --line-2: rgba(20, 23, 28, 0.07);
+  --shadow: rgba(12, 24, 41, 0.10);
+  --shadow-2: rgba(12, 24, 41, 0.20);
+
+  --display: 'Inter', system-ui, -apple-system, sans-serif;
+  --body:    'Inter', system-ui, -apple-system, sans-serif;
+
+  --measure: 34rem;
+  --wide: 62rem;
+  --r: 14px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --page:   #0C1829;
+    --page-2: #101F35;
+    --card:   #16273F;
+    --ink:    #EEF1F5;
+    --muted:  #9BA6B6;
+    --faint:  #74808F;
+    --line:   rgba(238, 241, 245, 0.16);
+    --line-2: rgba(238, 241, 245, 0.09);
+    --shadow: rgba(0, 0, 0, 0.5);
+    --shadow-2: rgba(0, 0, 0, 0.66);
+    --gold-deep: #D8B870;
+    --green: #2FD16C;
+    --idle: #74808F;
+  }
+}
+
+:root[data-theme="dark"] {
+  --page:   #0C1829;
+  --page-2: #101F35;
+  --card:   #16273F;
+  --ink:    #EEF1F5;
+  --muted:  #9BA6B6;
+  --faint:  #74808F;
+  --line:   rgba(238, 241, 245, 0.16);
+  --line-2: rgba(238, 241, 245, 0.09);
+  --shadow: rgba(0, 0, 0, 0.5);
+  --shadow-2: rgba(0, 0, 0, 0.66);
+  --gold-deep: #D8B870;
+  --green: #2FD16C;
+  --idle: #74808F;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--page);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 1.05rem;
+  line-height: 1.62;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 { margin: 0; font-family: var(--display); font-weight: 700; line-height: 1.14; letter-spacing: -0.021em; text-wrap: balance; }
+p { margin: 0; }
+
+.wrap { width: 100%; max-width: 76rem; margin: 0 auto; padding: 0 clamp(1.15rem, 4vw, 2rem); }
+.scrolly .wrap { max-width: 72rem; }
+.col { max-width: var(--measure); }
+section { padding: clamp(4rem, 11vh, 7.5rem) 0; }
+.tint { background: var(--page-2); }
+
+/* ---------- language ---------- */
+.lang {
+  position: fixed; top: 0.85rem; right: 0.85rem; z-index: 60;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  box-shadow: 0 1px 3px var(--shadow);
+}
+.lang button {
+  border: 0; background: transparent; cursor: pointer;
+  font: 600 0.7rem/1 var(--body); letter-spacing: 0.07em;
+  color: var(--muted); padding: 0.45rem 0.75rem; border-radius: 999px;
+  transition: background-color .2s, color .2s;
+}
+.lang button[aria-pressed="true"] { background: var(--green); color: #fff; }
+:focus-visible { outline: 2px solid var(--green); outline-offset: 3px; border-radius: 4px; }
+
+/* ---------- language ---------- */
+.lang {
+  position: fixed; top: 0.85rem; right: 0.85rem; z-index: 60;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--card); border: 1px solid var(--line);
+  border-radius: 999px; box-shadow: 0 1px 3px var(--shadow);
+}
+.lang button {
+  border: 0; background: transparent; cursor: pointer;
+  font: 600 0.7rem/1 var(--body); letter-spacing: 0.07em;
+  color: var(--muted); padding: 0.45rem 0.75rem; border-radius: 999px;
+}
+.lang button[aria-pressed="true"] { background: var(--green); color: #fff; }
+:focus-visible { outline: 2px solid var(--green); outline-offset: 3px; border-radius: 4px; }
+
+.head { padding-top: clamp(4rem, 11vh, 7rem); padding-bottom: 0; }
+.head .who { font: 600 0.72rem/1 var(--body); letter-spacing: 0.13em; text-transform: uppercase; color: var(--faint); margin-bottom: 1.4rem; display: flex; align-items: center; gap: 0.75rem; }
+.who-logo { width: 84px; height: auto; display: block; }
+.who-x { opacity: 0.45; }
+.head h1 { font-size: clamp(2rem, 5vw, 3.1rem); max-width: 18ch; }
+.head .lede { margin-top: 1.2rem; font-size: clamp(1.04rem, 2vw, 1.22rem); color: var(--muted); max-width: 48ch; }
+.back { display: inline-flex; align-items: center; gap: 0.45rem; margin-top: 1.6rem; font-size: 0.86rem; color: var(--gold-deep); text-decoration: none; font-weight: 600; }
+.back:hover { text-decoration: underline; }
+
+.tier { padding: clamp(3rem, 8vh, 5rem) 0 0; }
+.tier-head { display: flex; align-items: baseline; gap: 0.9rem; flex-wrap: wrap; }
+.tier-head h2 { font-size: clamp(1.5rem, 3.4vw, 2.1rem); }
+.badge {
+  font: 600 0.6rem/1 var(--body); letter-spacing: 0.11em; text-transform: uppercase;
+  padding: 0.34rem 0.7rem; border-radius: 999px;
+}
+.badge.now { color: var(--flow); background: rgba(63,125,78,0.13); }
+.badge.next { color: var(--gold-deep); background: rgba(200,168,96,0.16); }
+.badge.later { color: var(--muted); background: var(--line-2); }
+.tier .note { margin-top: 0.85rem; color: var(--muted); max-width: 52ch; font-size: 0.95rem; }
+
+.tbl-wrap { margin-top: 1.5rem; overflow-x: auto; border: 1px solid var(--line); border-radius: var(--r); background: var(--card); box-shadow: 0 1px 2px var(--shadow); }
+table { width: 100%; border-collapse: collapse; font-size: 0.84rem; min-width: 1020px; }
+thead th {
+  text-align: left; font: 600 0.6rem/1.3 var(--body); letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--faint); padding: 0.8rem 0.75rem; border-bottom: 1px solid var(--line); white-space: nowrap;
+}
+thead th.num, td.num { text-align: right; }
+tbody td { padding: 0.8rem 0.75rem; border-bottom: 1px solid var(--line-2); vertical-align: top; }
+tbody tr:last-child td { border-bottom: 0; }
+td.pkg { font-weight: 700; white-space: nowrap; }
+td.what { color: var(--muted); line-height: 1.45; min-width: 260px; max-width: 340px; }
+td.num { font-variant-numeric: tabular-nums; white-space: nowrap; font-weight: 600; min-width: 104px; }
+thead th.num { min-width: 104px; }
+td.retail { color: var(--ink); }
+td.you { color: var(--flow); }
+td.apex { color: var(--gold-deep); }
+td.oh { color: var(--muted); font-weight: 500; }
+tbody tr.total td { background: var(--page-2); font-weight: 700; }
+
+.split { display: flex; gap: 1.2rem; flex-wrap: wrap; margin-top: 1rem; font-size: 0.8rem; color: var(--faint); }
+.split b { color: var(--ink); }
+
+.callout { margin-top: 1.4rem; padding: 1rem 1.2rem; border-radius: var(--r); background: var(--page-2); border-left: 3px solid var(--gold); }
+.callout .k { font: 600 0.6rem/1 var(--body); letter-spacing: 0.11em; text-transform: uppercase; color: var(--gold-deep); }
+.callout p { margin-top: 0.5rem; font-size: 0.9rem; color: var(--muted); max-width: 58ch; }
+.callout p + p { margin-top: 0.55rem; }
+.callout b { color: var(--ink); }
+
+.who-does { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.9rem; margin-top: 1.5rem; }
+.wd { background: var(--card); border: 1px solid var(--line); border-radius: var(--r); padding: 1rem 1.1rem; }
+.wd .k { font: 600 0.6rem/1 var(--body); letter-spacing: 0.11em; text-transform: uppercase; color: var(--gold-deep); }
+.wd h3 { margin-top: 0.5rem; font-size: 0.98rem; }
+.wd p { margin-top: 0.35rem; font-size: 0.82rem; color: var(--muted); }
+.wd ul { margin: 0.5rem 0 0; padding-left: 1.05rem; font-size: 0.82rem; color: var(--muted); }
+.wd li { margin-top: 0.25rem; }
+
+footer { padding: clamp(3rem,8vh,5rem) 0 clamp(4rem,10vh,6rem); }
+footer p { font-size: 0.82rem; color: var(--faint); max-width: 56ch; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style><style>
+.cmp table { min-width: 780px; }
+.cmp td, .cmp th { text-align: center; }
+.cmp td:first-child, .cmp th:first-child { text-align: left; min-width: 210px; }
+.cmp .apexcol { background: rgba(200,168,96,0.07); }
+th.apexcol { color: var(--gold-deep); }
+.yes { color: var(--flow); font-weight: 700; }
+.no  { color: var(--faint); }
+.part { color: var(--gold-deep); font-weight: 600; font-size: 0.78rem; }
+.catrow td { background: var(--page-2); font: 600 0.62rem/1 var(--body); letter-spacing: 0.1em; text-transform: uppercase; color: var(--faint); padding: 0.55rem 0.75rem; }
+.seat table { min-width: 660px; }
+.win { color: var(--flow); font-weight: 700; }
+.lose { color: var(--clog); font-weight: 700; }
+.pricebig { font-size: 1.15rem; font-weight: 700; }
+.sub2 { display: block; font-size: 0.7rem; font-weight: 400; color: var(--faint); margin-top: 0.15rem; }
+.verdict { background: var(--card); border: 1px solid var(--line); border-left: 3px solid var(--gold); border-radius: var(--r); padding: 1.1rem 1.3rem; margin-top: 1.4rem; }
+.verdict .k { font: 600 0.6rem/1 var(--body); letter-spacing: 0.11em; text-transform: uppercase; color: var(--gold-deep); }
+.verdict p { margin-top: 0.55rem; font-size: 0.92rem; color: var(--muted); max-width: 62ch; }
+.verdict p + p { margin-top: 0.5rem; }
+.verdict b { color: var(--ink); }
+</style>
+</head>
+<body>
+
+<section class="head">
+  <div class="wrap col">
+    <p class="who"><span>Resonate</span><span class="who-x" aria-hidden="true">·</span><img class="who-logo" alt="Apex" src="apex-logo.png"></p>
+    <h1 data-pt="Não é o mesmo produto." data-en="It is not the same product.">Não é o mesmo produto.</h1>
+    <p class="lede"
+       data-pt="Joist é faturamento. Jobber é uma plataforma de operação. O portal faz o que os dois fazem — e mais três coisas que nenhum deles faz."
+       data-en="Joist is invoicing. Jobber is an operations platform. The portal does what both do — plus three things neither of them does.">Joist é faturamento. Jobber é uma plataforma de operação. O portal faz o que os dois fazem — e mais três coisas que nenhum deles faz.</p>
+    <a class="back" href="../precos/">
+      <svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3 L5 8 l5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span data-pt="Ver os preços" data-en="See the pricing">Ver os preços</span>
+    </a>
+  </div>
+</section>
+
+<!-- ============ PRICE AT A GLANCE ============ -->
+<section class="tier">
+  <div class="wrap">
+    <div class="tier-head">
+      <h2 data-pt="O preço, lado a lado" data-en="Price, side by side">O preço, lado a lado</h2>
+    </div>
+    <p class="note"
+       data-pt="Joist cobra por funcionalidade e não escala em equipe. Jobber cobra por faixa de usuários. Comparar o Completo com o Joist é comparar um sistema com uma calculadora — a comparação real é com o Jobber."
+       data-en="Joist charges by feature and does not scale by team. Jobber charges by user band. Comparing Completo to Joist is comparing a system to a calculator — the real comparison is Jobber.">Joist cobra por funcionalidade e não escala em equipe. Jobber cobra por faixa de usuários. Comparar o Completo com o Joist é comparar um sistema com uma calculadora — a comparação real é com o Jobber.</p>
+
+    <div class="tbl-wrap cmp">
+      <table>
+        <thead>
+          <tr>
+            <th data-pt="Usuários" data-en="Users">Usuários</th>
+            <th>Joist</th>
+            <th>Jobber</th>
+            <th class="apexcol" data-pt="Apex — hoje" data-en="Apex — today">Apex — hoje</th>
+            <th class="apexcol" data-pt="Apex — com 5 inclusos" data-en="Apex — with 5 included">Apex — com 5 inclusos</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td data-pt="1 (autônomo)" data-en="1 (solo)">1 (autônomo)</td>
+            <td>$10–70</td>
+            <td>$49</td>
+            <td class="apexcol">$199</td>
+            <td class="apexcol">$199</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>$70</td>
+            <td>$169</td>
+            <td class="apexcol lose">$289</td>
+            <td class="apexcol win">$199</td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td>$70</td>
+            <td>$169</td>
+            <td class="apexcol lose">$379</td>
+            <td class="apexcol win">$199</td>
+          </tr>
+          <tr>
+            <td>10</td>
+            <td>$70</td>
+            <td>$349</td>
+            <td class="apexcol lose">$604</td>
+            <td class="apexcol">$424</td>
+          </tr>
+          <tr>
+            <td>15</td>
+            <td>$70</td>
+            <td>$349–699</td>
+            <td class="apexcol lose">$829</td>
+            <td class="apexcol">$649</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="verdict">
+      <div class="k" data-pt="O ponto que o Rafa levantou" data-en="The point Rafa raised">O ponto que o Rafa levantou</div>
+      <p data-pt="Ele está certo. O Jobber inclui 5 usuários; o Completo cobrava por cada um. Com 5 pessoas isso deixava o Apex em <b>$379 contra $169</b> — e nenhuma lista de funcionalidades ganha essa conversa."
+         data-en="He is right. Jobber includes 5 users; Completo charged for each one. At 5 people that put Apex at <b>$379 against $169</b> — and no feature list wins that conversation.">Ele está certo. O Jobber inclui 5 usuários; o Completo cobrava por cada um. Com 5 pessoas isso deixava o Apex em <b>$379 contra $169</b> — e nenhuma lista de funcionalidades ganha essa conversa.</p>
+      <p data-pt="Incluir 5 assentos resolve: o Completo passa a ser <b>$199 fixo</b> de 1 a 5 pessoas, que é onde a maioria dos clientes dele está. O preço base nunca foi o problema."
+         data-en="Including 5 seats fixes it: Completo becomes <b>a flat $199</b> from 1 to 5 people, which is where most of his clients sit. The base price was never the problem.">Incluir 5 assentos resolve: o Completo passa a ser <b>$199 fixo</b> de 1 a 5 pessoas, que é onde a maioria dos clientes dele está. O preço base nunca foi o problema.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FEATURES ============ -->
+<section class="tier tint" style="margin-top:clamp(3rem,8vh,5rem); padding-bottom:clamp(3rem,8vh,5rem)">
+  <div class="wrap">
+    <div class="tier-head">
+      <h2 data-pt="O que cada um faz" data-en="What each one does">O que cada um faz</h2>
+    </div>
+
+    <div class="tbl-wrap cmp">
+      <table>
+        <thead>
+          <tr>
+            <th data-pt="Recurso" data-en="Feature">Recurso</th>
+            <th>Joist</th>
+            <th>Jobber</th>
+            <th class="apexcol">Apex Completo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="catrow"><td colspan="4" data-pt="O básico — os três fazem" data-en="The basics — all three do this">O básico — os três fazem</td></tr>
+          <tr><td data-pt="Orçamentos / estimativas" data-en="Estimates / quotes">Orçamentos / estimativas</td><td class="yes">✓</td><td class="yes">✓</td><td class="apexcol yes">✓</td></tr>
+          <tr><td data-pt="Faturamento" data-en="Invoicing">Faturamento</td><td class="yes">✓</td><td class="yes">✓</td><td class="apexcol yes">✓</td></tr>
+          <tr><td data-pt="Pagamento online" data-en="Online payments">Pagamento online</td><td class="yes">✓</td><td class="yes">✓</td><td class="apexcol yes">✓</td></tr>
+          <tr><td data-pt="App no celular" data-en="Mobile app">App no celular</td><td class="yes">✓</td><td class="yes">✓</td><td class="apexcol yes">✓</td></tr>
+
+          <tr class="catrow"><td colspan="4" data-pt="Plataforma — Joist não faz" data-en="Platform — Joist does not do this">Plataforma — Joist não faz</td></tr>
+          <tr><td data-pt="Agendamento / calendário" data-en="Scheduling / calendar">Agendamento / calendário</td><td class="no">—</td><td class="yes">✓</td><td class="apexcol yes">✓</td></tr>
+          <tr><td data-pt="Link de marcação para o cliente" data-en="Client booking link">Link de marcação para o cliente</td><td class="no">—</td><td class="yes">✓</td><td class="apexcol yes">✓</td></tr>
+          <tr><td data-pt="Pipeline de leads / CRM" data-en="Lead pipeline / CRM">Pipeline de leads / CRM</td><td class="no">—</td><td class="yes">✓</td><td class="apexcol yes">✓</td></tr>
+          <tr><td data-pt="Projetos com custo e margem" data-en="Projects with cost and margin">Projetos com custo e margem</td><td class="no">—</td><td class="part" data-pt="parcial" data-en="partial">parcial</td><td class="apexcol yes">✓</td></tr>
+          <tr><td data-pt="Portal do cliente" data-en="Client portal">Portal do cliente</td><td class="no">—</td><td class="yes">✓</td><td class="apexcol yes">✓</td></tr>
+          <tr><td data-pt="Logins por vendedor, com escopo" data-en="Per-salesperson logins, scoped">Logins por vendedor, com escopo</td><td class="no">—</td><td class="part" data-pt="por assento" data-en="per seat">por assento</td><td class="apexcol yes">✓</td></tr>
+
+          <tr class="catrow"><td colspan="4" data-pt="Só o Apex faz" data-en="Only Apex does this">Só o Apex faz</td></tr>
+          <tr><td data-pt="Diagnóstico do negócio (7 instrumentos)" data-en="Business diagnostics (7 instruments)">Diagnóstico do negócio (7 instrumentos)</td><td class="no">—</td><td class="no">—</td><td class="apexcol yes">✓</td></tr>
+          <tr><td data-pt="Mapa do fluxo do dinheiro" data-en="Money-flow map">Mapa do fluxo do dinheiro</td><td class="no">—</td><td class="no">—</td><td class="apexcol yes">✓</td></tr>
+          <tr><td data-pt="Registro diário e metas mensais" data-en="Daily log and monthly goals">Registro diário e metas mensais</td><td class="no">—</td><td class="no">—</td><td class="apexcol yes">✓</td></tr>
+          <tr><td data-pt="Parceiros de indicação, atribuição automática" data-en="Referral partners, auto attribution">Parceiros de indicação, atribuição automática</td><td class="no">—</td><td class="no">—</td><td class="apexcol yes">✓</td></tr>
+          <tr><td data-pt="Base de Ouro (carteira de recompra)" data-en="Golden Base (repeat-client list)">Base de Ouro (carteira de recompra)</td><td class="no">—</td><td class="no">—</td><td class="apexcol yes">✓</td></tr>
+          <tr><td data-pt="Português e inglês, o app inteiro" data-en="Portuguese and English, the whole app">Português e inglês, o app inteiro</td><td class="no">—</td><td class="no">—</td><td class="apexcol yes">✓</td></tr>
+          <tr><td data-pt="Consultor acompanha por dentro" data-en="Consultant works inside it with them">Consultor acompanha por dentro</td><td class="no">—</td><td class="no">—</td><td class="apexcol yes">✓</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="verdict">
+      <div class="k" data-pt="A leitura honesta" data-en="The honest read">A leitura honesta</div>
+      <p data-pt="No básico os três empatam. Na plataforma o Joist sai da conversa — ele é faturamento, não operação. Contra o Jobber a diferença é o que o Apex faz <b>além</b> de operar: diagnosticar o negócio e dar ao consultor um lugar para trabalhar junto."
+         data-en="On the basics all three tie. On platform Joist leaves the conversation — it is invoicing, not operations. Against Jobber the difference is what Apex does <b>beyond</b> operating: diagnosing the business and giving the consultant somewhere to work alongside them.">No básico os três empatam. Na plataforma o Joist sai da conversa — ele é faturamento, não operação. Contra o Jobber a diferença é o que o Apex faz <b>além</b> de operar: diagnosticar o negócio e dar ao consultor um lugar para trabalhar junto.</p>
+      <p data-pt="E o bilíngue não é um detalhe: para um dono brasileiro na Flórida, um sistema que fala a língua dele e a do cliente é a diferença entre usar e não usar."
+         data-en="And bilingual is not a detail: for a Brazilian owner in Florida, a system that speaks his language and his customer's is the difference between using it and not.">E o bilíngue não é um detalhe: para um dono brasileiro na Flórida, um sistema que fala a língua dele e a do cliente é a diferença entre usar e não usar.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap col">
+    <p data-pt="Preços de concorrentes conforme as páginas públicas de setembro de 2026. Jobber varia por faixa de usuários e por pagamento anual ou mensal; Joist tem preço promocional de entrada em alguns planos."
+       data-en="Competitor prices as published on their own pages, September 2026. Jobber varies by user band and by annual or monthly billing; Joist runs an introductory price on some plans.">Preços de concorrentes conforme as páginas públicas de setembro de 2026. Jobber varia por faixa de usuários e por pagamento anual ou mensal; Joist tem preço promocional de entrada em alguns planos.</p>
+    <p style="margin-top:1rem">
+      <a class="back" href="../precos/" style="margin-top:0">
+        <svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3 L5 8 l5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span data-pt="Ver os preços" data-en="See the pricing">Ver os preços</span>
+      </a>
+    </p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+  var KEY = 'fluxo-lang';
+  function get() {
+    try { var s = localStorage.getItem(KEY); if (s === 'en' || s === 'pt') return s; } catch (e) {}
+    return 'pt';
+  }
+  function set(lang) {
+    document.documentElement.setAttribute('data-lang', lang);
+    document.documentElement.setAttribute('lang', lang === 'pt' ? 'pt-BR' : 'en');
+    try { localStorage.setItem(KEY, lang); } catch (e) {}
+    document.querySelectorAll('[data-pt]').forEach(function (el) {
+      var t = lang === 'pt' ? el.dataset.pt : el.dataset.en;
+      if (t !== undefined) el.innerHTML = t;
+    });
+    document.querySelectorAll('.lang button').forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.dataset.l === lang));
+    });
+  }
+  var n = document.createElement('div');
+  n.className = 'lang';
+  n.setAttribute('role', 'group');
+  n.setAttribute('aria-label', 'Idioma / Language');
+  n.innerHTML = '<button type="button" data-l="pt" aria-pressed="false">PT</button>' +
+                '<button type="button" data-l="en" aria-pressed="false">EN</button>';
+  n.addEventListener('click', function (e) {
+    var b = e.target.closest('button[data-l]');
+    if (b) set(b.dataset.l);
+  });
+  document.body.appendChild(n);
+  set(get());
+})();
+</script>
+
+</body>
+</html>
