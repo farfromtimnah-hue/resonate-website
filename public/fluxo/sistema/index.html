@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Apex · Do lead à fatura</title>
+<style>
+:root {
+  --navy: #0F1E3D; --navy-2: #1B3255; --gold: #C9A227; --gold-deep: #8A6F2C;
+  --flow: #3f7d4e; --page: #FBFAF8; --page-2: #F2F0EB; --card: #FFFFFF;
+  --ink: #14171C; --muted: #5A6270; --faint: #8B93A0;
+  --line: rgba(20,23,28,0.13); --line-2: rgba(20,23,28,0.07); --shadow: rgba(12,24,41,0.10);
+  --sans: Helvetica, Arial, sans-serif; --r: 14px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --page:#0C1829; --page-2:#101F35; --card:#16273F; --ink:#EEF1F5; --muted:#9BA6B6; --faint:#74808F; --line:rgba(238,241,245,0.16); --line-2:rgba(238,241,245,0.09); --shadow:rgba(0,0,0,0.5); --gold-deep:#D8B870; --flow:#63ab75; }
+}
+:root[data-theme="dark"] { --page:#0C1829; --page-2:#101F35; --card:#16273F; --ink:#EEF1F5; --muted:#9BA6B6; --faint:#74808F; --line:rgba(238,241,245,0.16); --line-2:rgba(238,241,245,0.09); --shadow:rgba(0,0,0,0.5); --gold-deep:#D8B870; --flow:#63ab75; }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--page); color: var(--ink); font-family: var(--sans); font-size: 1.02rem; line-height: 1.55; -webkit-font-smoothing: antialiased; }
+h1, h2, h3 { margin: 0; font-weight: 700; line-height: 1.15; letter-spacing: -0.02em; }
+p { margin: 0; }
+a { color: inherit; }
+.wrap { max-width: 74rem; margin: 0 auto; padding: 0 clamp(1rem, 4vw, 2rem); }
+section { padding: clamp(3rem, 8vh, 5.5rem) 0; }
+.tint { background: var(--page-2); }
+.lang { position: fixed; top: .85rem; right: .85rem; z-index: 60; display: flex; gap: 2px; padding: 3px; background: var(--card); border: 1px solid var(--line); border-radius: 999px; box-shadow: 0 1px 3px var(--shadow); }
+.lang button { border: 0; background: transparent; cursor: pointer; font: 700 .7rem/1 var(--sans); letter-spacing: .07em; color: var(--muted); padding: .45rem .75rem; border-radius: 999px; }
+.lang button[aria-pressed="true"] { background: var(--navy); color: #fff; }
+.hero { background: var(--navy); color: #fff; padding: clamp(3.5rem, 10vh, 6rem) 0 clamp(3rem, 8vh, 4.5rem); }
+.hero .logo { width: 120px; height: auto; display: block; margin-bottom: 2rem; }
+.hero h1 { font-size: clamp(2.1rem, 5.4vw, 3.4rem); max-width: 18ch; }
+.hero .lede { margin-top: 1rem; font-size: clamp(1.05rem, 2vw, 1.25rem); color: rgba(255,255,255,0.78); max-width: 46ch; }
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: .9rem; margin-top: 2.4rem; }
+.stat { border: 1px solid rgba(255,255,255,0.16); border-radius: var(--r); padding: 1rem 1.1rem; background: rgba(255,255,255,0.04); }
+.stat .n { font-size: 1.9rem; font-weight: 700; color: var(--gold); letter-spacing: -0.02em; }
+.stat .n small { font-size: .9rem; color: rgba(255,255,255,0.6); font-weight: 400; }
+.stat p { margin-top: .3rem; font-size: .88rem; color: rgba(255,255,255,0.74); }
+.pdf { display: inline-block; margin-top: 2rem; padding: .75rem 1.2rem; border-radius: 999px; border: 1px solid var(--gold); color: var(--gold); text-decoration: none; font-weight: 700; font-size: .9rem; }
+.sec-h h2 { font-size: clamp(1.6rem, 3.6vw, 2.3rem); max-width: 24ch; }
+.sec-h p { margin-top: .7rem; color: var(--muted); max-width: 60ch; }
+.docs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; margin-top: 2rem; }
+.doc { background: var(--card); border: 1px solid var(--line); border-radius: var(--r); padding: 1.1rem; box-shadow: 0 1px 2px var(--shadow); display: flex; flex-direction: column; }
+.k { font: 700 .62rem/1 var(--sans); letter-spacing: .12em; text-transform: uppercase; color: var(--gold-deep); }
+.doc h3 { margin-top: .45rem; font-size: 1.12rem; }
+.shot { position: relative; display: block; margin-top: .9rem; border-radius: 10px; overflow: hidden; border: 1px solid var(--line); background: #eef0f2; text-decoration: none; }
+.doc .shot { height: 430px; }
+.shot img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; transition: transform .35s ease; }
+a.shot:hover img { transform: scale(1.02); }
+.shot .open { position: absolute; right: .6rem; bottom: .6rem; background: rgba(15,30,61,0.88); color: #fff; font-size: .74rem; font-weight: 700; padding: .4rem .7rem; border-radius: 999px; }
+.doc ul, .all ul { margin: .9rem 0 0; padding-left: 1.1rem; font-size: .88rem; color: var(--muted); }
+.doc li, .all li { margin-top: .35rem; }
+.minis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-top: 1.4rem; }
+.mini { margin: 0; }
+.mini .shot { height: 220px; margin-top: 0; }
+.mini figcaption { margin-top: .5rem; font-size: .82rem; color: var(--muted); }
+.mini figcaption b { color: var(--ink); }
+.all { margin-top: 1.4rem; background: var(--card); border: 1px solid var(--line); border-left: 3px solid var(--gold); border-radius: var(--r); padding: 1.1rem 1.3rem; }
+.all ul { columns: 2; column-gap: 2rem; }
+.all li { break-inside: avoid; }
+.tbl-wrap { margin-top: 1.6rem; overflow-x: auto; border: 1px solid var(--line); border-radius: var(--r); background: var(--card); box-shadow: 0 1px 2px var(--shadow); }
+table { width: 100%; border-collapse: collapse; font-size: .86rem; }
+thead th { text-align: left; font: 700 .62rem/1.3 var(--sans); letter-spacing: .08em; text-transform: uppercase; color: var(--faint); padding: .8rem .75rem; border-bottom: 1px solid var(--line); }
+tbody td { padding: .75rem; border-bottom: 1px solid var(--line-2); vertical-align: top; }
+tbody tr:last-child td { border-bottom: 0; }
+.cmp table { min-width: 720px; }
+.cmp td, .cmp th { text-align: center; }
+.cmp td:first-child, .cmp th:first-child { text-align: left; }
+.apexcol { background: rgba(201,162,39,0.08); }
+th.apexcol { color: var(--gold-deep); }
+.yes { color: var(--flow); font-weight: 700; }
+.no { color: var(--faint); }
+.part { color: var(--gold-deep); font-weight: 700; font-size: .76rem; }
+.catrow td { background: var(--page-2); font: 700 .62rem/1 var(--sans); letter-spacing: .1em; text-transform: uppercase; color: var(--faint); padding: .55rem .75rem; }
+.cx table { min-width: 640px; }
+.cx td { width: 50%; }
+.cx .src { display: block; margin-top: .3rem; font-size: .74rem; color: var(--faint); }
+.cx .ans { color: var(--flow); font-weight: 700; }
+.price table { min-width: 560px; }
+.price td.num, .price th.num { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.price tr.total td { background: var(--page-2); font-weight: 700; }
+.price tr.apex td { background: rgba(201,162,39,0.10); font-weight: 700; font-size: 1.02rem; }
+.price .big { color: var(--flow); }
+.note { margin-top: .9rem; font-size: .82rem; color: var(--faint); max-width: 70ch; }
+.note + .note { margin-top: .4rem; }
+footer { padding: 3rem 0 4rem; border-top: 1px solid var(--line); }
+footer .sig { font-weight: 700; letter-spacing: .04em; }
+footer p { font-size: .8rem; color: var(--faint); margin-top: .5rem; max-width: 80ch; }
+footer a { color: var(--faint); }
+@media (max-width: 900px) { .docs { grid-template-columns: 1fr; } .minis { grid-template-columns: repeat(2, 1fr); } .all ul { columns: 1; } .doc .shot { height: 380px; } }
+@media print {
+  @page { size: letter; margin: 0.45in; }
+  .lang, .pdf { display: none !important; }
+  body { font-size: 10.5pt; }
+  section { padding: 1.4rem 0; }
+  .hero { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .doc, .mini, .tbl-wrap, .all, tr { break-inside: avoid; }
+  .doc .shot { height: 330px; }
+  .tbl-wrap { overflow: visible; }
+  .cmp table, .cx table, .price table { min-width: 0; }
+  .shot .open { display: none; }
+  #docs { break-before: page; }
+  #compare, #price { break-before: page; }
+}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="wrap">
+    <img class="logo" src="../comparativo/apex-logo.png" alt="Apex">
+    <h1 data-pt="Do lead à fatura, num sistema só." data-en="From lead to invoice, in one system.">Do lead à fatura, num sistema só.</h1>
+    <p class="lede" data-pt="Orçamento, contrato e fatura com a cara da empresa, enviados do celular do vendedor, sem digitar nada duas vezes." data-en="Estimate, contract and invoice in the business&#x27;s own look, sent from the salesperson&#x27;s phone, with nothing typed twice.">Orçamento, contrato e fatura com a cara da empresa, enviados do celular do vendedor, sem digitar nada duas vezes.</p>
+    <div class="stats">
+      <div class="stat"><div class="n">3 → 1</div><p data-pt="Jobber, Joist e DocuSign fazem, cada um, uma parte. O Apex faz tudo junto." data-en="Jobber, Joist and DocuSign each do one part. Apex does it all together.">Jobber, Joist e DocuSign fazem, cada um, uma parte. O Apex faz tudo junto.</p></div>
+      <div class="stat"><div class="n">$376<small><span data-pt="/mês" data-en="/mo">/mês</span></small></div><p data-pt="O mínimo para montar as três, com 5 usuários no Jobber." data-en="The minimum to assemble all three, with 5 users on Jobber.">O mínimo para montar as três, com 5 usuários no Jobber.</p></div>
+      <div class="stat"><div class="n">$199<small><span data-pt="/mês" data-en="/mo">/mês</span></small></div><p data-pt="Apex Completo, com 5 usuários inclusos e tudo o que está nesta página." data-en="Apex Completo, with 5 users included and everything on this page.">Apex Completo, com 5 usuários inclusos e tudo o que está nesta página.</p></div>
+    </div>
+    <a class="pdf" href="https://apex-api.farfromtimnah.workers.dev/api/pitch/apex-sistema.pdf" target="_blank" rel="noopener"><span data-pt="Baixar em PDF" data-en="Download as PDF">Baixar em PDF</span></a>
+  </div>
+</header>
+
+<section id="docs">
+  <div class="wrap">
+    <div class="sec-h">
+      <h2 data-pt="Três documentos, um fluxo" data-en="Three documents, one flow">Três documentos, um fluxo</h2>
+      <p data-pt="Uma obra real de piscina, do orçamento ao pagamento do sinal. Clique em qualquer imagem para abrir o documento como o cliente vê." data-en="A real pool job, from the estimate to the deposit payment. Click any image to open the document the way the customer sees it.">Uma obra real de piscina, do orçamento ao pagamento do sinal. Clique em qualquer imagem para abrir o documento como o cliente vê.</p>
+    </div>
+    <div class="docs">
+      <article class="doc">
+  <p class="k"><span data-pt="1 · Orçamento" data-en="1 · Estimate">1 · Orçamento</span></p>
+  <h3><span data-pt="O cliente escolhe a opção" data-en="The customer picks the option">O cliente escolhe a opção</span></h3>
+  <a class="shot" href="https://doc.resonateai.online/marlow-pool-and-patio/est-0023-daniel-and-marisa-whitfield-2mw44neq" target="_blank" rel="noopener"><img src="https://apex-api.farfromtimnah.workers.dev/api/pitch/estimate.jpg" alt="" loading="lazy"><span class="open"><span data-pt="Abrir o documento real ↗" data-en="Open the real document ↗">Abrir o documento real ↗</span></span></a>
+  <ul><li><span data-pt="Monta a partir do lead: nome, telefone e endereço já vêm preenchidos." data-en="Built from the lead: name, phone and address come filled in.">Monta a partir do lead: nome, telefone e endereço já vêm preenchidos.</span></li><li><span data-pt="Opções Best, Better e Good, com botão para duplicar a opção nas outras." data-en="Best, Better and Good options, with one button to copy an option into the others.">Opções Best, Better e Good, com botão para duplicar a opção nas outras.</span></li><li><span data-pt="Produtos da tabela de preços, com cálculo por linha e subtotal por categoria." data-en="Products from the price list, with per-line math and a subtotal per category.">Produtos da tabela de preços, com cálculo por linha e subtotal por categoria.</span></li><li><span data-pt="Custo e margem internos, com aviso de margem baixa. O cliente nunca vê." data-en="Internal cost and margin, with a low-margin warning. The customer never sees it.">Custo e margem internos, com aviso de margem baixa. O cliente nunca vê.</span></li><li><span data-pt="Sinal e parcelas por etapa, e o aviso da Flórida quando o sinal passa de 10%." data-en="Deposit and staged payments, and the Florida notice when the deposit is over 10%.">Sinal e parcelas por etapa, e o aviso da Flórida quando o sinal passa de 10%.</span></li><li><span data-pt="Validade, o que está incluso e o que não está, em texto claro." data-en="Valid-until date, what is included and what is not, in plain words.">Validade, o que está incluso e o que não está, em texto claro.</span></li><li><span data-pt="O cliente escolhe a opção e assina no celular, sem criar conta." data-en="The customer picks an option and signs on the phone, with no account.">O cliente escolhe a opção e assina no celular, sem criar conta.</span></li><li><span data-pt="Aceitou: o lead fecha e o projeto é criado sozinho." data-en="Once accepted, the lead closes and the project is created on its own.">Aceitou: o lead fecha e o projeto é criado sozinho.</span></li></ul>
+</article>
+      <article class="doc">
+  <p class="k"><span data-pt="2 · Contrato" data-en="2 · Contract">2 · Contrato</span></p>
+  <h3><span data-pt="Assinado pelas duas partes" data-en="Signed by both parties">Assinado pelas duas partes</span></h3>
+  <a class="shot" href="https://doc.resonateai.online/marlow-pool-and-patio/con-0016-wub98rs9" target="_blank" rel="noopener"><img src="https://apex-api.farfromtimnah.workers.dev/api/pitch/contract.jpg" alt="" loading="lazy"><span class="open"><span data-pt="Abrir o documento real ↗" data-en="Open the real document ↗">Abrir o documento real ↗</span></span></a>
+  <ul><li><span data-pt="Nasce do orçamento aceito: preço, escopo e parcelas já estão lá." data-en="Built from the accepted estimate: price, scope and payments are already there.">Nasce do orçamento aceito: preço, escopo e parcelas já estão lá.</span></li><li><span data-pt="Avisos da Flórida por regra: gravame (713.015), Recovery Fund, cancelamento em 3 dias e documentos de piscina (515)." data-en="Florida notices by rule: lien (713.015), Recovery Fund, 3-day cancellation and pool documents (515).">Avisos da Flórida por regra: gravame (713.015), Recovery Fund, cancelamento em 3 dias e documentos de piscina (515).</span></li><li><span data-pt="A empresa assina primeiro; o cliente assina depois, digitando ou desenhando." data-en="The company signs first; the customer signs after, typed or drawn.">A empresa assina primeiro; o cliente assina depois, digitando ou desenhando.</span></li><li><span data-pt="Cada assinatura grava nome, data, hora, aparelho e um código de verificação (SHA-256)." data-en="Every signature records name, date, time, device and a verification code (SHA-256).">Cada assinatura grava nome, data, hora, aparelho e um código de verificação (SHA-256).</span></li><li><span data-pt="PDF feito no servidor e guardado no momento da assinatura: nunca muda." data-en="PDF made on the server and stored at signing: it never changes.">PDF feito no servidor e guardado no momento da assinatura: nunca muda.</span></li><li><span data-pt="Aditivos com total antigo, mudança e total novo; o cliente assina cada um." data-en="Change orders show old total, change and new total; the customer signs each one.">Aditivos com total antigo, mudança e total novo; o cliente assina cada um.</span></li><li><span data-pt="Preço do contrato editável, com a linha de ajuste negociado à vista do cliente." data-en="Editable contract price, with the negotiated adjustment line shown to the customer.">Preço do contrato editável, com a linha de ajuste negociado à vista do cliente.</span></li><li><span data-pt="Vendedor pode assinar pela empresa quando o dono autoriza." data-en="A salesperson can sign for the company when the owner authorizes it.">Vendedor pode assinar pela empresa quando o dono autoriza.</span></li></ul>
+</article>
+      <article class="doc">
+  <p class="k"><span data-pt="3 · Fatura" data-en="3 · Invoice">3 · Fatura</span></p>
+  <h3><span data-pt="Cobrada por etapa" data-en="Billed by stage">Cobrada por etapa</span></h3>
+  <a class="shot" href="https://doc.resonateai.online/marlow-pool-and-patio/inv-0022-daniel-and-marisa-whitfield-gqkeqswm" target="_blank" rel="noopener"><img src="https://apex-api.farfromtimnah.workers.dev/api/pitch/invoice.jpg" alt="" loading="lazy"><span class="open"><span data-pt="Abrir o documento real ↗" data-en="Open the real document ↗">Abrir o documento real ↗</span></span></a>
+  <ul><li><span data-pt="Uma fatura por etapa, criada do contrato com um toque." data-en="One invoice per payment step, created from the contract in one tap.">Uma fatura por etapa, criada do contrato com um toque.</span></li><li><span data-pt="Mostra total do contrato, pago até hoje, esta fatura e o saldo restante." data-en="Shows contract total, paid to date, this invoice and the remaining balance.">Mostra total do contrato, pago até hoje, esta fatura e o saldo restante.</span></li><li><span data-pt="Registrar pagamento: valor total ou parcial, só nas formas que a empresa aceita." data-en="Record a payment: full or partial, only in the methods the business accepts.">Registrar pagamento: valor total ou parcial, só nas formas que a empresa aceita.</span></li><li><span data-pt="Recibo automático para cada pagamento, com o saldo congelado na data." data-en="An automatic receipt for every payment, with the balance frozen on that date.">Recibo automático para cada pagamento, com o saldo congelado na data.</span></li><li><span data-pt="Crédito, reembolso e juros por atraso, sempre com motivo registrado." data-en="Credits, refunds and late fees, always with a recorded reason.">Crédito, reembolso e juros por atraso, sempre com motivo registrado.</span></li><li><span data-pt="Pagamentos entram sozinhos no Financeiro, sem digitar de novo." data-en="Payments post to Finance on their own, with no re-typing.">Pagamentos entram sozinhos no Financeiro, sem digitar de novo.</span></li><li><span data-pt="Aditivo assinado atualiza as faturas e avisa quando uma já enviada mudou." data-en="A signed change order updates the invoices and flags one that was already sent.">Aditivo assinado atualiza as faturas e avisa quando uma já enviada mudou.</span></li><li><span data-pt="O vendedor informa um pagamento; o dono confirma antes de valer." data-en="A salesperson reports a payment; the owner confirms it before it counts.">O vendedor informa um pagamento; o dono confirma antes de valer.</span></li></ul>
+</article>
+    </div>
+    <div class="minis">
+      <figure class="mini"><a class="shot" href="https://doc.resonateai.online/marlow-pool-and-patio/est-0023-daniel-and-marisa-whitfield-2mw44neq" target="_blank" rel="noopener"><img src="https://apex-api.farfromtimnah.workers.dev/api/pitch/whatsapp.jpg" alt="" loading="lazy"><span class="open"><span data-pt="Abrir ↗" data-en="Open ↗">Abrir ↗</span></span></a><figcaption><b><span data-pt="Como chega:" data-en="How it arrives:">Como chega:</span></b> <span data-pt="o link no WhatsApp, com o logo da empresa." data-en="the link in WhatsApp, with the business logo.">o link no WhatsApp, com o logo da empresa.</span></figcaption></figure>
+      <figure class="mini"><a class="shot" href="https://apex.resonateai.online/receipt-view?t=6d25692423cef68a1c2e3df52e6f5672657ac5d70314e6b1" target="_blank" rel="noopener"><img src="https://apex-api.farfromtimnah.workers.dev/api/pitch/receipt.jpg" alt="" loading="lazy"><span class="open"><span data-pt="Abrir ↗" data-en="Open ↗">Abrir ↗</span></span></a><figcaption><b><span data-pt="Recibo:" data-en="Receipt:">Recibo:</span></b> <span data-pt="sai sozinho a cada pagamento." data-en="issued on its own for every payment.">sai sozinho a cada pagamento.</span></figcaption></figure>
+      <figure class="mini"><a class="shot" href="https://apex.resonateai.online/card?t=02e180941ff22eda23b9b8d385826c65652a7f40bc59ef7c" target="_blank" rel="noopener"><img src="https://apex-api.farfromtimnah.workers.dev/api/pitch/card.jpg" alt="" loading="lazy"><span class="open"><span data-pt="Abrir ↗" data-en="Open ↗">Abrir ↗</span></span></a><figcaption><b><span data-pt="Cartão do vendedor:" data-en="Salesperson card:">Cartão do vendedor:</span></b> <span data-pt="o cliente salva no celular." data-en="the customer saves it to the phone.">o cliente salva no celular.</span></figcaption></figure>
+      <figure class="mini"><a class="shot" href="https://apex.resonateai.online/referral.html?p=xvvmrs2xah3yke&lang=en" target="_blank" rel="noopener"><img src="https://apex-api.farfromtimnah.workers.dev/api/pitch/referral.jpg" alt="" loading="lazy"><span class="open"><span data-pt="Abrir ↗" data-en="Open ↗">Abrir ↗</span></span></a><figcaption><b><span data-pt="Indicação:" data-en="Referral:">Indicação:</span></b> <span data-pt="o amigo do cliente chega direto no vendedor." data-en="the customer&#x27;s friend goes straight to the salesperson.">o amigo do cliente chega direto no vendedor.</span></figcaption></figure>
+    </div>
+    <div class="all">
+      <p class="k"><span data-pt="Em todos os documentos" data-en="On every document">Em todos os documentos</span></p>
+      <ul><li><span data-pt="Enviado do celular do vendedor, por WhatsApp ou mensagem, nunca de um e-mail genérico." data-en="Sent from the salesperson&#x27;s own phone, by WhatsApp or text, never from a generic email.">Enviado do celular do vendedor, por WhatsApp ou mensagem, nunca de um e-mail genérico.</span></li><li><span data-pt="O link chega com o logo e o nome da empresa, e o endereço tem o nome do cliente." data-en="The link arrives with the business&#x27;s logo and name, and the address carries the customer&#x27;s name.">O link chega com o logo e o nome da empresa, e o endereço tem o nome do cliente.</span></li><li><span data-pt="Capa premium: mais de 50 fotos por ramo, ou a foto da própria empresa, com o logo e as cores dela." data-en="Premium header: more than 50 curated photos by trade, or the business&#x27;s own photo, with its logo and colors.">Capa premium: mais de 50 fotos por ramo, ou a foto da própria empresa, com o logo e as cores dela.</span></li><li><span data-pt="O documento enviado guarda o visual do dia do envio, mesmo se a empresa mudar o logo depois." data-en="A sent document keeps the look it was sent with, even if the business changes its logo later.">O documento enviado guarda o visual do dia do envio, mesmo se a empresa mudar o logo depois.</span></li><li><span data-pt="Mensagens de envio editáveis, com histórico de cada mudança." data-en="Editable send messages, with a history of every change.">Mensagens de envio editáveis, com histórico de cada mudança.</span></li><li><span data-pt="Cartão de contato do vendedor, que o cliente salva no celular, com o link de indicação dele." data-en="The salesperson&#x27;s contact card, which the customer saves to the phone, with their own referral link.">Cartão de contato do vendedor, que o cliente salva no celular, com o link de indicação dele.</span></li><li><span data-pt="Indicação chega direto para o vendedor certo." data-en="A referral goes straight to the right salesperson.">Indicação chega direto para o vendedor certo.</span></li><li><span data-pt="O dono trabalha em português; o cliente americano recebe tudo em inglês." data-en="The owner works in Portuguese; the American customer receives everything in English.">O dono trabalha em português; o cliente americano recebe tudo em inglês.</span></li><li><span data-pt="Nada é digitado duas vezes: lead, orçamento, contrato, projeto e fatura estão ligados." data-en="Nothing is typed twice: lead, estimate, contract, project and invoice are connected.">Nada é digitado duas vezes: lead, orçamento, contrato, projeto e fatura estão ligados.</span></li></ul>
+    </div>
+  </div>
+</section>
+
+<section class="tint" id="complaints">
+  <div class="wrap">
+    <div class="sec-h">
+      <h2 data-pt="O que os usuários reclamam, e como o Apex resolve" data-en="What users complain about, and how Apex answers">O que os usuários reclamam, e como o Apex resolve</h2>
+      <p data-pt="Reclamações reais de avaliações públicas." data-en="Real complaints from public reviews.">Reclamações reais de avaliações públicas.</p>
+    </div>
+    <div class="tbl-wrap cx"><table><thead><tr><th><span data-pt="A reclamação" data-en="The complaint">A reclamação</span></th><th><span data-pt="No Apex" data-en="In Apex">No Apex</span></th></tr></thead><tbody><tr><td><span data-pt="Mais de 60% dos orçamentos nunca foram abertos; o e-mail genérico jobbermail.com cai no spam." data-en="Over 60% of estimates were never opened; the generic jobbermail.com email lands in spam.">Mais de 60% dos orçamentos nunca foram abertos; o e-mail genérico jobbermail.com cai no spam.</span><span class="src"><a href="https://ie.trustpilot.com/review/getjobber.com" target="_blank" rel="noopener"><span data-pt="Jobber, Trustpilot, dez/2025" data-en="Jobber, Trustpilot, Dec 2025">Jobber, Trustpilot, dez/2025</span></a></span></td><td class="ans"><span data-pt="Sai do celular do vendedor, por WhatsApp ou mensagem, com o logo da empresa no link." data-en="It goes from the salesperson&#x27;s own phone, by WhatsApp or text, with the business&#x27;s logo on the link.">Sai do celular do vendedor, por WhatsApp ou mensagem, com o logo da empresa no link.</span></td></tr><tr><td><span data-pt="O link de contrato parece golpe; quem recebe liga para confirmar quem mandou." data-en="The contract link looks like a scam; recipients call to confirm who sent it.">O link de contrato parece golpe; quem recebe liga para confirmar quem mandou.</span><span class="src"><a href="https://www.trustpilot.com/review/docusign.com" target="_blank" rel="noopener"><span data-pt="DocuSign, Trustpilot, ago e set/2026" data-en="DocuSign, Trustpilot, Aug and Sep 2026">DocuSign, Trustpilot, ago e set/2026</span></a></span></td><td class="ans"><span data-pt="Chega de alguém que o cliente conhece, com o nome e o logo da empresa e o nome dele no endereço." data-en="It arrives from someone the customer knows, with the business&#x27;s name and logo and their own name in the address.">Chega de alguém que o cliente conhece, com o nome e o logo da empresa e o nome dele no endereço.</span></td></tr><tr><td><span data-pt="Aditivo não reduz escopo e não há histórico de versões." data-en="A change order cannot reduce scope, and there is no version history.">Aditivo não reduz escopo e não há histórico de versões.</span><span class="src"><a href="https://www.capterra.com/p/230138/Joist/reviews/" target="_blank" rel="noopener"><span data-pt="Joist, Capterra, 2022 e 2024" data-en="Joist, Capterra, 2022 and 2024">Joist, Capterra, 2022 e 2024</span></a></span></td><td class="ans"><span data-pt="Aditivo tira ou põe itens, com crédito pelo preço cobrado. Cada revisão fica guardada." data-en="A change order adds or removes items, crediting at the price charged. Every revision is kept.">Aditivo tira ou põe itens, com crédito pelo preço cobrado. Cada revisão fica guardada.</span></td></tr><tr><td><span data-pt="Fatura final que não bate com o orçamento assinado." data-en="A final invoice that does not match the signed estimate.">Fatura final que não bate com o orçamento assinado.</span><span class="src"><a href="https://www.houzz.com/discussions/6136387" target="_blank" rel="noopener"><span data-pt="Houzz, dona de casa" data-en="Houzz, homeowner">Houzz, dona de casa</span></a></span></td><td class="ans"><span data-pt="Cada fatura mostra o contrato, os aditivos, o que já foi pago e o saldo." data-en="Every invoice shows the contract, the change orders, what was paid and the balance.">Cada fatura mostra o contrato, os aditivos, o que já foi pago e o saldo.</span></td></tr><tr><td><span data-pt="Dados digitados duas vezes entre módulos que não conversam." data-en="Data typed twice between modules that do not talk to each other.">Dados digitados duas vezes entre módulos que não conversam.</span><span class="src"><a href="https://www.capterra.com/p/70092/Buildertrend/reviews/" target="_blank" rel="noopener"><span data-pt="Buildertrend, Capterra, 2021" data-en="Buildertrend, Capterra, 2021">Buildertrend, Capterra, 2021</span></a></span></td><td class="ans"><span data-pt="Lead, orçamento, contrato, projeto e fatura são o mesmo registro." data-en="Lead, estimate, contract, project and invoice are one record.">Lead, orçamento, contrato, projeto e fatura são o mesmo registro.</span></td></tr><tr><td><span data-pt="Nenhuma dessas ferramentas funciona em português." data-en="None of these tools works in Portuguese.">Nenhuma dessas ferramentas funciona em português.</span><span class="src"><span data-pt="Pesquisa Resonate, set/2026" data-en="Resonate research, Sep 2026">Pesquisa Resonate, set/2026</span></span></td><td class="ans"><span data-pt="O sistema inteiro em português e inglês; o documento do cliente sai em inglês." data-en="The whole system in Portuguese and English; the customer&#x27;s document goes out in English.">O sistema inteiro em português e inglês; o documento do cliente sai em inglês.</span></td></tr></tbody></table></div>
+  </div>
+</section>
+
+<section id="compare">
+  <div class="wrap">
+    <div class="sec-h">
+      <h2 data-pt="O sistema inteiro, lado a lado" data-en="The whole system, side by side">O sistema inteiro, lado a lado</h2>
+      <p data-pt="O que cada ferramenta faz, segundo a página do próprio fabricante." data-en="What each tool does, according to its own maker&#x27;s page.">O que cada ferramenta faz, segundo a página do próprio fabricante.</p>
+    </div>
+    <div class="tbl-wrap cmp"><table><thead><tr><th><span data-pt="Recurso" data-en="Feature">Recurso</span></th><th>Jobber</th><th>Joist</th><th>DocuSign</th><th class="apexcol">Apex</th></tr></thead><tbody><tr class="catrow"><td colspan="5"><span data-pt="Documentos" data-en="Documents">Documentos</span></td></tr><tr><td><span data-pt="Orçamentos" data-en="Estimates">Orçamentos</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="no">✕</span></td><td class="apexcol"><span class="yes">✓</span></td></tr><tr><td><span data-pt="Opções Best, Better e Good" data-en="Best, Better and Good options">Opções Best, Better e Good</span></td><td><span class="part"><span data-pt="plano Grow" data-en="Grow plan">plano Grow</span></span></td><td><span class="no">✕</span></td><td><span class="no">✕</span></td><td class="apexcol"><span class="yes">✓</span></td></tr><tr><td><span data-pt="Contrato assinado pelas duas partes" data-en="Contract signed by both parties">Contrato assinado pelas duas partes</span></td><td><span class="part"><span data-pt="só aprova o orçamento" data-en="quote approval only">só aprova o orçamento</span></span></td><td><span class="part"><span data-pt="anexa contratos" data-en="attaches agreements">anexa contratos</span></span></td><td><span class="yes">✓</span></td><td class="apexcol"><span class="yes">✓</span></td></tr><tr><td><span data-pt="Avisos da Flórida aplicados por regra" data-en="Florida notices applied by rule">Avisos da Flórida aplicados por regra</span></td><td><span class="no">✕</span></td><td><span class="no">✕</span></td><td><span class="no">✕</span></td><td class="apexcol"><span class="yes">✓</span></td></tr><tr><td><span data-pt="Aditivos (change orders)" data-en="Change orders">Aditivos (change orders)</span></td><td><span class="no">✕</span></td><td><span class="part"><span data-pt="plano Elite" data-en="Elite plan">plano Elite</span></span></td><td><span class="no">✕</span></td><td class="apexcol"><span class="yes">✓</span></td></tr><tr><td><span data-pt="Faturas por etapa, com sinal" data-en="Staged invoices, with deposit">Faturas por etapa, com sinal</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="no">✕</span></td><td class="apexcol"><span class="yes">✓</span></td></tr><tr><td><span data-pt="Link com logo da empresa no WhatsApp e iMessage" data-en="Link with the business logo in WhatsApp and iMessage">Link com logo da empresa no WhatsApp e iMessage</span></td><td><span class="no">✕</span></td><td><span class="no">✕</span></td><td><span class="no">✕</span></td><td class="apexcol"><span class="yes">✓</span></td></tr><tr><td><span data-pt="Visual do documento congelado no envio" data-en="Document look frozen at send">Visual do documento congelado no envio</span></td><td><span class="no">✕</span></td><td><span class="no">✕</span></td><td><span class="no">✕</span></td><td class="apexcol"><span class="yes">✓</span></td></tr><tr><td><span data-pt="Cartão de contato do vendedor com link de indicação" data-en="Salesperson contact card with a referral link">Cartão de contato do vendedor com link de indicação</span></td><td><span class="no">✕</span></td><td><span class="no">✕</span></td><td><span class="no">✕</span></td><td class="apexcol"><span class="yes">✓</span></td></tr><tr class="catrow"><td colspan="5"><span data-pt="Operação" data-en="Operations">Operação</span></td></tr><tr><td><span data-pt="Agendamento e calendário" data-en="Scheduling and calendar">Agendamento e calendário</span></td><td><span class="yes">✓</span></td><td><span class="part"><span data-pt="plano Run" data-en="Run plan">plano Run</span></span></td><td><span class="no">✕</span></td><td class="apexcol"><span class="yes">✓</span></td></tr><tr><td><span data-pt="Link de marcação para o cliente" data-en="Booking link for the customer">Link de marcação para o cliente</span></td><td><span class="yes">✓</span></td><td><span class="no">✕</span></td><td><span class="no">✕</span></td><td class="apexcol"><span class="yes">✓</span></td></tr><tr><td><span data-pt="Pipeline de leads / CRM" data-en="Lead pipeline / CRM">Pipeline de leads / CRM</span></td><td><span class="part"><span data-pt="plano Plus" data-en="Plus plan">plano Plus</span></span></td><td><span class="no">✕</span></td><td><span class="no">✕</span></td><td class="apexcol"><span class="yes">✓</span></td></tr><tr><td><span data-pt="Projetos com custo e margem" data-en="Projects with cost and margin">Projetos com custo e margem</span></td><td><span class="part"><span data-pt="plano Grow" data-en="Grow plan">plano Grow</span></span></td><td><span class="no">✕</span></td><td><span class="no">✕</span></td><td class="apexcol"><span class="yes">✓</span></td></tr><tr><td><span data-pt="Portal do cliente" data-en="Client portal">Portal do cliente</span></td><td><span class="yes">✓</span></td><td><span class="no">✕</span></td><td><span class="no">✕</span></td><td class="apexcol"><span class="yes">✓</span></td></tr><tr><td><span data-pt="Logins por vendedor, cada um vê só os seus" data-en="Logins per salesperson, each sees only their own">Logins por vendedor, cada um vê só os seus</span></td><td><span class="part"><span data-pt="por usuário" data-en="per user">por usuário</span></span></td><td><span class="no">✕</span></td><td><span class="no">✕</span></td><td class="apexcol"><span class="yes">✓</span></td></tr><tr class="catrow"><td colspan="5"><span data-pt="Só no Apex" data-en="Only in Apex">Só no Apex</span></td></tr><tr><td><span data-pt="Diagnóstico do negócio (7 instrumentos)" data-en="Business diagnostic (7 instruments)">Diagnóstico do negócio (7 instrumentos)</span></td><td><span class="no">✕</span></td><td><span class="no">✕</span></td><td><span class="no">✕</span></td><td class="apexcol"><span class="yes">✓</span></td></tr><tr><td><span data-pt="Mapa do fluxo do dinheiro" data-en="Money flow map">Mapa do fluxo do dinheiro</span></td><td><span class="no">✕</span></td><td><span class="no">✕</span></td><td><span class="no">✕</span></td><td class="apexcol"><span class="yes">✓</span></td></tr><tr><td><span data-pt="Registro diário e metas mensais" data-en="Daily log and monthly goals">Registro diário e metas mensais</span></td><td><span class="no">✕</span></td><td><span class="no">✕</span></td><td><span class="no">✕</span></td><td class="apexcol"><span class="yes">✓</span></td></tr><tr><td><span data-pt="Parceiros de indicação, com atribuição automática" data-en="Referral partners, with automatic attribution">Parceiros de indicação, com atribuição automática</span></td><td><span class="no">✕</span></td><td><span class="no">✕</span></td><td><span class="no">✕</span></td><td class="apexcol"><span class="yes">✓</span></td></tr><tr><td><span data-pt="Base de Ouro (carteira de recompra)" data-en="Gold Base (repeat-customer book)">Base de Ouro (carteira de recompra)</span></td><td><span class="no">✕</span></td><td><span class="no">✕</span></td><td><span class="no">✕</span></td><td class="apexcol"><span class="yes">✓</span></td></tr><tr><td><span data-pt="Português e inglês, o sistema inteiro" data-en="Portuguese and English, the whole system">Português e inglês, o sistema inteiro</span></td><td><span class="no">✕</span></td><td><span class="no">✕</span></td><td><span class="no">✕</span></td><td class="apexcol"><span class="yes">✓</span></td></tr><tr><td><span data-pt="Consultor acompanha por dentro" data-en="A consultant works alongside, inside the system">Consultor acompanha por dentro</span></td><td><span class="no">✕</span></td><td><span class="no">✕</span></td><td><span class="no">✕</span></td><td class="apexcol"><span class="yes">✓</span></td></tr></tbody></table></div>
+    <p class="note" data-pt="✕ quer dizer que o recurso não aparece na página de preços ou de recursos do fabricante, lida em 09/27/2026." data-en="✕ means the feature does not appear on the maker&#x27;s pricing or feature page, read 09/27/2026.">✕ quer dizer que o recurso não aparece na página de preços ou de recursos do fabricante, lida em 09/27/2026.</p>
+  </div>
+</section>
+
+<section class="tint" id="price">
+  <div class="wrap">
+    <div class="sec-h">
+      <h2 data-pt="Quanto custa montar isso" data-en="What it costs to assemble this">Quanto custa montar isso</h2>
+      <p data-pt="Com 5 usuários, na cobrança mensal sem fidelidade." data-en="With 5 users, on monthly billing with no commitment.">Com 5 usuários, na cobrança mensal sem fidelidade.</p>
+    </div>
+    <div class="tbl-wrap price"><table><thead><tr><th><span data-pt="Ferramenta" data-en="Tool">Ferramenta</span></th><th><span data-pt="Para quê" data-en="What for">Para quê</span></th><th class="num"><span data-pt="Por mês" data-en="Per month">Por mês</span></th></tr></thead><tbody>
+      <tr><td><b>Jobber Grow</b> <span data-pt="(5 usuários)" data-en="(5 users)">(5 usuários)</span></td><td><span data-pt="Opções no orçamento, custo da obra, portal do cliente" data-en="Estimate options, job costing, client portal">Opções no orçamento, custo da obra, portal do cliente</span></td><td class="num">$299</td></tr>
+      <tr><td><b>Joist Elite</b></td><td><span data-pt="Aditivos e contratos do cliente" data-en="Change orders and client contracts">Aditivos e contratos do cliente</span></td><td class="num">$32</td></tr>
+      <tr><td><b>DocuSign Standard</b> <span data-pt="(1 usuário)" data-en="(1 user)">(1 usuário)</span></td><td><span data-pt="Contrato assinado pelas duas partes" data-en="Contract signed by both parties">Contrato assinado pelas duas partes</span></td><td class="num">$45</td></tr>
+      <tr class="total"><td><span data-pt="As três juntas" data-en="All three together">As três juntas</span></td><td><span data-pt="Com 5 usuários no DocuSign: $556" data-en="With 5 users on DocuSign: $556">Com 5 usuários no DocuSign: $556</span></td><td class="num">$376</td></tr>
+      <tr class="apex"><td>Apex Completo</td><td><span data-pt="Tudo desta página, 5 usuários inclusos" data-en="Everything on this page, 5 users included">Tudo desta página, 5 usuários inclusos</span></td><td class="num big">$199</td></tr>
+    </tbody></table></div>
+    <p class="note" data-pt="Preços publicados pelos fabricantes, lidos em 09/27/2026. O Jobber exige o plano Grow para opções no orçamento; a oferta de desconto dele termina em 09/30. O Joist não publica quantos usuários cada plano inclui. No plano anual, todos ficam mais baratos, o Apex também." data-en="Prices published by the makers, read 09/27/2026. Jobber requires the Grow plan for estimate options; its discount offer ends 09/30. Joist does not publish how many users each plan includes. On annual billing all of them cost less, Apex included.">Preços publicados pelos fabricantes, lidos em 09/27/2026. O Jobber exige o plano Grow para opções no orçamento; a oferta de desconto dele termina em 09/30. O Joist não publica quantos usuários cada plano inclui. No plano anual, todos ficam mais baratos, o Apex também.</p>
+    <p class="note" data-pt="Fontes: getjobber.com/pricing, joist.com/pricing, ecom.docusign.com/plans-and-pricing/esignature." data-en="Sources: getjobber.com/pricing, joist.com/pricing, ecom.docusign.com/plans-and-pricing/esignature.">Fontes: getjobber.com/pricing, joist.com/pricing, ecom.docusign.com/plans-and-pricing/esignature.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p class="sig">RAFAEL PRATA · Founder &amp; CEO, APEX Business &amp; Leadership · 09/28/2026</p>
+    <p data-pt="A empresa, o cliente e os valores dos documentos são um exemplo de demonstração." data-en="The business, the customer and the document amounts are a demonstration example.">A empresa, o cliente e os valores dos documentos são um exemplo de demonstração.</p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+  var KEY = 'fluxo-lang';
+  function get() { try { var s = localStorage.getItem(KEY); if (s === 'en' || s === 'pt') return s; } catch (e) {} var q = new URLSearchParams(location.search).get('lang'); return q === 'en' ? 'en' : 'pt'; }
+  function set(lang) {
+    document.documentElement.setAttribute('lang', lang === 'pt' ? 'pt-BR' : 'en');
+    try { localStorage.setItem(KEY, lang); } catch (e) {}
+    document.querySelectorAll('[data-pt]').forEach(function (el) { var t = lang === 'pt' ? el.dataset.pt : el.dataset.en; if (t !== undefined) el.innerHTML = t; });
+    document.querySelectorAll('.lang button').forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.l === lang)); });
+  }
+  var n = document.createElement('div'); n.className = 'lang'; n.setAttribute('role', 'group'); n.setAttribute('aria-label', 'Idioma / Language');
+  n.innerHTML = '<button type="button" data-l="pt" aria-pressed="false">PT</button><button type="button" data-l="en" aria-pressed="false">EN</button>';
+  n.addEventListener('click', function (e) { var b = e.target.closest('button[data-l]'); if (b) set(b.dataset.l); });
+  document.body.appendChild(n);
+  set(new URLSearchParams(location.search).get('lang') || get());
+})();
+</script>
+</body>
+</html>
