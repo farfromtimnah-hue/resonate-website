@@ -95,13 +95,29 @@ footer a { color: var(--faint); }
   body { font-size: 10.5pt; }
   section { padding: 1.4rem 0; }
   .hero { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-  .doc, .mini, .tbl-wrap, .all, tr { break-inside: avoid; }
-  .doc .shot { height: 330px; }
-  .tbl-wrap { overflow: visible; }
-  .cmp table, .cx table, .price table { min-width: 0; }
+  .hero { padding: 2.6rem 0 2.4rem; min-height: 9.9in; display: flex; flex-direction: column; justify-content: center; }
+  .hero .logo { width: 90px; margin-bottom: 1rem; }
+  .hero h1 { font-size: 24pt; max-width: none; }
+  .stats { grid-template-columns: repeat(3, 1fr) !important; margin-top: 1rem; }
+  .docs { grid-template-columns: repeat(3, 1fr) !important; gap: .55rem; margin-top: 1rem; }
+  .doc { padding: .6rem; }
+  .doc h3 { font-size: 10.5pt; }
+  .doc .shot { height: 250px; }
+  .doc ul, .all ul { font-size: 7.6pt; }
+  .minis { grid-template-columns: repeat(4, 1fr) !important; gap: .55rem; }
+  .mini .shot { height: 130px; }
+  .mini figcaption { font-size: 7.4pt; }
+  .all ul { columns: 2 !important; }
+  .doc, .mini, .all, tr { break-inside: avoid; }
+  .tbl-wrap { overflow: visible; box-shadow: none; }
+  .cmp table, .cx table, .price table { min-width: 0; font-size: 8pt; }
+  tbody td { padding: .38rem .5rem; }
   .shot .open { display: none; }
-  #docs { break-before: page; }
-  #compare, #price { break-before: page; }
+  .sec-h h2 { font-size: 16pt; }
+  #docs { break-before: page; padding-top: 0; }
+  #complaints, #compare, #price { break-before: auto; padding: 1rem 0; }
+  .price .tbl-wrap { break-inside: avoid; }
+  .sec-h { break-after: avoid; }
 }
 </style>
 </head>
